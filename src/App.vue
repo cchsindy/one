@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <Account :user="user"/>
+    <div class="error" v-if="error">Error: {{ error }}</div>
     <div id="nav">
       <router-link to="/">Dashboard</router-link> |
       <router-link to="/announcements">Announcements</router-link> |
@@ -8,6 +10,31 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+import Account from '@/components/Account'
+
+export default {
+  components: {
+    Account
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user
+    },
+    error() {
+      return this.$store.getters.error
+    }
+    // isAdmin() {
+    //   if (this.$store.getters.roles) {
+    //     return this.$store.getters.roles.includes('Attendance Admin')
+    //   }
+    //   return false
+    // }
+  }
+}
+</script>
+
 
 <style>
 #app {
@@ -28,5 +55,8 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+.error {
+  color: red;
 }
 </style>

@@ -1,10 +1,197 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import Firebase from '@/services/firebase/FirebaseService'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {}
+  state: {
+    user: null,
+    error: null,
+    matches: null,
+    roles: null
+  },
+  mutations: {
+    setUser(state, payload) {
+      state.user = payload
+    },
+    setError(state, payload) {
+      state.error = payload
+    },
+    setRoles(state, payload) {
+      state.roles = payload
+    },
+    clearUser(state) {
+      state.user = null
+    },
+    clearError(state) {
+      state.error = null
+    },
+    clearRoles(state) {
+      state.roles = null
+    }
+  },
+  actions: {
+    // initAuth({ commit }) {
+    //   auth.onAuthStateChanged(user => {
+    //     if (user) {
+    //       commit('setUser', user.displayName || user.email)
+    //       const docRef = myStore.doc('users/' + user.uid)
+    //       docRef.onSnapshot(doc => {
+    //         if (doc && doc.exists) {
+    //           const data = doc.data()
+    //           commit('setRoles', data.roles)
+    //         }
+    //       })
+    //     } else {
+    //       commit('clearUser')
+    //       commit('clearRoles')
+    //     }
+    //   })
+    // },
+    // createUser({ commit }, payload) {
+    //   auth
+    //     .createUserWithEmailAndPassword(payload.email, payload.password)
+    //     .catch(error => {
+    //       commit('setError', error)
+    //     })
+    //     .then(() => {
+    //       auth.currentUser
+    //         .updateProfile({
+    //           displayName: payload.first + ' ' + payload.last
+    //         })
+    //         .then(() => {
+    //           commit('setUser', auth.currentUser.displayName)
+    //         })
+    //       const docRef = myStore.doc('users/' + auth.currentUser.uid)
+    //       docRef.set({
+    //         bbId: payload.bbId,
+    //         bbType: payload.bbType,
+    //         bbUsername: payload.bbUsername,
+    //         first: payload.first,
+    //         last: payload.last
+    //       })
+    //     })
+    // },
+    // googleSignin({ commit, dispatch }) {
+    //   auth
+    //     .signInWithPopup(google)
+    //     .then(result => {
+    //       if (result.additionalUserInfo.isNewUser) {
+    //         let collection = 'bb_individuals'
+    //         if (result.user.email.includes('covenantchristian.org'))
+    //           collection = 'bb_faculty'
+    //         if (result.user.email.includes('cchsindy.org'))
+    //           collection = 'bb_students'
+    //         const bbIndRef = myStore.collection(collection)
+    //         const records = []
+    //         bbIndRef
+    //           .where('email', '==', result.user.email.toLowerCase())
+    //           .get()
+    //           .then(querySnapshot => {
+    //             querySnapshot.forEach(doc => {
+    //               records.push({
+    //                 ...doc.data(),
+    //                 bbid: doc.id
+    //               })
+    //             })
+    //             if (records.length === 1) {
+    //               const docRef = myStore.doc('users/' + result.user.uid)
+    //               let doc = {}
+    //               switch (collection) {
+    //                 case 'bb_faculty':
+    //                   doc = {
+    //                     bbId: records[0].bbid,
+    //                     bbType: 'Faculty',
+    //                     first: records[0].first,
+    //                     last: records[0].last,
+    //                     title: records[0].title,
+    //                     faculty: records[0].faculty
+    //                   }
+    //                   break
+    //                 case 'bb_individuals':
+    //                   doc = {
+    //                     bbId: records[0].bbid,
+    //                     bbType: 'Individuals',
+    //                     first: records[0].first,
+    //                     last: records[0].last,
+    //                     username: records[0].username
+    //                   }
+    //                   break
+    //                 case 'bb_students':
+    //                   doc = {
+    //                     bbId: records[0].bbid,
+    //                     bbType: 'Student',
+    //                     first: records[0].first,
+    //                     last: records[0].last,
+    //                     nickname: records[0].nickname,
+    //                     gender: records[0].gender,
+    //                     birthdate: records[0].birthdate,
+    //                     grade: records[0].grade,
+    //                     status: records[0].status
+    //                   }
+    //                   break
+    //               }
+    //               docRef.set(doc)
+    //             } else {
+    //               dispatch('setError', {
+    //                 message: 'Email not found in our system.'
+    //               })
+    //               auth.currentUser.delete().catch(error => {
+    //                 console.log('error deleting user')
+    //               })
+    //             }
+    //           })
+    //       }
+    //     })
+    //     .catch(error => {
+    //       commit('setError', error)
+    //     })
+    // },
+    // loginUser({ commit }, payload) {
+    //   auth
+    //     .signInWithEmailAndPassword(payload.email, payload.password)
+    //     .catch(error => {
+    //       commit('setError', error)
+    //     })
+    // },
+    // logoutUser({ commit }) {
+    //   auth.signOut().catch(error => {
+    //     commit('setError', error)
+    //   })
+    // },
+    // createRole({}, payload) {
+    //   const docRef = myStore.doc('users/' + auth.currentUser.uid)
+    //   docRef.set(
+    //     {
+    //       roles: ['Parent']
+    //     },
+    //     {
+    //       merge: true
+    //     }
+    //   )
+    // },
+    // setDisplay() {
+    //   auth.currentUser.updateProfile({
+    //     displayName: 'Brad Spencer'
+    //   })
+    // },
+    setError({ commit }, payload) {
+      commit('setError', payload)
+    },
+    clearError({ commit }) {
+      commit('clearError')
+    }
+  },
+  getters: {
+    user(state) {
+      return state.user
+    },
+    error(state) {
+      return state.error
+    },
+    roles(state) {
+      return state.roles
+    }
+  }
 })
