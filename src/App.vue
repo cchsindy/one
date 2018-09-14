@@ -31,6 +31,23 @@ export default {
     //   }
     //   return false
     // }
+  },
+  methods: {
+    onSubmit() {
+      this.$store.dispatch('loginUser', {
+        email: this.email,
+        password: this.password
+      })
+    },
+    logout() {
+      this.$store.dispatch('logoutUser')
+    },
+    googleSignin() {
+      this.$store.dispatch('googleSignin')
+    }
+  },
+  mounted() {
+    this.$store.dispatch('initAuth')
   }
 }
 </script>
