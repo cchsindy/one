@@ -62,13 +62,9 @@ export default new Vuex.Store({
     googleSignin({ commit }) {
       Firebase.googleLogin(commit)
     },
-    // loginUser({ commit }, payload) {
-    //   auth
-    //     .signInWithEmailAndPassword(payload.email, payload.password)
-    //     .catch(error => {
-    //       commit('setError', error)
-    //     })
-    // },
+    loginUser({ commit }, payload) {
+      Firebase.loginUser(commit, payload)
+    },
     logoutUser({ commit }) {
       Firebase.logout(commit)
     },

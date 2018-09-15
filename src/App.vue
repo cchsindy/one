@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <Account :user="user"/>
-    <div class="error" v-if="error">Error: {{ error }}</div>
-    <div id="nav">
-      <router-link to="/">Dashboard</router-link> |
-      <router-link to="/announcements">Announcements</router-link> |
-      <router-link to="/athletics">Athletics</router-link>
+    <div class="error" v-if="error">Error: {{ error.message }}</div>
+    <div v-if="user">
+      <div id="nav">
+        <router-link to="/">Dashboard</router-link> |
+        <router-link to="/announcements">Announcements</router-link> |
+        <router-link to="/athletics">Athletics</router-link>
+      </div>
+      <router-view/>
     </div>
-    <router-view/>
   </div>
 </template>
 

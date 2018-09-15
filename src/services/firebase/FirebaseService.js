@@ -108,6 +108,14 @@ class FirebaseService {
       })
   }
 
+  loginUser(commit, payload) {
+    this.auth
+      .signInWithEmailAndPassword(payload.email, payload.password)
+      .catch(error => {
+        commit('setError', error)
+      })
+  }
+
   logout(commit) {
     this.auth.signOut().catch(error => {
       commit('setError', error)
