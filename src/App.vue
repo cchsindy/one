@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Account :user="user"/>
+    <Account :user="user" :error="error"/>
     <div class="error" v-if="error">Error: {{ error.message }}</div>
     <div v-if="user">
       <div id="nav">

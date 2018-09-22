@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     user: null,
     error: null,
-    matches: null,
+    matches: [],
     roles: null
   },
   mutations: {
@@ -17,6 +17,9 @@ export default new Vuex.Store({
     },
     setError(state, payload) {
       state.error = payload
+    },
+    setMatches(state, payload) {
+      state.matches = payload
     },
     setRoles(state, payload) {
       state.roles = payload
@@ -35,30 +38,12 @@ export default new Vuex.Store({
     initAuth({ commit }) {
       Firebase.init(commit)
     },
-    // createUser({ commit }, payload) {
-    //   auth
-    //     .createUserWithEmailAndPassword(payload.email, payload.password)
-    //     .catch(error => {
-    //       commit('setError', error)
-    //     })
-    //     .then(() => {
-    //       auth.currentUser
-    //         .updateProfile({
-    //           displayName: payload.first + ' ' + payload.last
-    //         })
-    //         .then(() => {
-    //           commit('setUser', auth.currentUser.displayName)
-    //         })
-    //       const docRef = myStore.doc('users/' + auth.currentUser.uid)
-    //       docRef.set({
-    //         bbId: payload.bbId,
-    //         bbType: payload.bbType,
-    //         bbUsername: payload.bbUsername,
-    //         first: payload.first,
-    //         last: payload.last
-    //       })
-    //     })
-    // },
+    checkForMatch({ commit }, payload) {
+      Firebase.checkBlackbaud(commit, payload.email)
+    },
+    createUser({ commit }, payload) {
+      Firebase.createUser(commit, payload)
+    },
     googleSignin({ commit }) {
       Firebase.googleLogin(commit)
     },
@@ -79,11 +64,6 @@ export default new Vuex.Store({
     //     }
     //   )
     // },
-    // setDisplay() {
-    //   auth.currentUser.updateProfile({
-    //     displayName: 'Brad Spencer'
-    //   })
-    // },
     setError({ commit }, payload) {
       commit('setError', payload)
     },
@@ -100,6 +80,9 @@ export default new Vuex.Store({
     },
     roles(state) {
       return state.roles
+    },
+    matches(state) {
+      return state.matches
     }
   }
 })

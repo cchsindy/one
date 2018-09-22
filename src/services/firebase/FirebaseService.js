@@ -32,6 +32,51 @@ class FirebaseService {
     })
   }
 
+  checkBlackbaud(commit, email) {
+    let collection = 'bb_individuals'
+    if (email.includes('covenantchristian.org')) collection = 'bb_faculty'
+    if (email.includes('cchsindy.org')) collection = 'bb_students'
+    const bbRef = this.myStore.collection(collection)
+    const matches = []
+    bbRef
+      .where('email', '==', email.trim().toLowerCase())
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          matches.push({
+            ...doc.data(),
+            bbid: doc.id
+          })
+          commit('setMatches', matches)
+        })
+      })
+  }
+
+  createUser(commit, payload) {
+    this.auth
+      .createUserWithEmailAndPassword(payload.email, payload.password)
+      .catch(error => {
+        commit('setError', error)
+      })
+      .then(() => {
+        this.auth.currentUser
+          .updateProfile({
+            displayName: payload.first + ' ' + payload.last
+          })
+          .then(() => {
+            commit('setUser', this.auth.currentUser.displayName)
+          })
+        const docRef = this.myStore.doc('users/' + this.auth.currentUser.uid)
+        docRef.set({
+          bbId: payload.bbId,
+          bbType: payload.bbType,
+          bbUsername: payload.bbUsername,
+          first: payload.first,
+          last: payload.last
+        })
+      })
+  }
+
   googleLogin(commit) {
     this.auth
       .signInWithPopup(this.google)
@@ -113,6 +158,7 @@ class FirebaseService {
       .signInWithEmailAndPassword(payload.email, payload.password)
       .catch(error => {
         commit('setError', error)
+        // go ahead and try and match and create user
       })
   }
 
