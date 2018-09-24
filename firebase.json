@@ -15,7 +15,10 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
+    "rewrites": [{
+        "source": "/sendEmail",
+        "function": "sendEmail"
+      },
       {
         "source": "**",
         "destination": "/index.html"

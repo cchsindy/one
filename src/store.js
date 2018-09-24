@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Firebase from '@/services/firebase/FirebaseService'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -69,6 +70,13 @@ export default new Vuex.Store({
     },
     clearError({ commit }) {
       commit('clearError')
+    },
+    sendEmail({ commit }, payload) {
+      axios.post('sendEmail', {
+        address: payload.to,
+        subject: payload.subject,
+        html: payload.msg
+      })
     }
   },
   getters: {

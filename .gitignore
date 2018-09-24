@@ -22,4 +22,4 @@ yarn-error.log*
 
 # configs
 /src/services/firebase/config.js
-/src/services/sparkpost/config.js
+/functions/config.json

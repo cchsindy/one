@@ -1,8 +1,31 @@
-const functions = require('firebase-functions');
+const functions = require('firebase-functions')
+const SparkPost = require('sparkpost')
+const config = require('./config')
+const sparky = new SparkPost(config.sparkpostApiKey)
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+exports.sendEmail = functions.https.onRequest((request, response) => {
+  sparky.transmissions
+    .send({
+      options: {
+        sandbox: false
+      },
+      content: {
+        from: 'noreply@covenant.education',
+        subject: request.body.subject,
+        html: request.body.html
+      },
+      recipients: [
+        {
+          address: request.body.address
+        }
+      ]
+    })
+    .then(data => {
+      console.log(data)
+      return
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  response.send('Email sent.')
+})
