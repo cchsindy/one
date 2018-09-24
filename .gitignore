@@ -20,5 +20,6 @@ yarn-error.log*
 *.sln
 *.sw*
 
-# Firebase config
+# configs
 /src/services/firebase/config.js
+/src/services/sparkpost/config.js
