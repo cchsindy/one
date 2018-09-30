@@ -3,12 +3,14 @@ class VnnService {
     this.axios = require('axios')
     this.parser = require('html-parser')
     this.config = require('./config')
-    this.axios.defaults.baseURL = this.config.baseUrl
+    this.vnn = this.axios.create({
+      baseURL: this.config.baseUrl
+    })
   }
 
   getPlayers() {
-    this.axios
-      .get(this.config.teams[1])
+    this.vnn
+      .get(this.config.teams[5].url)
       .then(response => {
         let players = []
         this.parser.parse(response.data, {
@@ -25,5 +27,5 @@ class VnnService {
   }
 }
 
-const vnn = new VnnService()
-vnn.getPlayers()
+const vs = new VnnService()
+vs.getPlayers()
