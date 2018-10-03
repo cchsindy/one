@@ -10,6 +10,7 @@
       </div>
       <router-view/>
     </div>
+    <div v-else><br><i>* You must be logged in to use this site.</i></div>
   </div>
 </template>
 
