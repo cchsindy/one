@@ -1,4 +1,4 @@
-class FirebaseService {
+module.exports = class FirebaseService {
   constructor() {}
 
   async saveToStore(collection) {

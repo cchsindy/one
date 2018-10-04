@@ -1,4 +1,4 @@
-class CanvasService {
+module.exports = class CanvasService {
   constructor() {
     this.axios = require('axios')
     this.config = require('./config')

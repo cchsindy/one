@@ -1,4 +1,4 @@
-class VnnService {
+module.exports = class VnnService {
   constructor() {
     this.axios = require('axios')
     this.parser = require('html-parser')

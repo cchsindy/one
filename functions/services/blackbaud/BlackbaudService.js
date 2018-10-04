@@ -1,4 +1,4 @@
-class BlackbaudService {
+module.exports = class BlackbaudService {
   constructor() {
     this.ssh2 = require('ssh2')
     this.Client = this.ssh2.Client
