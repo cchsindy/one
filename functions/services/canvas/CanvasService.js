@@ -13,10 +13,12 @@ class CanvasService {
 
   getUser() {
     this.canvas
-      .get('accounts/1/users?search_term=Ricky Strehlow')
+      .get('accounts/1/users?search_term=brad&per_page=100')
       .then(response => {
         if (response.data.length) {
-          console.log(response.data[0].id)
+          for (const match of response.data) {
+            console.log(match.id + ' - ' + match.name)
+          }
         } else {
           console.log('user not found')
         }
@@ -51,4 +53,4 @@ class CanvasService {
 }
 
 const cs = new CanvasService()
-cs.getGrades()
+cs.getUser()
