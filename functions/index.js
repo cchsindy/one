@@ -28,3 +28,15 @@ exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
   )
   return true
 })
+
+exports.weekly_job = functions.pubsub
+  .topic('weekly-tick')
+  .onPublish(message => {
+    const mail = new SparkpostService()
+    mail.send(
+      'From Cron Job',
+      '<html><body>Every Monday at 3pm.</body></html>',
+      'bradspencer@covenantchristian.org'
+    )
+    return true
+  })
