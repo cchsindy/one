@@ -7,7 +7,7 @@ exports.sendEmail = functions.https.onRequest((request, response) => {
   response.send('Email sent.')
 })
 
-// cron
+// cron jobs
 exports.hourly_job = functions.pubsub
   .topic('hourly-tick')
   .onPublish(message => {
