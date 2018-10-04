@@ -1,7 +1,7 @@
 const functions = require('firebase-functions')
+const SparkpostService = require('./services/sparkpost/SparkpostService')
 
 exports.sendEmail = functions.https.onRequest((request, response) => {
-  const SparkpostService = require('./services/sparkpost/SparkpostService')
   const mail = new SparkpostService()
   mail.send(request.body.subject, request.body.html, request.body.address)
   response.send('Email sent.')
@@ -18,3 +18,13 @@ exports.hourly_job = functions.pubsub
     }
     return true
   })
+
+exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
+  const mail = new SparkpostService()
+  mail.send(
+    'From Cron Job',
+    '<html><body>You should get this email once every day.</body></html>',
+    'bradspencer@covenantchristian.org'
+  )
+  return true
+})

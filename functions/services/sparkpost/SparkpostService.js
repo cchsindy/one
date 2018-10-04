@@ -1,8 +1,8 @@
-class SparkpostService {
+module.exports = class SparkpostService {
   constructor() {
     this.SparkPost = require('sparkpost')
     this.config = require('./config')
-    this.sparky = new SparkPost(config.apiKey)
+    this.sparky = new this.SparkPost(this.config.apiKey)
   }
 
   send(subject, html, address) {
