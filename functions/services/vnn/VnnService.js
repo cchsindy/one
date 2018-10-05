@@ -26,6 +26,3 @@ module.exports = class VnnService {
       })
   }
 }
-
-const vs = new VnnService()
-vs.getPlayers()

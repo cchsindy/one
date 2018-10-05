@@ -13,7 +13,7 @@ module.exports = class CanvasService {
 
   getUser() {
     this.canvas
-      .get('accounts/1/users?search_term=brad&per_page=100')
+      .get('accounts/1/users?search_term=Mario Green')
       .then(response => {
         if (response.data.length) {
           for (const match of response.data) {
@@ -31,7 +31,7 @@ module.exports = class CanvasService {
 
   getGrades() {
     this.canvas
-      .get('users/2192/courses?include[]=total_scores&include[]=sections')
+      .get('users/2241/courses?include[]=total_scores&include[]=sections')
       .then(response => {
         for (const course of response.data) {
           if (course.enrollment_term_id === 51) {
@@ -51,6 +51,3 @@ module.exports = class CanvasService {
       })
   }
 }
-
-const cs = new CanvasService()
-cs.getUser()
