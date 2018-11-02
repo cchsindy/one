@@ -1,24 +1,28 @@
 module.exports = class FirebaseService {
-  constructor() {}
+  constructor() {
+    this.my = firebase.initializeApp(this.config)
+    this.myStore = this.my.firestore()
+    this.myStore.settings({
+      timestampsInSnapshots: true
+    })
+  }
 
-  async saveToStore(collection) {
+  async saveToStore(collection, data) {
     await new Promise((resolve, reject) => {
       try {
         const ts = Date.now()
-        for (const d of this.data) {
+        for (const d of data) {
           let docName = ''
           let doc = {}
-          let faculty
           switch (collection) {
             case 'bb_faculty':
               docName = d['Record ID']
-              faculty = d['Current teacher?'] === 'Yes' ? true : false
               doc = {
                 email: d['Contact number'].trim().toLowerCase(),
                 first: d['First name'].trim(),
                 last: d['Last name'].trim(),
                 title: d['Title 1'].trim(),
-                faculty: faculty,
+                faculty: d['Current teacher?'] === 'Yes' ? true : false,
                 synced: ts
               }
               break

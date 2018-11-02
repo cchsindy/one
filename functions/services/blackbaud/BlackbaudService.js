@@ -9,13 +9,6 @@ module.exports = class BlackbaudService {
     this.data = []
   }
 
-  findSchedule(studentId) {
-    return new Promise((resolve, reject) => {
-      let ss = this.schedule.filter(s => s['Student ID'] === studentId)
-      resolve(ss)
-    })
-  }
-
   async run() {
     console.log('process started')
     await this.openConnection()
