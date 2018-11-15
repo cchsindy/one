@@ -9,20 +9,23 @@ module.exports = class VnnService {
   }
 
   getPlayers() {
-    this.vnn
-      .get(this.config.teams[5].url)
-      .then(response => {
-        let players = []
-        this.parser.parse(response.data, {
-          attribute: function(name, value) {
-            if (name === 'data-student') players.push(value)
-          }
+    return new Promise((resolve, reject) => {
+      this.vnn
+        .get(this.config.teams[4].url)
+        .then(response => {
+          let players = []
+          this.parser.parse(response.data, {
+            attribute: function(name, value) {
+              if (name === 'data-student') players.push(value)
+            }
+          })
+          // console.log(players)
+          resolve(players)
         })
-        console.log(players)
-        return
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .catch(error => {
+          console.log(error)
+          reject(error)
+        })
+    })
   }
 }
