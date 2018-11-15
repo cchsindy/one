@@ -5,8 +5,7 @@
     <div v-if="user">
       <div id="nav">
         <router-link to="/">Dashboard</router-link> |
-        <router-link to="/announcements">Announcements</router-link> |
-        <router-link to="/athletics">Athletics</router-link>
+        <router-link to="/announcements">Announcements</router-link>
       </div>
       <router-view/>
     </div>

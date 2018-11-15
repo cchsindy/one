@@ -17,11 +17,6 @@ export default new Router({
       path: '/announcements',
       name: 'announcements',
       component: () => import('./views/Announcements.vue')
-    },
-    {
-      path: '/athletics',
-      name: 'athletics',
-      component: () => import('./views/Athletics.vue')
     }
   ]
 })
