@@ -4,7 +4,7 @@ class CanvasService {
     this.config = require('./config')
     this.canvas = this.axios.create({
       baseURL: this.config.baseUrl,
-      timeout: 1000,
+      timeout: 2000,
       headers: {
         Authorization: this.config.auth
       }
@@ -85,7 +85,8 @@ class CanvasService {
       this.canvas
         .get('users/' + id + '/courses', {
           params: {
-            include: ['total_scores', 'sections']
+            include: ['total_scores', 'sections'],
+            per_page: 100
           }
         })
         .then(response => {
@@ -128,7 +129,7 @@ class CanvasService {
 }
 
 const c = new CanvasService()
-c.run('Dylan Lawson')
+c.run('Austin Frazier')
   .then(() => {
     console.log('hey')
     return

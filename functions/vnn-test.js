@@ -1,14 +1,9 @@
-const VNN = require('./services/vnn/VnnService')
+const CanvasService = require('./services/canvas/CanvasService')
+const SparkpostService = require('./services/sparkpost/SparkpostService')
+const VnnService = require('./services/vnn/VnnService')
 
-const vnn = new VNN()
+const canvas = new CanvasService()
+const sparkpost = new SparkpostService()
+const vnn = new VnnService()
 
-async function get() {
-  let p = await vnn.getPlayers()
-  console.log(p)
-}
-
-get()
-
-// vnn.getPlayers().then(result => {
-//   console.log(result)
-// })
+vnn.runEligibilityCheck(canvas, sparkpost)

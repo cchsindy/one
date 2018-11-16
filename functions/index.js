@@ -1,5 +1,7 @@
 const functions = require('firebase-functions')
+const CanvasService = require('./services/canvas/CanvasService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
+const VnnService = require('./services/vnn/VnnService')
 
 exports.sendEmail = functions.https.onRequest((request, response) => {
   const mail = new SparkpostService()
@@ -32,11 +34,9 @@ exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
 exports.weekly_job = functions.pubsub
   .topic('weekly-tick')
   .onPublish(message => {
-    const mail = new SparkpostService()
-    mail.send(
-      'From Cron Job',
-      '<html><body>Every Monday at 2pm EDT.</body></html>',
-      'bradspencer@covenantchristian.org'
-    )
+    const canvas = new CanvasService()
+    const sparkpost = new SparkpostService()
+    const vnn = new VnnService()
+    vnn.runEligibilityCheck(canvas, sparkpost)
     return true
   })
