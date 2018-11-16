@@ -17,18 +17,25 @@ module.exports = class CanvasService {
         .then(id => {
           let failing = []
           if (id) {
-            this.getGrades(id).then(courses => {
-              for (const course of courses) {
-                if (course.grade < 69) failing.push(course)
-              }
-              resolve(failing)
-            })
+            this.getGrades(id)
+              .then(courses => {
+                for (const course of courses) {
+                  if (course.grade < 69) failing.push(course)
+                }
+                resolve(failing)
+                return
+              })
+              .catch(error => {
+                reject(error)
+                console.log(error)
+              })
           } else {
             resolve(failing)
           }
+          return
         })
         .catch(error => {
-          reject([])
+          reject(error)
           console.log(error)
         })
     })
@@ -55,7 +62,7 @@ module.exports = class CanvasService {
           return
         })
         .catch(error => {
-          reject(null)
+          reject(error)
           console.log(error)
         })
     })
@@ -86,7 +93,7 @@ module.exports = class CanvasService {
           return
         })
         .catch(error => {
-          reject([])
+          reject(error)
           console.log(error)
         })
     })
