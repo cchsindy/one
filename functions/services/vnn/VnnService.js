@@ -21,6 +21,7 @@ module.exports = class VnnService {
           })
           // console.log(players)
           resolve(players)
+          return
         })
         .catch(error => {
           console.log(error)

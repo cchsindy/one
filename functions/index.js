@@ -35,7 +35,7 @@ exports.weekly_job = functions.pubsub
     const mail = new SparkpostService()
     mail.send(
       'From Cron Job',
-      '<html><body>Every Monday at 3pm.</body></html>',
+      '<html><body>Every Monday at 2pm EDT.</body></html>',
       'bradspencer@covenantchristian.org'
     )
     return true
