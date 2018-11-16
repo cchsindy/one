@@ -1,11 +1,7 @@
 cron:
-  - description: Push a "tick" onto pubsub every hour
-    url: /publish/hourly-tick
-    schedule: every 1 hours
-
   - description: Push a "tick" onto pubsub every day
     url: /publish/daily-tick
-    schedule: every 24 hours 00:00
+    schedule: every 24 hours synchronized
     timezone: America/Indiana/Indianapolis
 
   - description: Push a "tick" onto pubsub every week

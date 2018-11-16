@@ -10,16 +10,16 @@ exports.sendEmail = functions.https.onRequest((request, response) => {
 })
 
 // cron jobs
-exports.hourly_job = functions.pubsub
-  .topic('hourly-tick')
-  .onPublish(message => {
-    console.log('This job is run every hour!')
-    if (message.data) {
-      const dataString = Buffer.from(message.data, 'base64').toString()
-      console.log(`Message Data: ${dataString}`)
-    }
-    return true
-  })
+// exports.hourly_job = functions.pubsub
+//   .topic('hourly-tick')
+//   .onPublish(message => {
+//     console.log('This job is run every hour!')
+//     if (message.data) {
+//       const dataString = Buffer.from(message.data, 'base64').toString()
+//       console.log(`Message Data: ${dataString}`)
+//     }
+//     return true
+//   })
 
 exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
   const mail = new SparkpostService()
