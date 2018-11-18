@@ -23,5 +23,5 @@ yarn-error.log*
 # configs
 config.json
 
-# Firebase hidden
+# Firebase cache
 /.firebase
