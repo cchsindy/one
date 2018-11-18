@@ -3,11 +3,11 @@ const CanvasService = require('./services/canvas/CanvasService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
 const VnnService = require('./services/vnn/VnnService')
 
-exports.sendEmail = functions.https.onRequest((request, response) => {
-  const mail = new SparkpostService()
-  mail.send(request.body.subject, request.body.html, request.body.address)
-  response.send('Email sent.')
-})
+// exports.sendEmail = functions.https.onRequest((request, response) => {
+//   const mail = new SparkpostService()
+//   mail.send(request.body.subject, request.body.html, request.body.address)
+//   response.send('Email sent.')
+// })
 
 // cron jobs
 // exports.hourly_job = functions.pubsub
