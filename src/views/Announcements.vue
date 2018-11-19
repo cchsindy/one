@@ -1,7 +1,8 @@
 <template>
   <div class="announcements">
     <h1>Announcements</h1>
-    how to layout?
+    <h2>Normal</h2>
+    <h2>Notifications</h2>
   </div>
 </template>
 
