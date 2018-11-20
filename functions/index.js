@@ -26,7 +26,7 @@ exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
   mail.send(
     'From Cron Job',
     '<html><body>You should get this email once every day.</body></html>',
-    'bradspencer@covenantchristian.org'
+    [{ address: 'bradspencer@covenantchristian.org' }]
   )
   return true
 })

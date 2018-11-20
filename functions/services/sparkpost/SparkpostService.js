@@ -5,7 +5,7 @@ module.exports = class SparkpostService {
     this.sparky = new this.SparkPost(this.config.apiKey)
   }
 
-  send(subject, html, address) {
+  send(subject, html, addresses) {
     this.sparky.transmissions
       .send({
         options: {
@@ -16,11 +16,7 @@ module.exports = class SparkpostService {
           subject,
           html
         },
-        recipients: [
-          {
-            address
-          }
-        ]
+        recipients: addresses
       })
       .then(data => {
         console.log(data)

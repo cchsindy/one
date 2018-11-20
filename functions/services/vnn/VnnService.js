@@ -56,6 +56,7 @@ module.exports = class VnnService {
         html += '<p><i>All players are eligible!</i></p>'
       html += '</body></html>'
       sparkpost.send('CCHS Athletic Player Eligibility', html, team.emails)
+      // console.log(ineligible)
     }
     console.log('Eligibility Check complete.')
   }

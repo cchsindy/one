@@ -4,7 +4,7 @@ module.exports = class CanvasService {
     this.config = require('./config')
     this.canvas = this.axios.create({
       baseURL: this.config.baseUrl,
-      timeout: 5000,
+      timeout: 15000,
       headers: {
         Authorization: this.config.auth
       }
