@@ -2,14 +2,14 @@
   <div id="app">
     <Account :user="user" :error="error"/>
     <div class="error" v-if="error">Error: {{ error.message }}</div>
-    <div v-if="user">
+    <!-- <div v-if="user"> -->
       <div id="nav">
         <router-link to="/">Dashboard</router-link> |
         <router-link to="/announcements">Announcements</router-link>
       </div>
       <router-view/>
-    </div>
-    <div v-else><br><i>* You must be logged in to use this site.</i></div>
+    <!-- </div> -->
+    <!-- <div v-else><br><i>* You must be logged in to use this site.</i></div> -->
   </div>
 </template>
 
