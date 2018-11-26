@@ -29,6 +29,17 @@ module.exports = class VnnService {
     })
   }
 
+  async checkPlayerNames(canvas) {
+    for (const team of this.config.teams) {
+      let players = await this.getTeamPlayers(team.url)
+      for (const player of players) {
+        let id = await canvas.getUser(player)
+        console.log(player + ' => ' + id)
+      }
+    }
+    console.log('Name Check complete.')
+  }
+
   async runEligibilityCheck(canvas, sparkpost) {
     for (const team of this.config.teams) {
       // scrape players from VNN roster page

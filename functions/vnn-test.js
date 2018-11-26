@@ -6,4 +6,5 @@ const canvas = new CanvasService()
 const sparkpost = new SparkpostService()
 const vnn = new VnnService()
 
-vnn.runEligibilityCheck(canvas, sparkpost)
+// vnn.runEligibilityCheck(canvas, sparkpost)
+vnn.checkPlayerNames(canvas)
