@@ -3,32 +3,33 @@ module.exports = class AuthorizeNet {
     this.ApiContracts = require('authorizenet').APIContracts
     this.ApiControllers = require('authorizenet').APIControllers
     this.SDKConstants = require('authorizenet').Constants
+    this.config = require('./config')
   }
 
   charge(transactionData) {
-    console.log(transactionData)
+    // console.log(transactionData)
     let merchantAuthenticationType = new this.ApiContracts.MerchantAuthenticationType()
-    merchantAuthenticationType.setName('5KP3u95bQpv')
-    merchantAuthenticationType.setTransactionKey('346HZ32z3fP4hTG2')
+    merchantAuthenticationType.setName(this.config.apiLoginKey)
+    merchantAuthenticationType.setTransactionKey(this.config.transactionKey)
 
     let creditCard = new this.ApiContracts.CreditCardType()
-    creditCard.setCardNumber('4242424242424242')
-    creditCard.setExpirationDate('0822')
-    creditCard.setCardCode('999')
+    creditCard.setCardNumber(transactionData.ccNumber)
+    creditCard.setExpirationDate(transactionData.ccExpiration)
+    creditCard.setCardCode(transactionData.ccCode)
 
     let paymentType = new this.ApiContracts.PaymentType()
     paymentType.setCreditCard(creditCard)
 
     let orderDetails = new this.ApiContracts.OrderType()
-    orderDetails.setDescription('Product Description')
+    orderDetails.setDescription(transactionData.description)
 
     let billTo = new this.ApiContracts.CustomerAddressType()
-    billTo.setFirstName('Ellen')
-    billTo.setLastName('Johnson')
-    billTo.setAddress('14 Main Street')
-    billTo.setCity('Pecan Springs')
-    billTo.setState('TX')
-    billTo.setZip('44628')
+    billTo.setFirstName(transactionData.firstName)
+    billTo.setLastName(transactionData.lastName)
+    billTo.setAddress(transactionData.address)
+    billTo.setCity(transactionData.city)
+    billTo.setState(transactionData.state)
+    billTo.setZip(transactionData.zip)
     billTo.setCountry('USA')
 
     let transactionSetting1 = new this.ApiContracts.SettingType()
@@ -51,7 +52,7 @@ module.exports = class AuthorizeNet {
       this.ApiContracts.TransactionTypeEnum.AUTHCAPTURETRANSACTION
     )
     transactionRequestType.setPayment(paymentType)
-    transactionRequestType.setAmount(15.5)
+    transactionRequestType.setAmount(transactionData.amount)
     transactionRequestType.setOrder(orderDetails)
     transactionRequestType.setBillTo(billTo)
     transactionRequestType.setTransactionSettings(transactionSettings)
@@ -59,6 +60,7 @@ module.exports = class AuthorizeNet {
     let createRequest = new this.ApiContracts.CreateTransactionRequest()
     createRequest.setMerchantAuthentication(merchantAuthenticationType)
     createRequest.setTransactionRequest(transactionRequestType)
+
     let ctrl = new this.ApiControllers.CreateTransactionController(
       createRequest.getJSON()
     )
