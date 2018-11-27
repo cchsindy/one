@@ -7,7 +7,7 @@ const VnnService = require('./services/vnn/VnnService')
 exports.creditCard = functions.https.onRequest((request, response) => {
   const authorize = new AuthorizeNetService()
   authorize.charge(request.body.data)
-  response.send('Credit Card Transaction made.')
+  response.send('Credit card transaction made.')
 })
 
 exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
