@@ -77,6 +77,7 @@ export default new Vuex.Store({
         subject: payload.subject,
         html: payload.msg
       })
+      commit()
     }
   },
   getters: {
