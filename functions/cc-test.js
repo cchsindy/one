@@ -15,3 +15,10 @@ cc.charge({
   zip: '44628',
   amount: '10.25'
 })
+  .then(response => {
+    console.log(response)
+    return
+  })
+  .catch(error => {
+    console.log(error)
+  })
