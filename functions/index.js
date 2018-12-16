@@ -6,13 +6,16 @@ const VnnService = require('./services/vnn/VnnService')
 
 exports.creditCard = functions.https.onRequest((request, response) => {
   const authorize = new AuthorizeNetService()
+  console.log(request.body.data)
   authorize
     .charge(request.body.data)
     .then(result => {
+      console.log(result)
       response.send(result)
       return
     })
     .catch(error => {
+      console.log(error)
       response.send(error)
     })
 })
