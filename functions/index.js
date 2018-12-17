@@ -1,23 +1,23 @@
 const functions = require('firebase-functions')
+const cors = require('cors')({ origin: true })
 const AuthorizeNetService = require('./services/authorizenet/AuthorizeNetService')
 const CanvasService = require('./services/canvas/CanvasService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
 const VnnService = require('./services/vnn/VnnService')
 
 exports.creditCard = functions.https.onRequest((request, response) => {
-  const authorize = new AuthorizeNetService()
-  console.log(request.body.data)
-  authorize
-    .charge(request.body.data)
-    .then(result => {
-      console.log(result)
-      response.send(result)
-      return
-    })
-    .catch(error => {
-      console.log(error)
-      response.send(error)
-    })
+  return cors(request, response, () => {
+    const authorize = new AuthorizeNetService()
+    authorize
+      .charge(request.body.data)
+      .then(result => {
+        response.send(result)
+        return
+      })
+      .catch(error => {
+        response.send(error)
+      })
+  })
 })
 
 exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
