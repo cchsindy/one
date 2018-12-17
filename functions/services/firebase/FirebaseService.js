@@ -7,6 +7,19 @@ module.exports = class FirebaseService {
     })
   }
 
+  async authorizeNetTransaction(form, trans) {
+    await new Promise((resolve, reject) => {
+      try {
+        let docRef = this.myStore.doc('authorizeNet/' + trans.transactionId)
+        let doc = form
+        docRef.set(doc)
+        resolve()
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
   async saveToStore(collection, data) {
     await new Promise((resolve, reject) => {
       try {

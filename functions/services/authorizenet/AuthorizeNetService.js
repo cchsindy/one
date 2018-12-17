@@ -121,41 +121,6 @@ module.exports = class AuthorizeNet {
                     .getErrorText()
                 }
               }
-            } else {
-              if (
-                response.getTransactionResponse() !== null &&
-                response.getTransactionResponse().getErrors() !== null
-              ) {
-                responseData.transactionId = null
-                responseData.responseCode = response
-                  .getTransactionResponse()
-                  .getResponseCode()
-                responseData.messageCode = response
-                  .getTransactionResponse()
-                  .getErrors()
-                  .getError()[0]
-                  .getErrorCode()
-                responseData.description = response
-                  .getTransactionResponse()
-                  .getErrors()
-                  .getError()[0]
-                  .getErrorText()
-              } else {
-                responseData.transactionId = null
-                responseData.responseCode = response
-                  .getTransactionResponse()
-                  .getResponseCode()
-                responseData.messageCode = response
-                  .getTransactionResponse()
-                  .getErrors()
-                  .getError()[0]
-                  .getErrorCode()
-                responseData.description = response
-                  .getTransactionResponse()
-                  .getErrors()
-                  .getError()[0]
-                  .getErrorText()
-              }
             }
           }
           resolve(responseData)

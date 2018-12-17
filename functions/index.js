@@ -2,6 +2,7 @@ const functions = require('firebase-functions')
 const cors = require('cors')({ origin: true })
 const AuthorizeNetService = require('./services/authorizenet/AuthorizeNetService')
 const CanvasService = require('./services/canvas/CanvasService')
+const FirebaseService = require('./services/firebase/FirebaseService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
 const VnnService = require('./services/vnn/VnnService')
 
@@ -11,7 +12,19 @@ exports.creditCard = functions.https.onRequest((request, response) => {
     authorize
       .charge(request.body.data)
       .then(result => {
-        response.send(result)
+        // save to database
+        const fbs = new FirebaseService()
+        fbs
+          .authorizeNetTransaction(request.body.data, result)
+          .then(() => {
+            // send emails
+
+            response.send(result)
+            return
+          })
+          .catch(error => {
+            response.send(error)
+          })
         return
       })
       .catch(error => {
