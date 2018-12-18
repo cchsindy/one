@@ -32,6 +32,8 @@ module.exports = class AuthorizeNet {
         billTo.setState(transactionData.state)
         billTo.setZip(transactionData.zip)
         billTo.setCountry('USA')
+        billTo.setPhoneNumber(transactionData.phone)
+        billTo.setEmail(transactionData.email)
 
         let transactionSetting1 = new this.ApiContracts.SettingType()
         transactionSetting1.setSettingName('duplicateWindow')

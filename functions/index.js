@@ -7,29 +7,26 @@ const SparkpostService = require('./services/sparkpost/SparkpostService')
 const VnnService = require('./services/vnn/VnnService')
 
 exports.creditCard = functions.https.onRequest((request, response) => {
-  return cors(request, response, () => {
+  return cors(request, response, async () => {
     const authorize = new AuthorizeNetService()
-    authorize
-      .charge(request.body.data)
-      .then(result => {
-        // save to database
-        const fbs = new FirebaseService()
-        fbs
-          .authorizeNetTransaction(request.body.data, result)
-          .then(() => {
-            // send emails
-
-            response.send(result)
-            return
-          })
-          .catch(error => {
-            response.send(error)
-          })
-        return
+    const ccTrans = await authorize.charge(request.body.data)
+    if (ccTrans.transactionId) {
+      const fbs = new FirebaseService()
+      await fbs.authorizeNetTransaction({
+        transactionId: ccTrans.transactionId,
+        amount: request.body.data.amount
       })
-      .catch(error => {
-        response.send(error)
-      })
+      const mail = new SparkpostService()
+      let html = '<html><body>'
+      html += '<h1>Successful credit card transaction!</h1>'
+      html += '<p>For the amount of $' + request.body.data.amount + '</p>'
+      html += '</body></html>'
+      let emails = [{ address: request.body.data.email }]
+      await mail.send('Successful Transaction', html, emails)
+      response.send(ccTrans)
+    } else {
+      response.send(ccTrans)
+    }
   })
 })
 

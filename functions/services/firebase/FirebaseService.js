@@ -1,17 +1,22 @@
 module.exports = class FirebaseService {
   constructor() {
-    this.my = firebase.initializeApp(this.config)
-    this.myStore = this.my.firestore()
+    const admin = require('firebase-admin')
+    const serviceAccount = require('./serviceAccountKey.json')
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: 'https://my-covenant.firebaseio.com'
+    })
+    this.myStore = admin.firestore()
     this.myStore.settings({
       timestampsInSnapshots: true
     })
   }
 
-  async authorizeNetTransaction(form, trans) {
-    await new Promise((resolve, reject) => {
+  authorizeNetTransaction(data) {
+    return new Promise((resolve, reject) => {
       try {
-        let docRef = this.myStore.doc('authorizeNet/' + trans.transactionId)
-        let doc = form
+        let docRef = this.myStore.doc('authorizeNet/' + data.transactionId)
+        let doc = { amount: data.amount }
         docRef.set(doc)
         resolve()
       } catch (error) {
@@ -20,8 +25,8 @@ module.exports = class FirebaseService {
     })
   }
 
-  async saveToStore(collection, data) {
-    await new Promise((resolve, reject) => {
+  saveToStore(collection, data) {
+    return new Promise((resolve, reject) => {
       try {
         const ts = Date.now()
         for (const d of data) {
