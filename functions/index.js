@@ -14,13 +14,12 @@ exports.creditCard = functions.https.onRequest((request, response) => {
       const fbs = new FirebaseService()
       await fbs.authorizeNetTransaction({
         transactionId: ccTrans.transactionId,
-        amount: request.body.data.amount
+        amount: request.body.data.amount,
+        description: request.body.data.description,
+        date: Date.now()
       })
       const mail = new SparkpostService()
-      let html = '<html><body>'
-      html += '<h1>Successful credit card transaction!</h1>'
-      html += '<p>For the amount of $' + request.body.data.amount + '</p>'
-      html += '</body></html>'
+      let html = request.body.data.html
       let emails = [{ address: request.body.data.email }]
       await mail.send('Successful Transaction', html, emails)
       response.send(ccTrans)

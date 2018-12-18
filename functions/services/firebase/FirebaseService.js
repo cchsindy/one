@@ -16,7 +16,11 @@ module.exports = class FirebaseService {
     return new Promise((resolve, reject) => {
       try {
         let docRef = this.myStore.doc('authorizeNet/' + data.transactionId)
-        let doc = { amount: data.amount }
+        let doc = {
+          amount: data.amount,
+          description: data.description,
+          date: data.date
+        }
         docRef.set(doc)
         resolve()
       } catch (error) {
