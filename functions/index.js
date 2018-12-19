@@ -18,6 +18,11 @@ exports.creditCard = functions.https.onRequest((request, response) => {
         description: request.body.data.description,
         date: Date.now()
       })
+      await fbs.pizzaDonation({
+        firstname: request.body.data.firstName,
+        lastname: request.body.data.lastName,
+        pizzas: request.body.data.pizzas
+      })
       const mail = new SparkpostService()
       let subject = request.body.data.description
       let html = request.body.data.html

@@ -82,4 +82,23 @@ module.exports = class FirebaseService {
       }
     })
   }
+
+  pizzaDonation(data) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.myStore
+          .collection('pizza_fundraiser')
+          .add(data)
+          .then(docRef => {
+            resolve()
+            return
+          })
+          .catch(error => {
+            reject(error)
+          })
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
 }

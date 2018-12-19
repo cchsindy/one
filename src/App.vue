@@ -4,8 +4,9 @@
     <div class="error" v-if="error">Error: {{ error.message }}</div>
     <!-- <div v-if="user"> -->
     <div id="nav">
-      <router-link to="/">Dashboard</router-link>|
-      <router-link to="/announcements">Announcements</router-link>
+      <router-link to="/">Dashboard</router-link> |
+      <router-link to="/announcements">Announcements</router-link> |
+      <router-link to="/event-sales">Event Sales</router-link>
     </div>
     <router-view/>
     <!-- </div> -->

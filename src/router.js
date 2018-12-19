@@ -17,6 +17,11 @@ export default new Router({
       path: '/announcements',
       name: 'announcements',
       component: () => import('./views/Announcements.vue')
+    },
+    {
+      path: '/event-sales',
+      name: 'event-sales',
+      component: () => import('./views/EventSales.vue')
     }
   ]
 })
