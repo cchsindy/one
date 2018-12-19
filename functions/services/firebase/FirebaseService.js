@@ -29,7 +29,7 @@ module.exports = class FirebaseService {
     })
   }
 
-  saveToStore(collection, data) {
+  blackbaud(collection, data) {
     return new Promise((resolve, reject) => {
       try {
         const ts = Date.now()

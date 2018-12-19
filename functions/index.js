@@ -19,9 +19,10 @@ exports.creditCard = functions.https.onRequest((request, response) => {
         date: Date.now()
       })
       const mail = new SparkpostService()
+      let subject = request.body.data.description
       let html = request.body.data.html
-      let emails = [{ address: request.body.data.email }]
-      await mail.send('Successful Transaction', html, emails)
+      let recipients = [{ address: request.body.data.email }]
+      await mail.send(subject, html, recipients)
       response.send(ccTrans)
     } else {
       response.send(ccTrans)
