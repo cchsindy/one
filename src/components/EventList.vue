@@ -1,15 +1,20 @@
 <template>
   <div>
     <input type="checkbox" v-model="showPast">Show Past Events
+    <button>Add Event</button>
     <div class="event-list">
-      <div v-for="item in filteredEvents" :key="item.id" class="event-item">
-        <div class="item-id">ID: {{ item.id }}<br><button>Remove</button></div>
-        <div class="item-content">
-          <label>Name:</label>
-          <input type="text" v-model="item.name" />
-          <EventItemList :items="item.items" />
+      <div v-for="item in filteredEvents" :key="item.id" class="event">
+        <div class="event-id">
+          ID: {{ item.id }}
+          <br>
+          <button>Remove</button>
         </div>
-        <div class="item-date">
+        <div class="event-name">
+          <label>Name:</label>
+          <input type="text" v-model="item.name">
+          <EventItemList :items="item.items"/>
+        </div>
+        <div class="event-date">
           <label>Start:</label>
           <input type="datetime-local" v-model="item.startDate">
           <label>End:</label>
@@ -33,41 +38,48 @@ export default {
       events: [
         {
           id: 1,
-          name: 'Event One',
+          name: '2019 Pizza Fundraiser',
           description: 'optional',
           image: 'option url',
-          startDate: '2018-12-18T08:00',
-          endDate: '2018-12-19T16:30',
+          startDate: '2019-01-15T00:00',
+          endDate: '2019-01-20T16:30',
           items: [
             {
               id: 1,
-              name: 'item 1',
-              available: 10,
-              price: 5,
+              name: 'Cheese Pizza',
               description: 'optional',
-              image: 'optional url'
+              image: '/images/cheese.jpg',
+              limit: 0,
+              sold: 0,
+              price: 12
             },
-            { id: 2, name: 'item 2', available: 10, price: 5 }
-          ]
-        },
-        {
-          id: 2,
-          name: 'Event Two',
-          startDate: '2018-12-19T08:00',
-          endDate: '2018-12-20T18:00',
-          items: [
-            { id: 3, name: 'item 3', available: 10, price: 5 },
-            { id: 4, name: 'item 4', available: 10, price: 5 }
-          ]
-        },
-        {
-          id: 3,
-          name: 'Event Three',
-          startDate: '2018-12-20T08:00',
-          endDate: '2018-12-21T12:00',
-          items: [
-            { id: 5, name: 'item 5', available: 10, price: 5 },
-            { id: 6, name: 'item 6', available: 10, price: 5 }
+            {
+              id: 2,
+              name: 'Pepperoni Pizza',
+              description: 'optional',
+              image: '/images/pepperoni.jpg',
+              limit: 0,
+              sold: 0,
+              price: 13
+            },
+            {
+              id: 3,
+              name: 'Sausage Pizza',
+              description: 'optional',
+              image: '/images/sausage.jpg',
+              limit: 0,
+              sold: 0,
+              price: 13
+            },
+            {
+              id: 4,
+              name: 'Combo Pizza',
+              description: 'optional',
+              image: '/images/combo.jpg',
+              limit: 0,
+              sold: 0,
+              price: 15
+            }
           ]
         }
       ],
@@ -85,7 +97,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 button {
   background: none;
   border: solid 2px #ccc;
@@ -112,30 +124,32 @@ input:focus {
   outline: none;
 }
 input[type='text'] {
-  width: 90%;
+  width: 100%;
 }
 label {
+  color: #777;
   display: block;
   font-style: italic;
 }
-.event-item {
+.event {
   border: solid 2px #ccc;
   display: grid;
   grid-template-columns: 2fr 6fr 3fr;
   margin-bottom: 2vh;
   padding: 1vw;
 }
-.item-id {
+.event-id {
   align-self: center;
+  color: #aaa;
   grid-column: 1;
 }
-.item-content {
+.event-name {
   align-self: center;
   grid-column: 2;
   margin: 0 1vw;
   text-align: left;
 }
-.item-date {
+.event-date {
   align-self: center;
   grid-column: 3;
   text-align: left;
