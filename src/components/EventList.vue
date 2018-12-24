@@ -12,13 +12,15 @@
         <div class="event-name">
           <label>Name:</label>
           <input type="text" v-model="item.name">
-          <EventItemList :items="item.items"/>
         </div>
         <div class="event-date">
           <label>Start:</label>
           <input type="datetime-local" v-model="item.startDate">
           <label>End:</label>
           <input type="datetime-local" v-model="item.endDate">
+        </div>
+        <div class="event-item-list">
+          <EventItemList :items="item.items"/>
         </div>
       </div>
     </div>
@@ -152,6 +154,26 @@ label {
 .event-date {
   align-self: center;
   grid-column: 3;
+  margin: 0 1vw;
   text-align: left;
+}
+.event-item-list {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+@media (max-width: 800px) {
+  .event {
+    grid-template-columns: 100%;
+  }
+  .event-name {
+    grid-column: 1;
+  }
+  .event-date {
+    grid-column: 1;
+  }
+  .event-item-list {
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
 }
 </style>
