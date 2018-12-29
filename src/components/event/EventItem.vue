@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button>X</button>
+    <button @click="removeItem">X</button>
     <button @click="toggleCollapse">{{collapseText}}</button>
     <div v-if="collapsed">
       <div>{{item.name}}</div>
@@ -52,6 +52,9 @@ export default {
     },
     expand() {
       this.collapsed = false
+    },
+    removeItem() {
+      this.$emit('RemoveItem', this.item)
     },
     toggleCollapse() {
       this.collapsed = !this.collapsed

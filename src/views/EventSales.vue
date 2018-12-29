@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>Event Sales</h1>
-    <EventList />
+    <EventList/>
   </div>
 </template>
 
 <script>
-import EventList from '@/components/EventList'
+import EventList from '@/components/event/EventList'
 
 export default {
   components: {

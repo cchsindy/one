@@ -1,13 +1,15 @@
 <template>
   <div>
     <input type="checkbox" v-model="showPast">Show Past Events
-    <button>Add Event</button>
+    <button @click="addEvent">Add Event</button>
+    <br>
+    <br>
     <div class="event-list">
       <div v-for="item in filteredEvents" :key="item.id" class="event">
         <div class="event-id">
           ID: {{ item.id }}
           <br>
-          <button>Remove</button>
+          <button @click="removeEvent">Remove</button>
         </div>
         <div class="event-name">
           <label>Name:</label>
@@ -28,7 +30,8 @@
 </template>
 
 <script>
-import EventItemList from '@/components/EventItemList'
+import { mapState } from 'vuex'
+import EventItemList from '@/components/event/EventItemList'
 import moment from 'moment'
 
 export default {
@@ -37,65 +40,34 @@ export default {
   },
   data: () => {
     return {
-      events: [
-        {
-          id: 1,
-          name: '2019 Pizza Fundraiser',
-          description: 'optional',
-          image: 'option url',
-          startDate: '2019-01-15T00:00',
-          endDate: '2019-01-20T16:30',
-          items: [
-            {
-              id: 1,
-              name: 'Cheese Pizza',
-              description: 'optional',
-              image: '/images/cheese.jpg',
-              limit: 0,
-              sold: 0,
-              price: 12
-            },
-            {
-              id: 2,
-              name: 'Pepperoni Pizza',
-              description: 'optional',
-              image: '/images/pepperoni.jpg',
-              limit: 0,
-              sold: 0,
-              price: 13
-            },
-            {
-              id: 3,
-              name: 'Sausage Pizza',
-              description: 'optional',
-              image: '/images/sausage.jpg',
-              limit: 0,
-              sold: 0,
-              price: 13
-            },
-            {
-              id: 4,
-              name: 'Combo Pizza',
-              description: 'optional',
-              image: '/images/combo.jpg',
-              limit: 0,
-              sold: 0,
-              price: 15
-            }
-          ]
-        }
-      ],
       showPast: false
     }
   },
   computed: {
     filteredEvents() {
-      if (this.showPast) return this.events
+      if (this.showPast) return this.event.events
       const now = moment().format('YYYY-MM-DDTHH:mm')
-      return this.events.filter(e => e.endDate > now)
-    }
+      return this.event.events.filter(e => e.endDate > now)
+    },
+    ...mapState(['event'])
   },
-  methods: {}
+  methods: {
+    addEvent() {
+      const now = moment()
+      this.events.push({
+        id: this.events.length + 1,
+        name: '',
+        description: '',
+        image: '',
+        startDate: now.format('YYYY-MM-DDTHH:mm'),
+        endDate: now.add(1, 'day').format('YYYY-MM-DDTHH:mm'),
+        items: []
+      })
+    },
+    removeEvent(e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 
