@@ -1,5 +1,4 @@
-import Firebase from '@/services/firebase/FirebaseService'
-// import axios from 'axios'
+import UserService from '@/services/user/UserService'
 
 const state = {
   user: null,
@@ -25,22 +24,22 @@ const getters = {
 
 const actions = {
   initAuth({ commit }) {
-    Firebase.init(commit)
+    UserService.init(commit)
   },
   checkForMatch({ commit }, payload) {
-    Firebase.checkBlackbaud(commit, payload.email)
+    UserService.checkBlackbaud(commit, payload.email)
   },
   createUser({ commit }, payload) {
-    Firebase.createUser(commit, payload)
+    UserService.createUser(commit, payload)
   },
   googleSignin({ commit }) {
-    Firebase.googleLogin(commit)
+    UserService.googleLogin(commit)
   },
   loginUser({ commit }, payload) {
-    Firebase.loginUser(commit, payload)
+    UserService.loginUser(commit, payload)
   },
   logoutUser({ commit }) {
-    Firebase.logout(commit)
+    UserService.logout(commit)
   },
   // createRole({}, payload) {
   //   const docRef = myStore.doc('users/' + auth.currentUser.uid)

@@ -1,59 +1,36 @@
+import EventService from '@/services/event/EventService'
+
 const state = {
-  events: [
-    {
-      id: 1,
-      name: '2019 Pizza Fundraiser',
-      description: 'optional',
-      image: 'option url',
-      startDate: '2019-01-15T00:00',
-      endDate: '2019-01-20T16:30',
-      items: [
-        {
-          id: 1,
-          name: 'Cheese Pizza',
-          description: 'optional',
-          image: '/images/cheese.jpg',
-          limit: 0,
-          sold: 0,
-          price: 12
-        },
-        {
-          id: 2,
-          name: 'Pepperoni Pizza',
-          description: 'optional',
-          image: '/images/pepperoni.jpg',
-          limit: 0,
-          sold: 0,
-          price: 13
-        },
-        {
-          id: 3,
-          name: 'Sausage Pizza',
-          description: 'optional',
-          image: '/images/sausage.jpg',
-          limit: 0,
-          sold: 0,
-          price: 13
-        },
-        {
-          id: 4,
-          name: 'Combo Pizza',
-          description: 'optional',
-          image: '/images/combo.jpg',
-          limit: 0,
-          sold: 0,
-          price: 15
-        }
-      ]
-    }
-  ]
+  events: []
 }
 
 const getters = {}
 
-const actions = {}
+const actions = {
+  fetchEvents({ commit }) {
+    commit('SET_EVENTS', EventService.events)
+  }
+  // fetchEvents({ commit, dispatch, state }, { page }) {
+  //   return EventService.getEvents(state.perPage, page)
+  //     .then(response => {
+  //       commit('SET_EVENTS_TOTAL', parseInt(response.headers['x-total-count']))
+  //       commit('SET_EVENTS', response.data)
+  //     })
+  //     .catch(error => {
+  //       const notification = {
+  //         type: 'error',
+  //         message: 'There was a problem fetching events: ' + error.message
+  //       }
+  //       dispatch('notification/add', notification, { root: true })
+  //     })
+  // }
+}
 
-const mutations = {}
+const mutations = {
+  SET_EVENTS(state, events) {
+    state.events = events
+  }
+}
 
 export default {
   state,

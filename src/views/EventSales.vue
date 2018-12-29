@@ -11,6 +11,9 @@ import EventList from '@/components/event/EventList'
 export default {
   components: {
     EventList
+  },
+  mounted() {
+    this.$store.dispatch('fetchEvents')
   }
 }
 </script>
