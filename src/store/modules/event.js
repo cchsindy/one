@@ -7,8 +7,10 @@ const state = {
 const getters = {}
 
 const actions = {
-  fetchEvents({ commit }) {
-    commit('SET_EVENTS', EventService.events)
+  fetchEvents({ commit, rootState }) {
+    EventService.getEvents(rootState.firebase.myStore).then(data => {
+      commit('SET_EVENTS', data)
+    })
   }
   // fetchEvents({ commit, dispatch, state }, { page }) {
   //   return EventService.getEvents(state.perPage, page)

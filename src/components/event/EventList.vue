@@ -17,9 +17,9 @@
         </div>
         <div class="event-date">
           <label>Start:</label>
-          <input type="datetime-local" v-model="item.startDate">
+          <input type="datetime-local" v-model="item.start_date">
           <label>End:</label>
-          <input type="datetime-local" v-model="item.endDate">
+          <input type="datetime-local" v-model="item.end_date">
         </div>
         <div class="event-item-list">
           <EventItemList :items="item.items"/>
@@ -47,7 +47,7 @@ export default {
     filteredEvents() {
       if (this.showPast) return this.event.events
       const now = moment().format('YYYY-MM-DDTHH:mm')
-      return this.event.events.filter(e => e.endDate > now)
+      return this.event.events.filter(e => e.end_date > now)
     },
     ...mapState(['event'])
   },
@@ -59,8 +59,8 @@ export default {
         name: '',
         description: '',
         image: '',
-        startDate: now.format('YYYY-MM-DDTHH:mm'),
-        endDate: now.add(1, 'day').format('YYYY-MM-DDTHH:mm'),
+        start_date: now.format('YYYY-MM-DDTHH:mm'),
+        end_date: now.add(1, 'day').format('YYYY-MM-DDTHH:mm'),
         items: []
       })
     },
