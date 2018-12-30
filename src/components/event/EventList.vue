@@ -7,8 +7,6 @@
     <div class="event-list">
       <div v-for="item in filteredEvents" :key="item.id" class="event">
         <div class="event-id">
-          ID: {{ item.id }}
-          <br>
           <button @click="removeEvent">Remove</button>
         </div>
         <div class="event-name">

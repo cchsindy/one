@@ -11,33 +11,16 @@ const actions = {
       snapshot.docChanges().forEach(change => {
         console.log(change.type)
       })
-      let e = []
+      let data = []
       snapshot.forEach(doc => {
-        e.push({
-          ...doc.data(),
-          id: doc.id
+        data.push({
+          id: doc.id,
+          ...doc.data()
         })
       })
-      commit('SET_EVENTS', e)
+      commit('SET_EVENTS', data)
     })
   }
-  // fetchEvents({ commit, dispatch, state }, { page }) {
-  //   return EventService.getEvents(state.perPage, page)
-  //     .then(response => {
-  //       commit('SET_EVENTS_TOTAL', parseInt(response.headers['x-total-count']))
-  //       commit('SET_EVENTS', response.data)
-  //     })
-  //     .catch(error => {
-  //       const notification = {
-  //         type: 'error',
-  //         message: 'There was a problem fetching events: ' + error.message
-  //       }
-  //       dispatch('notification/add', notification, { root: true })
-  //     })
-  // }
-  // setStore({ rootState }) {
-  //   EventService.setStore(rootState.firebase.myStore)
-  // }
 }
 
 const mutations = {
