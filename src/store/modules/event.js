@@ -1,5 +1,3 @@
-import EventService from '@/services/event/EventService'
-
 const state = {
   events: []
 }
@@ -8,8 +6,19 @@ const getters = {}
 
 const actions = {
   fetchEvents({ commit, rootState }) {
-    EventService.getEvents(rootState.firebase.myStore).then(data => {
-      commit('SET_EVENTS', data)
+    const ref = rootState.fbStore.collection('events')
+    ref.orderBy('end_date', 'desc').onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        console.log(change.type)
+      })
+      let e = []
+      snapshot.forEach(doc => {
+        e.push({
+          ...doc.data(),
+          id: doc.id
+        })
+      })
+      commit('SET_EVENTS', e)
     })
   }
   // fetchEvents({ commit, dispatch, state }, { page }) {
@@ -25,6 +34,9 @@ const actions = {
   //       }
   //       dispatch('notification/add', notification, { root: true })
   //     })
+  // }
+  // setStore({ rootState }) {
+  //   EventService.setStore(rootState.firebase.myStore)
   // }
 }
 

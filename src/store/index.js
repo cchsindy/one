@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import FirebaseService from '@/services/firebase/FirebaseService'
+import * as firebase from '@/store/modules/firebase'
 import event from '@/store/modules/event'
 import user from '@/store/modules/user'
 
@@ -12,6 +12,8 @@ export default new Vuex.Store({
     event
   },
   state: {
-    firebase: FirebaseService
+    fbAuth: firebase.myAuth,
+    fbGoogle: firebase.myGoogle,
+    fbStore: firebase.myStore
   }
 })
