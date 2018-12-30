@@ -5,6 +5,9 @@ const state = {
 const getters = {}
 
 const actions = {
+  addEvent({ commit }, payload) {
+    commit('ADD_EVENT', payload)
+  },
   fetchEvents({ commit, rootState }) {
     const ref = rootState.fbStore.collection('events')
     ref.orderBy('end_date', 'desc').onSnapshot(snapshot => {
@@ -20,12 +23,21 @@ const actions = {
       })
       commit('SET_EVENTS', data)
     })
+  },
+  removeEvent({ commit }, payload) {
+    commit('REMOVE_EVENT', payload)
   }
 }
 
 const mutations = {
+  ADD_EVENT(state, event) {
+    state.events.push(event)
+  },
   SET_EVENTS(state, events) {
     state.events = events
+  },
+  REMOVE_EVENT(state, eventId) {
+    state.events = state.events.filter(e => e.id !== eventId)
   }
 }
 

@@ -1,13 +1,12 @@
 <template>
   <div>
-    <input type="checkbox" v-model="showPast">Show Past Events
     <button @click="addEvent">Add Event</button>
     <br>
     <br>
     <div class="event-list">
-      <div v-for="item in filteredEvents" :key="item.id" class="event">
+      <div v-for="item in event.events" :key="item.id" class="event">
         <div class="event-id">
-          <button @click="removeEvent">Remove</button>
+          <button @click="removeEvent" :data-id="item.id">Remove</button>
         </div>
         <div class="event-name">
           <label>Name:</label>
@@ -36,34 +35,25 @@ export default {
   components: {
     EventItemList
   },
-  data: () => {
-    return {
-      showPast: false
-    }
-  },
   computed: {
-    filteredEvents() {
-      if (this.showPast) return this.event.events
-      const now = moment().format('YYYY-MM-DDTHH:mm')
-      return this.event.events.filter(e => e.end_date > now)
-    },
     ...mapState(['event'])
   },
   methods: {
     addEvent() {
       const now = moment()
-      this.events.push({
-        id: this.events.length + 1,
+      const newEvent = {
+        id: 'NEW' + Date.now(),
         name: '',
         description: '',
         image: '',
         start_date: now.format('YYYY-MM-DDTHH:mm'),
         end_date: now.add(1, 'day').format('YYYY-MM-DDTHH:mm'),
         items: []
-      })
+      }
+      this.$store.dispatch('addEvent', newEvent)
     },
     removeEvent(e) {
-      console.log(e)
+      this.$store.dispatch('removeEvent', e.target.dataset.id)
     }
   }
 }
