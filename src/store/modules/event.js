@@ -24,7 +24,13 @@ const actions = {
       commit('SET_EVENTS', data)
     })
   },
-  removeEvent({ commit }, payload) {
+  removeEvent({ commit, rootState }, payload) {
+    if (payload.substring(0, 3) !== 'NEW') {
+      rootState.fbStore
+        .collection('events')
+        .doc(payload)
+        .delete()
+    }
     commit('REMOVE_EVENT', payload)
   }
 }
