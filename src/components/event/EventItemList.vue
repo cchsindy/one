@@ -19,9 +19,6 @@ export default {
   components: {
     EventItem
   },
-  data: () => {
-    return {}
-  },
   computed: {},
   methods: {
     addItem() {
@@ -45,13 +42,11 @@ export default {
         i.expand()
       }
     },
-    removeItem(item) {
-      // move all data to store...
-      this.items = this.items.filter(i => i.id !== item.id)
-    },
-    resetData() {
-      for (const i of this.$refs.ei) {
-        i.resetData()
+    removeItem(itemId) {
+      this.$delete(this.items, itemId - 1)
+      let index = 1
+      for (const i of this.items) {
+        i.id = index++
       }
     }
   },

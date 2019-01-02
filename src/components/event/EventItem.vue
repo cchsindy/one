@@ -3,31 +3,31 @@
     <button @click="removeItem">X</button>
     <button @click="toggleCollapse">{{collapseText}}</button>
     <div v-if="collapsed">
-      <div>{{localItem.name}}</div>
+      <div>{{item.name}}</div>
     </div>
     <div v-else>
       <div class="event-item-name">
         <label>Name:</label>
-        <input type="text" v-model="localItem.name">
+        <input type="text" v-model="item.name">
       </div>
       <div class="event-item-image">
-        <img :src="localItem.image">
+        <img :src="item.image">
         <label>Image:</label>
-        <input type="url" v-model="localItem.image">
+        <input type="url" v-model="item.image">
       </div>
       <div class="event-item-flex">
         <div class="event-item-limit">
           <label>Limit:</label>
-          <input type="number" v-model="localItem.limit">
+          <input type="number" v-model="item.limit">
         </div>
         <div class="event-item-price">
           <label>Price:</label>
           $
-          <input type="number" v-model="localItem.price">
+          <input type="number" v-model="item.price">
         </div>
         <div class="event-item-sold">
           <label>Sold:</label>
-          {{localItem.sold}}
+          {{item.sold}}
         </div>
       </div>
     </div>
@@ -38,8 +38,7 @@
 export default {
   data: () => {
     return {
-      collapsed: true,
-      localItem: {}
+      collapsed: true
     }
   },
   computed: {
@@ -55,13 +54,7 @@ export default {
       this.collapsed = false
     },
     removeItem() {
-      this.$emit('RemoveItem', this.item)
-    },
-    resetData() {
-      this.localItem.name = this.cachedItem.name
-      this.localItem.image = this.cachedItem.image
-      this.localItem.limit = this.cachedItem.limit
-      this.localItem.price = this.cachedItem.price
+      this.$emit('RemoveItem', this.item.id)
     },
     toggleCollapse() {
       this.collapsed = !this.collapsed
@@ -72,10 +65,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  created() {
-    this.localItem = this.item
-    this.cachedItem = JSON.parse(JSON.stringify(this.item))
   }
 }
 </script>

@@ -1,19 +1,18 @@
 <template>
   <div>
     <button @click="addEvent">Add Event</button>
-    <button @click="doNothing">Do Nothing</button>
     <br>
     <br>
-    <div class="event-list">
-      <div v-for="item in events" :key="item.id" class="event">
-        <Event :event="item"/>
-      </div>
-    </div>
+    <Event
+      v-for="item in events"
+      :key="item.id"
+      class="event"
+      :event="item"/>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import Event from '@/components/event/Event'
 import moment from 'moment'
 
@@ -37,8 +36,7 @@ export default {
         items: []
       }
       this.$store.dispatch('addEvent', newEvent)
-    },
-    ...mapActions(['doNothing'])
+    }
   }
 }
 </script>

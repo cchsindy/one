@@ -1,5 +1,8 @@
+import Vue from 'vue'
+
 const state = {
-  events: []
+  events: [],
+  cachedEvents: []
 }
 
 const getters = {}
@@ -7,6 +10,9 @@ const getters = {}
 const actions = {
   addEvent({ commit }, payload) {
     commit('ADD_EVENT', payload)
+  },
+  cancelEvent({ commit }, payload) {
+    commit('CANCEL_EVENT', payload)
   },
   fetchEvents({ commit, rootState }) {
     const ref = rootState.fbStore.collection('events')
@@ -33,8 +39,9 @@ const actions = {
     }
     commit('REMOVE_EVENT', payload)
   },
-  doNothing({ commit }) {
-    commit('DO_NOTHING')
+  saveEvent() {
+    // save to firestore
+    // check if new and remove temp id
   }
 }
 
@@ -42,14 +49,26 @@ const mutations = {
   ADD_EVENT(state, event) {
     state.events.push(event)
   },
+  CANCEL_EVENT(state, eventId) {
+    const index = state.events.findIndex(e => {
+      return e.id === eventId
+    })
+    if (index > state.cachedEvents.length - 1) {
+      state.events.slice(index, 1)
+    } else {
+      Vue.set(
+        state.events,
+        index,
+        JSON.parse(JSON.stringify(state.cachedEvents[index]))
+      )
+    }
+  },
   SET_EVENTS(state, events) {
     state.events = events
+    state.cachedEvents = JSON.parse(JSON.stringify(events))
   },
   REMOVE_EVENT(state, eventId) {
     state.events = state.events.filter(e => e.id !== eventId)
-  },
-  DO_NOTHING(state) {
-    state.events
   }
 }
 

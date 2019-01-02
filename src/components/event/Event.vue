@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="event-list">
     <div class="event-id">
       <button @click="removeEvent">Remove</button>
       <button @click="saveEvent" :disabled="hideSave">Save</button>
@@ -7,16 +7,18 @@
     </div>
     <div class="event-name">
       <label>Name:</label>
-      <input type="text" v-model="localEvent.name">
+      <input type="text" v-model="event.name">
     </div>
     <div class="event-date">
       <label>Start:</label>
-      <input type="datetime-local" v-model="localEvent.start_date">
+      <input type="datetime-local" v-model="event.start_date">
       <label>End:</label>
-      <input type="datetime-local" v-model="localEvent.end_date">
+      <input type="datetime-local" v-model="event.end_date">
     </div>
     <div class="event-item-list">
-      <EventItemList :items="localEvent.items" ref="itemList"/>
+      <EventItemList
+        :items="event.items"
+        ref="itemList"/>
     </div>
   </div>
 </template>
@@ -30,27 +32,21 @@ export default {
   },
   data: () => {
     return {
-      hideSave: true,
-      localEvent: {}
+      hideSave: true
     }
   },
   methods: {
     cancelEvent() {
-      this.localEvent.name = this.cachedEvent.name
-      this.localEvent.start_date = this.cachedEvent.start_date
-      this.localEvent.end_date = this.cachedEvent.end_date
-      this.$refs.itemList.resetData()
+      this.$store.dispatch('cancelEvent', this.event.id)
+      this.isReset = true
     },
     removeEvent() {
       this.$store.dispatch('removeEvent', this.event.id)
     },
     saveEvent() {
-      // save to firestore
+      this.$store.dispatch('saveEvent', this.event.id)
+      this.isReset = true
     }
-  },
-  created() {
-    this.localEvent = this.event
-    this.cachedEvent = JSON.parse(JSON.stringify(this.event))
   },
   props: {
     event: {
@@ -59,14 +55,13 @@ export default {
     }
   },
   watch: {
-    localEvent: {
+    event: {
       handler: function() {
-        if (
-          JSON.stringify(this.cachedEvent) !== JSON.stringify(this.localEvent)
-        ) {
-          this.hideSave = false
-        } else {
+        if (this.isReset) {
           this.hideSave = true
+          this.isReset = false
+        } else {
+          this.hideSave = false
         }
       },
       deep: true
