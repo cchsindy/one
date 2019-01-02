@@ -1,43 +1,29 @@
 <template>
   <div>
     <button @click="addEvent">Add Event</button>
+    <button @click="doNothing">Do Nothing</button>
     <br>
     <br>
     <div class="event-list">
-      <div v-for="item in event.events" :key="item.id" class="event">
-        <div class="event-id">
-          <button @click="removeEvent" :data-id="item.id">Remove</button>
-        </div>
-        <div class="event-name">
-          <label>Name:</label>
-          <input type="text" v-model="item.name">
-        </div>
-        <div class="event-date">
-          <label>Start:</label>
-          <input type="datetime-local" v-model="item.start_date">
-          <label>End:</label>
-          <input type="datetime-local" v-model="item.end_date">
-        </div>
-        <div class="event-item-list">
-          <EventItemList :items="item.items"/>
-        </div>
+      <div v-for="item in events" :key="item.id" class="event">
+        <Event :event="item"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import EventItemList from '@/components/event/EventItemList'
+import { mapActions, mapState } from 'vuex'
+import Event from '@/components/event/Event'
 import moment from 'moment'
 
 export default {
   components: {
-    EventItemList
+    Event
   },
-  computed: {
-    ...mapState(['event'])
-  },
+  computed: mapState({
+    events: state => state.event.events
+  }),
   methods: {
     addEvent() {
       const now = moment()
@@ -52,9 +38,7 @@ export default {
       }
       this.$store.dispatch('addEvent', newEvent)
     },
-    removeEvent(e) {
-      this.$store.dispatch('removeEvent', e.target.dataset.id)
-    }
+    ...mapActions(['doNothing'])
   }
 }
 </script>
@@ -65,6 +49,7 @@ button {
   border: solid 2px #ccc;
   font-family: 'Work Sans', sans-serif;
   font-size: 1em;
+  margin-right: 1vw;
   padding: 0.5vw;
 }
 button:focus {

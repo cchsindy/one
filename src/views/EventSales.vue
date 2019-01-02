@@ -12,7 +12,7 @@ export default {
   components: {
     EventList
   },
-  mounted() {
+  created() {
     this.$store.dispatch('fetchEvents')
   }
 }

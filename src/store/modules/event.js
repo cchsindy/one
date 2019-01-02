@@ -32,6 +32,9 @@ const actions = {
         .delete()
     }
     commit('REMOVE_EVENT', payload)
+  },
+  doNothing({ commit }) {
+    commit('DO_NOTHING')
   }
 }
 
@@ -44,6 +47,9 @@ const mutations = {
   },
   REMOVE_EVENT(state, eventId) {
     state.events = state.events.filter(e => e.id !== eventId)
+  },
+  DO_NOTHING(state) {
+    state.events
   }
 }
 
