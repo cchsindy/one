@@ -3,9 +3,12 @@
     <button @click="addItem">Add Item</button>
     <button @click="collapseAll">Collapse All</button>
     <button @click="expandAll">Expand All</button>
-    <div class="event-item" v-for="item in items" :key="item.id">
-      <EventItem :item="item" ref="ei" @RemoveItem="removeItem"/>
-    </div>
+    <EventItem
+      v-for="item in items"
+      :key="item.id"
+      :item="item"
+      ref="ei"
+      @RemoveItem="removeItem"/>
   </div>
 </template>
 
@@ -45,6 +48,11 @@ export default {
     removeItem(item) {
       // move all data to store...
       this.items = this.items.filter(i => i.id !== item.id)
+    },
+    resetData() {
+      for (const i of this.$refs.ei) {
+        i.resetData()
+      }
     }
   },
   props: {

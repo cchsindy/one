@@ -16,7 +16,7 @@
       <input type="datetime-local" v-model="localEvent.end_date">
     </div>
     <div class="event-item-list">
-      <EventItemList :items="localEvent.items"/>
+      <EventItemList :items="localEvent.items" ref="itemList"/>
     </div>
   </div>
 </template>
@@ -36,13 +36,10 @@ export default {
   },
   methods: {
     cancelEvent() {
-      // restore to original state
       this.localEvent.name = this.cachedEvent.name
       this.localEvent.start_date = this.cachedEvent.start_date
       this.localEvent.end_date = this.cachedEvent.end_date
-      // this.localEvent.items = this.cachedEvent.items
-      // have to do them one by one per property
-      // but move this to the other components
+      this.$refs.itemList.resetData()
     },
     removeEvent() {
       this.$store.dispatch('removeEvent', this.event.id)
