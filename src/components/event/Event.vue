@@ -1,19 +1,16 @@
 <template>
   <div class="event-list">
     <div class="event-id">
-      <button @click="removeEvent" :disabled="isNew">Remove</button>
-      <button @click="saveEvent" :disabled="hideSave">Save</button>
-      <button @click="cancelEvent" :disabled="hideSave">Cancel</button>
+      <BaseButton @click="removeEvent" :disabled="isNew">Remove</BaseButton>
+      <BaseButton @click="saveEvent" :disabled="hideSave">Save</BaseButton>
+      <BaseButton @click="cancelEvent" :disabled="hideSave">Cancel</BaseButton>
     </div>
     <div class="event-name">
-      <label>Name:</label>
-      <input type="text" v-model="event.name">
+      <BaseInput label="Name:" v-model="event.name"/>
     </div>
     <div class="event-date">
-      <label>Start:</label>
-      <input type="datetime-local" v-model="event.start_date">
-      <label>End:</label>
-      <input type="datetime-local" v-model="event.end_date">
+      <BaseInput label="Start:" type="datetime-local" v-model="event.start_date"/>
+      <BaseInput label="End:" type="datetime-local" v-model="event.end_date"/>
     </div>
     <div class="event-item-list">
       <EventItemList :items="event.items" ref="itemList"/>
@@ -74,7 +71,4 @@ export default {
 </script>
 
 <style>
-button:disabled {
-  display: none;
-}
 </style>

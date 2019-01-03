@@ -7,23 +7,18 @@
     </div>
     <div v-else>
       <div class="event-item-name">
-        <label>Name:</label>
-        <input type="text" v-model="item.name">
+        <BaseInput label="Name:" type="text" v-model="item.name"/>
       </div>
       <div class="event-item-image">
         <img :src="item.image">
-        <label>Image:</label>
-        <input type="url" v-model="item.image">
+        <BaseInput label="Image:" type="url" v-model="item.image"/>
       </div>
       <div class="event-item-flex">
         <div class="event-item-limit">
-          <label>Limit:</label>
-          <input type="number" v-model="item.limit">
+          <BaseInput label="Limit:" type="number" v-model="item.limit"/>
         </div>
         <div class="event-item-price">
-          <label>Price:</label>
-          $
-          <input type="number" v-model="item.price">
+          <BaseInput label="Price:" type="number" decorator="$" v-model="item.price"/>
         </div>
         <div class="event-item-sold">
           <label>Sold:</label>

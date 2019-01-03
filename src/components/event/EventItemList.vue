@@ -1,14 +1,11 @@
 <template>
   <div>
-    <button @click="addItem">Add Item</button>
-    <button @click="collapseAll">Collapse All</button>
-    <button @click="expandAll">Expand All</button>
-    <EventItem
-      v-for="item in items"
-      :key="item.id"
-      :item="item"
-      ref="ei"
-      @RemoveItem="removeItem"/>
+    <div class="button-group">
+      <BaseButton @click="addItem">Add Item</BaseButton>
+      <BaseButton @click="collapseAll">Collapse All</BaseButton>
+      <BaseButton @click="expandAll">Expand All</BaseButton>
+    </div>
+    <EventItem v-for="item in items" :key="item.id" :item="item" ref="ei" @RemoveItem="removeItem"/>
   </div>
 </template>
 
@@ -60,8 +57,10 @@ export default {
 </script>
 
 <style scoped>
-button {
-  margin-right: 1vw;
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 .event-item {
   border: dashed 2px #ccc;

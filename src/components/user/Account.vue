@@ -19,11 +19,11 @@
         <input type="submit" value="Login">
       </form>OR
       <br>
-      <button @click="googleLogin">Login with Google</button>
+      <BaseButton @click="googleLogin">Login with Google</BaseButton>
     </div>
     <div v-else>
       Logged in as {{ user }}.
-      <button @click="logout">Logout</button>
+      <BaseButton @click="logout">Logout</BaseButton>
     </div>
   </div>
 </template>

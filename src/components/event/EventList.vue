@@ -1,13 +1,9 @@
 <template>
   <div>
-    <button @click="addEvent">Add Event</button>
+    <BaseButton @click="addEvent">Add Event</BaseButton>
     <br>
     <br>
-    <Event
-      v-for="item in events"
-      :key="item.id"
-      class="event"
-      :event="item"/>
+    <Event v-for="item in events" :key="item.id" class="event" :event="item"/>
   </div>
 </template>
 
@@ -42,23 +38,6 @@ export default {
 </script>
 
 <style>
-button {
-  background: none;
-  border: solid 2px #ccc;
-  font-family: 'Work Sans', sans-serif;
-  font-size: 1em;
-  margin-right: 1vw;
-  padding: 0.5vw;
-}
-button:focus {
-  border: solid 2px #000;
-  outline: none;
-}
-button:hover {
-  background: #ccc;
-  color: #fff;
-  cursor: pointer;
-}
 input {
   border: none;
   font-family: 'Work Sans', sans-serif;
