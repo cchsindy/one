@@ -1,7 +1,7 @@
 <template>
   <div class="event-list">
     <div class="event-id">
-      <button @click="removeEvent">Remove</button>
+      <button @click="removeEvent" :disabled="isNew">Remove</button>
       <button @click="saveEvent" :disabled="hideSave">Save</button>
       <button @click="cancelEvent" :disabled="hideSave">Cancel</button>
     </div>
@@ -16,9 +16,7 @@
       <input type="datetime-local" v-model="event.end_date">
     </div>
     <div class="event-item-list">
-      <EventItemList
-        :items="event.items"
-        ref="itemList"/>
+      <EventItemList :items="event.items" ref="itemList"/>
     </div>
   </div>
 </template>
@@ -29,6 +27,11 @@ import EventItemList from '@/components/event/EventItemList'
 export default {
   components: {
     EventItemList
+  },
+  computed: {
+    isNew() {
+      return this.event.id.substring(0, 3) === 'NEW'
+    }
   },
   data: () => {
     return {

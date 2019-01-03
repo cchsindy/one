@@ -17,6 +17,7 @@ const actions = {
   fetchEvents({ commit, rootState }) {
     const ref = rootState.fbStore.collection('events')
     ref.orderBy('end_date', 'desc').onSnapshot(snapshot => {
+      // NEED TO FIX THIS SO THAT IT DOESN'T RELOAD ON EVERY SAVE/UPDATE
       snapshot.docChanges().forEach(change => {
         console.log(change.type)
       })
@@ -39,9 +40,24 @@ const actions = {
     }
     commit('REMOVE_EVENT', payload)
   },
-  saveEvent() {
-    // save to firestore
-    // check if new and remove temp id
+  saveEvent({ commit, state, rootState }, payload) {
+    const event = state.events.find(e => e.id === payload)
+    if (event.id.substring(0, 3) === 'NEW') {
+      delete event.id
+      rootState.fbStore
+        .collection('events')
+        .add(event)
+        .then(doc => {
+          console.log(doc.id)
+          commit('SAVE_EVENT')
+        })
+    } else {
+      rootState.fbStore
+        .collection('events')
+        .doc(event.id)
+        .set(event)
+        .then(console.log('updated'))
+    }
   }
 }
 
@@ -54,7 +70,7 @@ const mutations = {
       return e.id === eventId
     })
     if (index > state.cachedEvents.length - 1) {
-      state.events.slice(index, 1)
+      state.events = state.events.filter(e => e.id !== eventId)
     } else {
       Vue.set(
         state.events,
@@ -63,12 +79,15 @@ const mutations = {
       )
     }
   },
+  REMOVE_EVENT(state, eventId) {
+    state.events = state.events.filter(e => e.id !== eventId)
+  },
+  SAVE_EVENT() {
+    // commit changes
+  },
   SET_EVENTS(state, events) {
     state.events = events
     state.cachedEvents = JSON.parse(JSON.stringify(events))
-  },
-  REMOVE_EVENT(state, eventId) {
-    state.events = state.events.filter(e => e.id !== eventId)
   }
 }
 
