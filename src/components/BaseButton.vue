@@ -12,7 +12,7 @@ export default {
       type: String
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -20,7 +20,7 @@ export default {
   background: none;
   border: solid 2px #ccc;
   border-radius: 0.75em;
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 1em;
   padding: 0.5vw;
 }
