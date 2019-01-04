@@ -38,8 +38,14 @@ input:focus {
   border-bottom: solid 2px #ccc;
   outline: none;
 }
+input[type='number'] {
+  width: 60px;
+}
 input[type='text'] {
   width: 100%;
+}
+input[type='url'] {
+  width: 60%;
 }
 label {
   color: #777;

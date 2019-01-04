@@ -6,7 +6,7 @@
       <BaseButton @click="cancelEvent" :disabled="hideSave">Cancel</BaseButton>
     </div>
     <div class="event-name">
-      <BaseInput label="Name:" v-model="event.name"/>
+      <BaseInput label="Name:" type="text" v-model="event.name"/>
     </div>
     <div class="event-date">
       <BaseInput label="Start:" type="datetime-local" v-model="event.start_date"/>

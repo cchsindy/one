@@ -1,7 +1,7 @@
 <template>
   <div class="event-item">
-    <button @click="removeItem">X</button>
-    <button @click="toggleCollapse">{{collapseText}}</button>
+    <BaseButton @click="removeItem" buttonClass="small right">X</BaseButton>
+    <BaseButton @click="toggleCollapse" buttonClass="small right">{{collapseText}}</BaseButton>
     <div v-if="collapsed">
       <div>{{item.name}}</div>
     </div>
@@ -70,20 +70,10 @@ img {
   height: 75px;
   margin-top: 10px;
 }
-input[type='number'] {
-  width: 60px;
-}
 .event-item {
   border: dashed 2px #ccc;
   margin-top: 1vh;
   padding: 1vw;
-}
-.event-item button {
-  float: right;
-  font-size: 0.6em;
-  margin-left: 1vw;
-  margin-right: 0;
-  padding: 0.2vw;
 }
 .event-item-id {
   color: #aaa;
