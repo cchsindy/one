@@ -62,9 +62,4 @@ export default {
   align-items: center;
   justify-content: space-around;
 }
-.event-item {
-  border: dashed 2px #ccc;
-  margin-top: 1vh;
-  padding: 1vw;
-}
 </style>

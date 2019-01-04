@@ -1,5 +1,5 @@
 <template>
-  <div class="event-list">
+  <div class="event">
     <div class="event-id">
       <BaseButton @click="removeEvent" :disabled="isNew">Remove</BaseButton>
       <BaseButton @click="saveEvent" :disabled="hideSave">Save</BaseButton>
@@ -70,5 +70,48 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.event {
+  border: solid 2px #ccc;
+  display: grid;
+  grid-template-columns: 2fr 6fr 3fr;
+  margin-bottom: 2vh;
+  padding: 1vw;
+}
+.event-id {
+  align-self: center;
+  color: #aaa;
+  grid-column: 1;
+}
+.event-name {
+  align-self: center;
+  grid-column: 2;
+  margin: 0 1vw;
+  text-align: left;
+}
+.event-date {
+  align-self: center;
+  grid-column: 3;
+  margin: 0 1vw;
+  text-align: left;
+}
+.event-item-list {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+@media (max-width: 800px) {
+  .event {
+    grid-template-columns: 100%;
+  }
+  .event-name {
+    grid-column: 1;
+  }
+  .event-date {
+    grid-column: 1;
+  }
+  .event-item-list {
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
+}
 </style>

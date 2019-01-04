@@ -73,6 +73,11 @@ img {
 input[type='number'] {
   width: 60px;
 }
+.event-item {
+  border: dashed 2px #ccc;
+  margin-top: 1vh;
+  padding: 1vw;
+}
 .event-item button {
   float: right;
   font-size: 0.6em;

@@ -27,3 +27,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+input {
+  border: none;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 1em;
+}
+input:focus {
+  border-bottom: solid 2px #ccc;
+  outline: none;
+}
+input[type='text'] {
+  width: 100%;
+}
+label {
+  color: #777;
+  display: block;
+  font-style: italic;
+}
+</style>
