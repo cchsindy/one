@@ -7,6 +7,8 @@
     </div>
     <div class="event-name">
       <BaseInput label="Name:" type="text" v-model="event.name"/>
+      <BaseInput label="Description:" type="text" v-model="event.description"/>
+      <BaseInput label="Image:" type="url" v-model="event.image"/>
     </div>
     <div class="event-date">
       <BaseInput label="Start:" type="datetime-local" v-model="event.start_date"/>
@@ -79,9 +81,12 @@ export default {
   padding: 1vw;
 }
 .event-id {
+  align-items: center;
   align-self: center;
   color: #aaa;
+  display: flex;
   grid-column: 1;
+  justify-content: space-around;
 }
 .event-name {
   align-self: center;

@@ -22,7 +22,6 @@ export default {
       this.items.push({
         id: this.items.length + 1,
         name: 'new item name',
-        description: '',
         image: '',
         limit: 0,
         sold: 0,
@@ -58,8 +57,8 @@ export default {
 
 <style scoped>
 .button-group {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-around;
 }
 </style>

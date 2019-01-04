@@ -12,7 +12,7 @@ export default {
       type: String
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -20,22 +20,21 @@ export default {
   background: none;
   border: solid 2px #ccc;
   border-radius: 0.75em;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-size: 1em;
-  /* margin-right: 1vw; */
   padding: 0.5vw;
 }
 .button:focus {
   border: solid 2px #000;
   outline: none;
 }
-.button:hover {
+.button:hover:not(:disabled) {
   background: #ccc;
   color: #fff;
   cursor: pointer;
 }
 .button:disabled {
-  display: none;
+  color: #ccc;
 }
 .small {
   font-size: 0.6em;
