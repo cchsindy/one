@@ -17,18 +17,16 @@ const actions = {
   fetchEvents({ commit, rootState }) {
     const ref = rootState.fbStore.collection('events')
     ref.orderBy('end_date', 'desc').onSnapshot(snapshot => {
-      // NEED TO FIX THIS SO THAT IT DOESN'T RELOAD ON EVERY SAVE/UPDATE
       snapshot.docChanges().forEach(change => {
-        console.log(change.type)
+        console.log(change)
+        if (change.type === 'added') {
+          commit('ADD_EVENT', { id: change.doc.id, ...change.doc.data() })
+        } else if (change.type === 'modified') {
+          commit('MODIFY_EVENT', { id: change.doc.id, ...change.doc.data() })
+        } else if (change.type === 'removed') {
+          commit('REMOVE_EVENT', change.doc.id)
+        }
       })
-      let data = []
-      snapshot.forEach(doc => {
-        data.push({
-          id: doc.id,
-          ...doc.data()
-        })
-      })
-      commit('SET_EVENTS', data)
     })
   },
   removeEvent({ commit, rootState }, payload) {
@@ -37,26 +35,28 @@ const actions = {
         .collection('events')
         .doc(payload)
         .delete()
+    } else {
+      commit('REMOVE_EVENT', payload)
     }
-    commit('REMOVE_EVENT', payload)
   },
   saveEvent({ commit, state, rootState }, payload) {
-    const event = state.events.find(e => e.id === payload)
-    if (event.id.substring(0, 3) === 'NEW') {
-      delete event.id
+    const event = JSON.parse(
+      JSON.stringify(state.events.find(e => e.id === payload))
+    )
+    const id = event.id
+    delete event.id
+    if (id.substring(0, 3) === 'NEW') {
+      state.events = state.events.filter(e => e.id !== id)
       rootState.fbStore
         .collection('events')
         .add(event)
-        .then(doc => {
-          console.log(doc.id)
-          commit('SAVE_EVENT')
-        })
+        .then(commit('SAVE_EVENT'))
     } else {
       rootState.fbStore
         .collection('events')
-        .doc(event.id)
+        .doc(id)
         .set(event)
-        .then(console.log('updated'))
+        .then(commit('SAVE_EVENT'))
     }
   }
 }
@@ -64,14 +64,16 @@ const actions = {
 const mutations = {
   ADD_EVENT(state, event) {
     state.events.push(event)
+    state.cachedEvents.push(JSON.parse(JSON.stringify(event)))
   },
   CANCEL_EVENT(state, eventId) {
-    const index = state.events.findIndex(e => {
-      return e.id === eventId
-    })
-    if (index > state.cachedEvents.length - 1) {
+    if (eventId.substring(0, 3) === 'NEW') {
       state.events = state.events.filter(e => e.id !== eventId)
+      state.cachedEvents = state.cachedEvents.filter(e => e.id !== eventId)
     } else {
+      const index = state.events.findIndex(e => {
+        return e.id === eventId
+      })
       Vue.set(
         state.events,
         index,
@@ -79,15 +81,22 @@ const mutations = {
       )
     }
   },
+  MODIFY_EVENT(state, event) {
+    // check each property if changed?
+    const index = state.events.findIndex(e => {
+      return e.id === event.id
+    })
+    Vue.set(state.events, index, event)
+    state.cachedEvents.forEach((e, i) => {
+      if (e.id === event.id) state.cachedEvents[i] = event
+    })
+  },
   REMOVE_EVENT(state, eventId) {
     state.events = state.events.filter(e => e.id !== eventId)
+    state.cachedEvents = state.cachedEvents.filter(e => e.id !== eventId)
   },
   SAVE_EVENT() {
     // commit changes
-  },
-  SET_EVENTS(state, events) {
-    state.events = events
-    state.cachedEvents = JSON.parse(JSON.stringify(events))
   }
 }
 

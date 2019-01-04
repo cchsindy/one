@@ -43,11 +43,12 @@ export default {
       this.isReset = true
     },
     removeEvent() {
+      // Add "Are you sure?" confirmation
       this.$store.dispatch('removeEvent', this.event.id)
     },
     saveEvent() {
       this.$store.dispatch('saveEvent', this.event.id)
-      this.isReset = true
+      this.hideSave = true
     }
   },
   props: {
@@ -59,6 +60,7 @@ export default {
   watch: {
     event: {
       handler: function() {
+        // also check store if modified from outside the app?
         if (this.isReset) {
           this.hideSave = true
           this.isReset = false
