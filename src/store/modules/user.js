@@ -133,7 +133,7 @@ const actions = {
                 message: 'Email not found in our system.'
               })
               rootState.fbAuth.currentUser.delete().catch(error => {
-                console.log('error deleting user:', error)
+                // console.log('error deleting user:', error)
               })
             }
           })

@@ -18,7 +18,6 @@ const actions = {
     const ref = rootState.fbStore.collection('events')
     ref.orderBy('end_date', 'desc').onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
-        console.log(change)
         if (change.type === 'added') {
           commit('ADD_EVENT', { id: change.doc.id, ...change.doc.data() })
         } else if (change.type === 'modified') {
