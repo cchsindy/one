@@ -19,10 +19,10 @@ export default {
 .button {
   background: none;
   border: solid 2px #ccc;
-  border-radius: 0.75em;
+  border-radius: 0.5em;
   font-family: 'Work Sans', sans-serif;
   font-size: 1em;
-  padding: 0.5vw;
+  padding: 0.5vw 1vw;
 }
 .button:focus {
   border: solid 2px #000;
