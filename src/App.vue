@@ -60,8 +60,14 @@ export default {
 
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Work+Sans');
+
+body {
+  background: #eee;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Work Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

@@ -7,8 +7,9 @@
     </div>
     <div class="event-name">
       <BaseInput label="Name:" type="text" v-model="event.name"/>
-      <BaseInput label="Description:" type="text" v-model="event.description"/>
-      <BaseInput label="Image:" type="url" v-model="event.image"/>
+      <BaseInput label="Header Image:" type="url" v-model="event.image"/>
+      <img :src="event.image">
+      <BaseTextArea label="Description:" v-model="event.description"/>
     </div>
     <div class="event-date">
       <BaseInput label="Start:" type="datetime-local" v-model="event.start_date"/>
@@ -75,7 +76,12 @@ export default {
 </script>
 
 <style scoped>
+img {
+  margin-top: 1vh;
+  width: 100%;
+}
 .event {
+  background: #fff;
   border: solid 2px #ccc;
   display: grid;
   grid-template-columns: 2fr 6fr 3fr;

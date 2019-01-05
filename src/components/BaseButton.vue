@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
 .button {
-  background: none;
+  background: #fff;
   border: solid 2px #ccc;
   border-radius: 0.5em;
   font-family: 'Work Sans', sans-serif;
