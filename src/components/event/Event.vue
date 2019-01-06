@@ -50,6 +50,7 @@ export default {
     saveEvent() {
       this.$store.dispatch('saveEvent', this.event.id)
       this.hideSave = true
+      this.isReset = true
     }
   },
   props: {

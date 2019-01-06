@@ -73,7 +73,7 @@ img {
 .event-item {
   border: dashed 2px #ccc;
   margin-top: 1vh;
-  padding: 1vw;
+  padding: 1vw 1vw 1.5vw 1vw;
 }
 .event-item-id {
   color: #aaa;
