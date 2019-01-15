@@ -16,11 +16,19 @@ exports.creditCard = functions.https.onRequest((request, response) => {
         transactionId: ccTrans.transactionId,
         amount: request.body.data.amount,
         description: request.body.data.description,
-        date: Date.now()
+        date: Date.now(),
+        firstname: request.body.data.firstName,
+        lastname: request.body.data.lastName
       })
       await fbs.pizzaDonation({
         firstname: request.body.data.firstName,
         lastname: request.body.data.lastName,
+        address: request.body.data.address,
+        city: request.body.data.city,
+        state: request.body.data.state,
+        zip: request.body.data.zip,
+        phone: request.body.data.phone,
+        email: request.body.data.email,
         pizzas: request.body.data.pizzas
       })
       const mail = new SparkpostService()
