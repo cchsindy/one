@@ -19,7 +19,9 @@ module.exports = class FirebaseService {
         let doc = {
           amount: data.amount,
           description: data.description,
-          date: data.date
+          date: data.date,
+          firstname: data.firstname,
+          lastname: data.lastname
         }
         docRef.set(doc)
         resolve()
