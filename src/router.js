@@ -22,6 +22,11 @@ export default new Router({
       path: '/event-sales',
       name: 'event-sales',
       component: () => import('./views/EventSales.vue')
+    },
+    {
+      path: '/pizza',
+      name: 'pizza',
+      component: () => import('./views/Pizza.vue')
     }
   ]
 })

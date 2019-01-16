@@ -4,9 +4,10 @@
     <div class="error" v-if="error">Error: {{ error.message }}</div>
     <div v-if="user">
       <div id="nav">
-        <router-link to="/">Dashboard</router-link>&nbsp;&nbsp;|&nbsp;
-        <router-link to="/announcements">Announcements</router-link>&nbsp;&nbsp;|&nbsp;
-        <router-link to="/event-sales">Event Sales</router-link>
+        <router-link to="/">Dashboard</router-link>
+        <router-link v-if="isAdmin" to="/announcements">Announcements</router-link>
+        <router-link v-if="isAdmin" to="/event-sales">Event Sales</router-link>
+        <router-link v-if="isAdmin || isPizza" to="/pizza">Pizza</router-link>
       </div>
       <router-view/>
     </div>
@@ -33,7 +34,13 @@ export default {
     },
     isAdmin() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Attendance Admin')
+        return this.$store.getters.roles.includes('Admin')
+      }
+      return false
+    },
+    isPizza() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Pizza')
       }
       return false
     }
@@ -78,8 +85,9 @@ body {
 }
 
 #nav a {
-  font-weight: bold;
   color: #2c3e50;
+  font-weight: bold;
+  padding: 0 1vw;
 }
 
 #nav a.router-link-exact-active {
