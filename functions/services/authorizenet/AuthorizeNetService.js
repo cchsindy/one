@@ -68,7 +68,7 @@ module.exports = class AuthorizeNet {
           createRequest.getJSON()
         )
         //Defaults to sandbox
-        //ctrl.setEnvironment(this.SDKConstants.endpoint.production);
+        ctrl.setEnvironment(this.SDKConstants.endpoint.production)
 
         let self = this
 
