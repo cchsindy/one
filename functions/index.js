@@ -31,7 +31,10 @@ exports.creditCard = functions.https.onRequest((request, response) => {
         email: request.body.data.email,
         pizzas: request.body.data.pizzas,
         donation: request.body.data.donation,
-        student: request.body.data.student
+        student: request.body.data.student,
+        transaction: ccTrans.transactionId,
+        amount: request.body.data.amount,
+        date: Date.now()
       })
       const mail = new SparkpostService()
       let subject = request.body.data.description
