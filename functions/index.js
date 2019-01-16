@@ -29,7 +29,9 @@ exports.creditCard = functions.https.onRequest((request, response) => {
         zip: request.body.data.zip,
         phone: request.body.data.phone,
         email: request.body.data.email,
-        pizzas: request.body.data.pizzas
+        pizzas: request.body.data.pizzas,
+        donation: request.body.data.donation,
+        student: request.body.data.student
       })
       const mail = new SparkpostService()
       let subject = request.body.data.description
