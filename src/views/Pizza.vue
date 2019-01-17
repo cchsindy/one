@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Pizza Fundraiser</h1>
-    <BaseButton>Download CSV</BaseButton>
+    <BaseButton @click="downloadCSV">Download CSV</BaseButton>
     <div class="pizza-totals">
       <div class="total">Cheese: {{totalCheese}}</div>
       <div class="total">Pepperoni: {{totalPepperoni}}</div>
@@ -45,6 +45,67 @@ export default {
     ...mapState({
       transactions: state => state.pizza.transactions
     })
+  },
+  methods: {
+    downloadCSV() {
+      const rows = [
+        [
+          'date',
+          'lastname',
+          'firstname',
+          'address',
+          'city',
+          'state',
+          'zip',
+          'phone',
+          'email',
+          'student',
+          'amount',
+          'donation',
+          'cheese',
+          'pepperoni',
+          'sausage',
+          'combo',
+          'GFcheese',
+          'GFpepperoni',
+          'GFsausage',
+          'GFcombo',
+          'transaction'
+        ]
+      ]
+      this.transactions.forEach(trans => {
+        rows.push([
+          new Date(trans.date).toDateString(),
+          trans.lastname,
+          trans.firstname,
+          trans.address,
+          trans.city,
+          trans.state,
+          trans.zip,
+          trans.phone,
+          trans.email,
+          trans.student,
+          trans.amount,
+          trans.donation,
+          trans.pizzas.cheese,
+          trans.pizzas.pepperoni,
+          trans.pizzas.sausage,
+          trans.pizzas.combo,
+          trans.pizzas.gfCheese,
+          trans.pizzas.gfPepperoni,
+          trans.pizzas.gfSausage,
+          trans.pizzas.gfCombo,
+          trans.transaction
+        ])
+      })
+      let csvContent = 'data:text/csv;charset=utf-8,'
+      rows.forEach(function(rowArray) {
+        let row = rowArray.join(',')
+        csvContent += row + '\r\n'
+      })
+      var encodedUri = encodeURI(csvContent)
+      window.open(encodedUri)
+    }
   },
   created() {
     this.$store.dispatch('fetchTransactions')
