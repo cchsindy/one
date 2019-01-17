@@ -40,19 +40,19 @@ export default {
   props: ['user', 'error'],
   computed: {
     matches() {
-      return '' //this.$store.getters.matches
+      return '' // this.$store.getters.matches
     }
   },
   methods: {
     onSubmit() {
       if (this.error && this.error.code === 'auth/user-not-found') {
-        this.$store.dispatch('checkForMatch', {
-          email: this.email
-        })
-        this.$store.dispatch('createUser', {
-          email: this.email,
-          password: this.password
-        })
+        // this.$store.dispatch('checkForMatch', {
+        //   email: this.email
+        // })
+        // this.$store.dispatch('createUser', {
+        //   email: this.email,
+        //   password: this.password
+        // })
       } else {
         this.$store.dispatch('loginUser', {
           email: this.email,
