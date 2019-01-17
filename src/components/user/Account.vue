@@ -49,10 +49,10 @@ export default {
         this.$store.dispatch('checkForMatch', {
           email: this.email
         })
-        // this.$store.dispatch('createUser', {
-        //   email: this.email,
-        //   password: this.password
-        // })
+        this.$store.dispatch('createUser', {
+          email: this.email,
+          password: this.password
+        })
       } else {
         this.$store.dispatch('loginUser', {
           email: this.email,
