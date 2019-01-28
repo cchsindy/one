@@ -2,10 +2,12 @@ module.exports = class FirebaseService {
   constructor() {
     const admin = require('firebase-admin')
     const serviceAccount = require('./serviceAccountKey.json')
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      databaseURL: 'https://my-covenant.firebaseio.com'
-    })
+    if (!admin.apps.length) {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: 'https://my-covenant.firebaseio.com'
+      })
+    }
     this.myStore = admin.firestore()
     this.myStore.settings({
       timestampsInSnapshots: true
