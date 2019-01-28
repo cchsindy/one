@@ -2,6 +2,7 @@ module.exports = class FirebaseService {
   constructor() {
     const admin = require('firebase-admin')
     const serviceAccount = require('./serviceAccountKey.json')
+    // try using timestamp as app id/name instead
     if (!admin.apps.length) {
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
@@ -9,6 +10,7 @@ module.exports = class FirebaseService {
       })
     }
     this.myStore = admin.firestore()
+    // this still causes error/warning: Date behavior will change
     if (!admin.apps.length) {
       this.myStore.settings({
         timestampsInSnapshots: true

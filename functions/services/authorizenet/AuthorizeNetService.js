@@ -33,6 +33,7 @@ module.exports = class AuthorizeNet {
         billTo.setZip(transactionData.zip)
         billTo.setCountry('USA')
         billTo.setPhoneNumber(transactionData.phone)
+        // email is not showing in Authorize.NET downloads
         billTo.setEmail(transactionData.email)
 
         let transactionSetting1 = new this.ApiContracts.SettingType()
