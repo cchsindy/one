@@ -9,9 +9,11 @@ module.exports = class FirebaseService {
       })
     }
     this.myStore = admin.firestore()
-    this.myStore.settings({
-      timestampsInSnapshots: true
-    })
+    if (!admin.apps.length) {
+      this.myStore.settings({
+        timestampsInSnapshots: true
+      })
+    }
   }
 
   authorizeNetTransaction(data) {
