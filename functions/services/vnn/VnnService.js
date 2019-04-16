@@ -16,7 +16,7 @@ module.exports = class VnnService {
           let players = []
           this.parser.parse(response.data, {
             attribute: function(name, value) {
-              if (name === 'data-student') players.push(value)
+              if (name === 'data-student') players.push(value.trim())
             }
           })
           resolve(players)
