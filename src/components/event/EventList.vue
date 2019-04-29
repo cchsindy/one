@@ -23,7 +23,7 @@ export default {
     addEvent() {
       const now = moment()
       const newEvent = {
-        id: 'NEW' + Date.now(),
+        id: 'NEW' + now,
         name: '',
         description: '',
         image: '',
