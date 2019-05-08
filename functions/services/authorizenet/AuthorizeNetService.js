@@ -106,23 +106,23 @@ module.exports = class AuthorizeNet {
                   .getMessages()
                   .getMessage()[0]
                   .getDescription()
-              } else {
-                if (response.getTransactionResponse().getErrors() !== null) {
-                  responseData.transactionId = null
-                  responseData.responseCode = response
-                    .getTransactionResponse()
-                    .getResponseCode()
-                  responseData.messageCode = response
-                    .getTransactionResponse()
-                    .getErrors()
-                    .getError()[0]
-                    .getErrorCode()
-                  responseData.description = response
-                    .getTransactionResponse()
-                    .getErrors()
-                    .getError()[0]
-                    .getErrorText()
-                }
+              }
+            } else {
+              if (response.getTransactionResponse().getErrors() !== null) {
+                responseData.transactionId = null
+                responseData.responseCode = response
+                  .getTransactionResponse()
+                  .getResponseCode()
+                responseData.messageCode = response
+                  .getTransactionResponse()
+                  .getErrors()
+                  .getError()[0]
+                  .getErrorCode()
+                responseData.description = response
+                  .getTransactionResponse()
+                  .getErrors()
+                  .getError()[0]
+                  .getErrorText()
               }
             }
           }

@@ -20,31 +20,61 @@ exports.creditCard = functions.https.onRequest((request, response) => {
         firstname: request.body.data.firstName,
         lastname: request.body.data.lastName
       })
-      await fbs.pizzaDonation({
-        firstname: request.body.data.firstName,
-        lastname: request.body.data.lastName,
-        address: request.body.data.address,
-        city: request.body.data.city,
-        state: request.body.data.state,
-        zip: request.body.data.zip,
-        phone: request.body.data.phone,
-        email: request.body.data.email,
-        pizzas: request.body.data.pizzas,
-        donation: request.body.data.donation,
-        student: request.body.data.student,
-        transaction: ccTrans.transactionId,
-        amount: request.body.data.amount,
-        date: Date.now()
-      })
-      const mail = new SparkpostService()
-      let subject = request.body.data.description
-      let html = request.body.data.html
-      let recipients = [{ address: request.body.data.email }]
-      await mail.send(subject, html, recipients)
-      response.send(ccTrans)
-    } else {
-      response.send(ccTrans)
     }
+    response.send(ccTrans)
+  })
+})
+
+exports.carShow = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fbs = new FirebaseService()
+    let data = {
+      firstname: request.body.data.firstName,
+      lastname: request.body.data.lastName,
+      address: request.body.data.address,
+      city: request.body.data.city,
+      state: request.body.data.state,
+      zip: request.body.data.zip,
+      phone: request.body.data.phone,
+      email: request.body.data.email,
+      date: Date.now()
+    }
+    if (request.body.data.payment === 'online') {
+      data.amount = request.body.data.amount
+      data.transaction = request.body.data.transactionId
+    } else {
+      data.transaction = 'Pay At Check-in'
+    }
+    await fbs.carShowRegistration(data)
+    const mail = new SparkpostService()
+    let subject = request.body.data.description
+    let html = request.body.data.html
+    let recipients = [{ address: request.body.data.email }]
+    await mail.send(subject, html, recipients)
+  })
+})
+
+exports.pizza = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    // THIS NEEDS TO BE UPDATED FOR THE NEW WAY !!
+    // const fbs = new FirebaseService()
+    // await fbs.pizzaDonation({
+    //   firstname: request.body.data.firstName,
+    //   lastname: request.body.data.lastName,
+    //   address: request.body.data.address,
+    //   city: request.body.data.city,
+    //   state: request.body.data.state,
+    //   zip: request.body.data.zip,
+    //   phone: request.body.data.phone,
+    //   email: request.body.data.email,
+    //   pizzas: request.body.data.pizzas,
+    //   donation: request.body.data.donation,
+    //   student: request.body.data.student,
+    //   transaction: ccTrans.transactionId,
+    //   amount: request.body.data.amount,
+    //   date: Date.now()
+    // })
+    response.send('na')
   })
 })
 

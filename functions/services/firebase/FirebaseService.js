@@ -91,6 +91,25 @@ module.exports = class FirebaseService {
     })
   }
 
+  carShowRegistration(data) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.myStore
+          .collection('car_show_registrations')
+          .add(data)
+          .then(docRef => {
+            resolve()
+            return
+          })
+          .catch(error => {
+            reject(error)
+          })
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
   pizzaDonation(data) {
     return new Promise((resolve, reject) => {
       try {
