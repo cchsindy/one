@@ -3,6 +3,13 @@ const state = {
 }
 
 const getters = {
+  totalTransactions(state) {
+    return state.transactions.length
+  },
+  totalAmount(state) {
+    if (state.transactions.length)
+      return state.transactions.reduce((a, c) => a + parseFloat(c.amount), 0)
+  }
 }
 
 const actions = {

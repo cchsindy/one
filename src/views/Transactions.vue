@@ -3,8 +3,8 @@
     <h1>Authorize.NET Transactions</h1>
     <BaseButton @click="downloadCSV">Download CSV</BaseButton>
     <div class="transaction-totals">
-      <!-- <div class="total">Transactions: {{totalTransactions}}</div> -->
-      <!-- <div class="total">Total Amount: {{totalAmount}}</div> -->
+      <div class="total">Transactions: {{totalTransactions}}</div>
+      <div class="total">Total Amount: ${{totalAmount.toFixed(2)}}</div>
     </div>
     <div class="transaction-list">
       <TransactionItem v-for="item in transactions" :key="item.id" :item="item"/>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import TransactionItem from '@/components/transactions/TransactionItem'
 
 export default {
@@ -21,6 +21,7 @@ export default {
     TransactionItem
   },
   computed: {
+    ...mapGetters(['totalTransactions', 'totalAmount']),
     ...mapState({
       transactions: state => state.transactions.transactions
     })
@@ -28,14 +29,7 @@ export default {
   methods: {
     downloadCSV() {
       const rows = [
-        [
-          'date',
-          'lastname',
-          'firstname',
-          'amount',
-          'description',
-          'id'
-        ]
+        ['date', 'lastname', 'firstname', 'amount', 'description', 'id']
       ]
       this.transactions.forEach(trans => {
         rows.push([
