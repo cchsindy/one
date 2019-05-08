@@ -7,7 +7,7 @@
       <!-- <div class="total">Total Amount: {{totalAmount}}</div> -->
     </div>
     <div class="transaction-list">
-      <TransactionItem v-for="item in transactions" :key="item.transaction" :item="item"/>
+      <TransactionItem v-for="item in transactions" :key="item.id" :item="item"/>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
           'firstname',
           'amount',
           'description',
-          'transaction'
+          'id'
         ]
       ]
       this.transactions.forEach(trans => {
@@ -44,7 +44,7 @@ export default {
           trans.firstname,
           trans.amount,
           trans.description,
-          trans.transaction
+          trans.id
         ])
       })
       let csvContent = 'data:text/csv;charset=utf-8,'
