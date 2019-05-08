@@ -108,7 +108,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('fetchTransactions')
+    this.$store.dispatch('fetchPizzaTransactions')
   }
 }
 </script>

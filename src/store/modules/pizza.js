@@ -66,7 +66,7 @@ const getters = {
 }
 
 const actions = {
-  fetchTransactions({ commit, rootState }) {
+  fetchPizzaTransactions({ commit, rootState }) {
     commit('CLEAR_TRANS')
     const ref = rootState.fbStore.collection('pizza_fundraiser')
     ref.orderBy('date', 'desc').onSnapshot(snapshot => {
