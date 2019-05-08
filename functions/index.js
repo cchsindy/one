@@ -35,8 +35,13 @@ exports.carShow = functions.https.onRequest((request, response) => {
       city: request.body.data.city,
       state: request.body.data.state,
       zip: request.body.data.zip,
-      phone: request.body.data.phone,
       email: request.body.data.email,
+      phone: request.body.data.phone,
+      year: request.body.data.year,
+      make: request.body.data.make,
+      model: request.body.data.model,
+      features: request.body.data.features,
+      release: request.body.data.release,
       date: Date.now()
     }
     if (request.body.data.payment === 'online') {
@@ -51,6 +56,7 @@ exports.carShow = functions.https.onRequest((request, response) => {
     let html = request.body.data.html
     let recipients = [{ address: request.body.data.email }]
     await mail.send(subject, html, recipients)
+    response.send('Registration complete.')
   })
 })
 
