@@ -4,7 +4,7 @@
     <BaseButton @click="downloadCSV">Download CSV</BaseButton>
     <div class="transaction-totals">
       <div class="total">Transactions: {{totalTransactions}}</div>
-      <div class="total">Total Amount: ${{totalAmount.toFixed(2)}}</div>
+      <div class="total">Total Amount: ${{totalAmount}}</div>
     </div>
     <div class="transaction-list">
       <TransactionItem v-for="item in transactions" :key="item.id" :item="item"/>

@@ -4,7 +4,7 @@
     <BaseButton @click="downloadCSV">Download CSV</BaseButton>
     <div class="transaction-totals">
       <div class="total">Registrations: {{totalCarShowTransactions}}</div>
-      <div class="total">Total Amount: ${{totalCarShowAmount.toFixed(2)}}</div>
+      <div class="total">Total Amount: ${{totalCarShowAmount}}</div>
     </div>
     <div class="transaction-list">
       <CarShowItem v-for="item in transactions" :key="item.id" :item="item"/>
@@ -28,16 +28,50 @@ export default {
   },
   methods: {
     downloadCSV() {
-      const rows = [['date', 'lastname', 'firstname', 'make', 'model', 'id']]
+      const rows = [
+        [
+          'date',
+          'lastname',
+          'firstname',
+          'address',
+          'city',
+          'state',
+          'zip',
+          'email',
+          'phone',
+          'year',
+          'make',
+          'model',
+          'features',
+          'release',
+          'transaction',
+          'amount'
+        ]
+      ]
       this.transactions.forEach(trans => {
-        rows.push([
+        let t = [
           new Date(trans.date).toDateString(),
           trans.lastname,
           trans.firstname,
+          trans.address,
+          trans.city,
+          trans.state,
+          trans.zip,
+          trans.email,
+          trans.phone,
+          trans.year,
           trans.make,
           trans.model,
-          trans.id
-        ])
+          trans.features,
+          trans.release,
+          trans.transaction
+        ]
+        if (trans.amount) {
+          t.push(trans.amount)
+        } else {
+          t.push('TBD')
+        }
+        rows.push(t)
       })
       let csvContent = 'data:text/csv;charset=utf-8,'
       rows.forEach(function(rowArray) {

@@ -8,7 +8,10 @@ const getters = {
   },
   totalCarShowAmount(state) {
     if (state.transactions.length)
-      return state.transactions.reduce((a, c) => a + parseFloat(c.amount), 0)
+      return state.transactions.reduce((a, c) => {
+        let b = c.amount ? parseFloat(c.amount) : 0
+        return a + b
+      }, 0)
   }
 }
 
