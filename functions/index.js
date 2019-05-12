@@ -84,15 +84,15 @@ exports.pizza = functions.https.onRequest((request, response) => {
   })
 })
 
-exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
-  const mail = new SparkpostService()
-  mail.send(
-    'From Cron Job',
-    '<html><body>You should get this email once every day.</body></html>',
-    [{ address: 'bradspencer@covenantchristian.org' }]
-  )
-  return true
-})
+// exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
+//   const mail = new SparkpostService()
+//   mail.send(
+//     'From Cron Job',
+//     '<html><body>You should get this email once every day.</body></html>',
+//     [{ address: 'bradspencer@covenantchristian.org' }]
+//   )
+//   return true
+// })
 
 exports.weekly_job = functions.pubsub
   .topic('weekly-tick')
