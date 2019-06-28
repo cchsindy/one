@@ -19,6 +19,11 @@ export default new Router({
       component: () => import('./views/Announcements.vue')
     },
     {
+      path: '/carshow',
+      name: 'carshow',
+      component: () => import('./views/CarShow.vue')
+    },
+    {
       path: '/event-sales',
       name: 'event-sales',
       component: () => import('./views/EventSales.vue')
@@ -27,6 +32,11 @@ export default new Router({
       path: '/pizza',
       name: 'pizza',
       component: () => import('./views/Pizza.vue')
+    },
+    {
+      path: '/transactions',
+      name: 'transactions',
+      component: () => import('./views/Transactions.vue')
     }
   ]
 })
