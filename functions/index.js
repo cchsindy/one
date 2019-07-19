@@ -84,6 +84,34 @@ exports.pizza = functions.https.onRequest((request, response) => {
   })
 })
 
+exports.yearbook = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fbs = new FirebaseService()
+    let data = {
+      firstname: request.body.data.firstName,
+      lastname: request.body.data.lastName,
+      address: request.body.data.address,
+      city: request.body.data.city,
+      state: request.body.data.state,
+      zip: request.body.data.zip,
+      email: request.body.data.email,
+      phone: request.body.data.phone,
+      books: request.body.data.books,
+      students: request.body.data.students,
+      amount: request.body.data.amount,
+      transaction: request.body.data.transactionId,
+      date: Date.now()
+    }
+    await fbs.yearbookPurchase(data)
+    const mail = new SparkpostService()
+    let subject = request.body.data.description
+    let html = request.body.data.html
+    let recipients = [{ address: request.body.data.email }]
+    await mail.send(subject, html, recipients)
+    response.send('Order complete.')
+  })
+})
+
 // exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
 //   const mail = new SparkpostService()
 //   mail.send(
