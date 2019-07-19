@@ -128,23 +128,23 @@ module.exports = class FirebaseService {
       }
     })
   }
-}
 
-yearbookPurchase(data) {
-  return new Promise((resolve, reject) => {
-    try {
-      this.myStore
-        .collection('yearbook_orders')
-        .add(data)
-        .then(docRef => {
-          resolve()
-          return
-        })
-        .catch(error => {
-          reject(error)
-        })
-    } catch (error) {
-      reject(error)
-    }
-  })
+  yearbookPurchase(data) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.myStore
+          .collection('yearbook_orders')
+          .add(data)
+          .then(docRef => {
+            resolve()
+            return
+          })
+          .catch(error => {
+            reject(error)
+          })
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
 }
