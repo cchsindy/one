@@ -10,6 +10,7 @@
         <router-link v-if="isAdmin" to="/event-sales">Event Sales</router-link>
         <router-link v-if="isAdmin || isPizza" to="/pizza">Pizza</router-link>
         <router-link v-if="isAdmin" to="/transactions">Transactions</router-link>
+        <router-link v-if="isAdmin || isYearbook" to="/yearbook">Yearbook</router-link>
       </div>
       <router-view/>
     </div>
@@ -51,6 +52,11 @@ export default {
         return this.$store.getters.roles.includes('Pizza')
       }
       return false
+    },
+    isYearbook() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Yearbook')
+      }
     }
   },
   methods: {

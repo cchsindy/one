@@ -37,6 +37,11 @@ export default new Router({
       path: '/transactions',
       name: 'transactions',
       component: () => import('./views/Transactions.vue')
+    },
+    {
+      path: '/yearbook',
+      name: 'yearbook',
+      component: () => import('./views/Yearbook.vue')
     }
   ]
 })

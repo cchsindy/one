@@ -6,6 +6,7 @@ import event from '@/store/modules/event'
 import pizza from '@/store/modules/pizza'
 import transactions from '@/store/modules/transactions'
 import user from '@/store/modules/user'
+import yearbook from '@/store/modules/yearbook'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     carshow,
     event,
     pizza,
-    transactions
+    transactions,
+    yearbook
   },
   state: {
     fbAuth: firebase.myAuth,
