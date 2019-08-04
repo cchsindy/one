@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "authorizenet": "^1.0.6",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "cors": "^2.8.5",
     "firebase-admin": "~6.0.0",
     "firebase-functions": "^2.0.3",
