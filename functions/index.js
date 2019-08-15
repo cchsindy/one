@@ -3,6 +3,8 @@ const cors = require('cors')({ origin: true })
 const AuthorizeNetService = require('./services/authorizenet/AuthorizeNetService')
 const CanvasService = require('./services/canvas/CanvasService')
 const FirebaseService = require('./services/firebase/FirebaseService')
+const FirestoreService = require('./services/firebase/FirestoreService')
+const OnService = require('./services/blackbaud/OnService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
 const VnnService = require('./services/vnn/VnnService')
 
@@ -58,6 +60,26 @@ exports.carShow = functions.https.onRequest((request, response) => {
     await mail.send(subject, html, recipients)
     response.send('Registration complete.')
   })
+})
+
+exports.onapi = functions.https.onCall(async (data, context) => {
+  try {
+    const fs = new FirestoreService()
+    const token = await fs.loadOnToken()
+    const os = new OnService(token)
+    let res = await os.fetchData(data.url, data.params)
+    if (!res) {
+      const newToken = await os.refreshToken()
+      if (newToken) {
+        await fs.saveOnToken(newToken)
+        res = await os.fetchData(data.url, data.params)
+      }
+    }
+    if (!res) res = 'Unable to fetch data.'
+    return res
+  } catch (err) {
+    return err
+  }
 })
 
 exports.pizza = functions.https.onRequest((request, response) => {
