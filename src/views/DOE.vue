@@ -2,26 +2,131 @@
   <div>
     <h1>DOE Exports</h1>
     <BaseButton @click="getSTN">STN</BaseButton>
+    <div v-html="message"></div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data: () => {
     return {
-      stnData: null
+      message: ''
     }
   },
   methods: {
     getSTN() {
       const d = this.$store.state.fbFunctions.httpsCallable('onapi')
       d({ url: `list/91346`, params: {} }).then(result => {
-        this.stnData = result.data
+        const missing = result.data.filter(s => s.STN === null)
+        if (missing.length) {
+          this.message = '<b><u>Students missing STN:</u></b><ul>'
+          for (const m of missing) {
+            this.message += `<li>${m.FirstName} ${m.LastName}</li>`
+          }
+          this.message += '</ul>'
+        }
+        let rows = [
+          [
+            'School Number',
+            'Student Test Number',
+            'Student Last Name',
+            'Student First Name',
+            'Language Code',
+            'Gender',
+            'Birth Date',
+            'Ethnicity/Race'
+          ]
+        ]
+        result.data.forEach(student => {
+          if (student.STN !== null) {
+            let langCode = ''
+            switch (student.PrimaryLanguage) {
+              case 'Afrikaans':
+                langCode = '010'
+                break
+              case 'Arabic':
+                langCode = '040'
+                break
+              case 'Czech':
+                langCode = '175'
+                break
+              case 'English':
+                langCode = '211'
+                break
+              case 'French':
+                langCode = '250'
+                break
+              case 'Korean':
+                langCode = '485'
+                break
+              case 'Mandarin':
+                langCode = '600'
+                break
+              case 'Spanish':
+                langCode = '835'
+                break
+              case 'Vietnamese':
+                langCode = '945'
+                break
+            }
+            const bd = moment(student.Dob)
+            let eth = '5'
+            switch (student.Ethnicity) {
+              case 'American Indian/Alaskan Native':
+                eth = '1'
+                break
+              case 'Black':
+                eth = '2'
+                break
+              case 'Asian':
+                eth = '3'
+                break
+              case 'Hispanic/Latino':
+                eth = '4'
+                break
+              case 'White':
+                eth = '5'
+                break
+              case 'Multiracial':
+                eth = '6'
+                break
+              case 'Native Hawaiian/Pacific Islander':
+                eth = '7'
+                break
+            }
+            let r = [
+              'C527',
+              student.STN,
+              student.LastName,
+              student.FirstName,
+              langCode,
+              student.Gender === 'Female' ? 'F' : 'M',
+              bd.format('MM/DD/YYYY'),
+              eth
+            ]
+            rows.push(r)
+          }
+        })
+        let csvContent = 'data:text/csv;charset=utf-8,'
+        rows.forEach(rowArray => {
+          let row = rowArray.join(',')
+          csvContent += row + '\r\n'
+        })
+        var encodedUri = encodeURI(csvContent)
+        window.open(encodedUri)
       })
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 </style>
