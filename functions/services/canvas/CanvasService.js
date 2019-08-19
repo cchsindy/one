@@ -81,7 +81,7 @@ module.exports = class CanvasService {
           let courses = []
           for (const course of response.data) {
             // check for current term TODO: pass in termId
-            if (course.enrollment_term_id === 53) {
+            if (course.enrollment_term_id === 86) {
               courses.push({
                 name: course.name,
                 section: course.sections[0].name,
