@@ -9,6 +9,7 @@
         <router-link v-if="isAdmin || isCar" to="/carshow">Car Show</router-link>
         <router-link v-if="isAdmin" to="/event-sales">Event Sales</router-link>
         <router-link v-if="isAdmin || isExports" to="/exports">Exports</router-link>
+        <router-link v-if="isAdmin || isGrades" to="/grades">Grades</router-link>
         <router-link v-if="isAdmin || isPizza" to="/pizza">Pizza</router-link>
         <router-link v-if="isAdmin" to="/transactions">Transactions</router-link>
         <router-link v-if="isAdmin || isYearbook" to="/yearbook">Yearbook</router-link>
@@ -51,6 +52,12 @@ export default {
     isExports() {
       if (this.$store.getters.roles) {
         return this.$store.getters.roles.includes('Exports')
+      }
+      return false
+    },
+    isGrades() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Grades')
       }
       return false
     },

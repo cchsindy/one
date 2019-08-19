@@ -34,6 +34,11 @@ export default new Router({
       component: () => import('./views/Exports.vue')
     },
     {
+      path: '/grades',
+      name: 'grades',
+      component: () => import('./views/Grades.vue')
+    },
+    {
       path: '/pizza',
       name: 'pizza',
       component: () => import('./views/Pizza.vue')

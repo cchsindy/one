@@ -11,91 +11,54 @@ module.exports = class CanvasService {
     })
   }
 
-  getCoursesFailing(studentName) {
-    return new Promise((resolve, reject) => {
-      this.getUser(studentName)
-        .then(id => {
-          let failing = []
-          if (id) {
-            this.getGrades(id)
-              .then(courses => {
-                for (const course of courses) {
-                  if (course.grade < 69) failing.push(course)
-                }
-                resolve(failing)
-                return
-              })
-              .catch(error => {
-                reject(error)
-                console.log(error)
-              })
-          } else {
-            resolve(failing)
-          }
-          return
-        })
-        .catch(error => {
-          reject(error)
-          console.log(error)
-        })
-    })
+  async getCoursesFailing(studentName) {
+    const id = await this.getUser(studentName)
+    let failing = []
+    if (id) {
+      const courses = await this.getGrades(id)
+      for (const course of courses) {
+        if (course.grade < 69) failing.push(course)
+      }
+    }
+    return failing
   }
 
-  getUser(name) {
-    return new Promise((resolve, reject) => {
-      this.canvas
-        .get('accounts/1/users', {
-          params: {
-            search_term: name
-          }
-        })
-        .then(response => {
-          if (response.data.length) {
-            resolve(response.data[0].id)
-            // for (const match of response.data) {
-            //   console.log(match.id + ' - ' + match.name)
-            // }
-          } else {
-            resolve(null)
-            console.log('user not found')
-          }
-          return
-        })
-        .catch(error => {
-          reject(error)
-          console.log(error)
-        })
-    })
+  async getUser(name) {
+    try {
+      const res = await this.canvas.get('accounts/1/users', {
+        params: {
+          search_term: name
+        }
+      })
+      return res.data
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
   }
 
-  getGrades(id) {
-    return new Promise((resolve, reject) => {
-      this.canvas
-        .get('users/' + id + '/courses', {
-          params: {
-            include: ['total_scores', 'sections'],
-            per_page: 100
-          }
-        })
-        .then(response => {
-          let courses = []
-          for (const course of response.data) {
-            // check for current term TODO: pass in termId
-            if (course.enrollment_term_id === 86) {
-              courses.push({
-                name: course.name,
-                section: course.sections[0].name,
-                grade: course.enrollments[0].computed_current_score
-              })
-            }
-          }
-          resolve(courses)
-          return
-        })
-        .catch(error => {
-          reject(error)
-          console.log(error)
-        })
-    })
+  async getGrades(id, term) {
+    try {
+      const res = await this.canvas.get(`users/${id}/courses`, {
+        params: {
+          include: ['total_scores', 'sections'],
+          per_page: 100
+        }
+      })
+      let courses = []
+      for (const course of res.data) {
+        if (course.enrollment_term_id === term) {
+          courses.push({
+            name: course.name,
+            section: course.sections[0].name,
+            grade: course.enrollments[0].computed_current_score
+          })
+        }
+      }
+      return courses
+    } catch (err) {
+      console.log(err.response.data)
+      return null
+    }
   }
 }

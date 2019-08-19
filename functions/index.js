@@ -8,6 +8,17 @@ const OnService = require('./services/blackbaud/OnService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
 const VnnService = require('./services/vnn/VnnService')
 
+exports.canvas = functions.https.onCall(async (data, context) => {
+  const cs = new CanvasService()
+  const user = await cs.getUser(data.name)
+  const grades = await cs.getGrades(user[0].id, 86)
+  const result = {
+    user: user[0],
+    grades
+  }
+  return result
+})
+
 exports.creditCard = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const authorize = new AuthorizeNetService()
