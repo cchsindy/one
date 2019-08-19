@@ -22,7 +22,9 @@ yarn-error.log*
 
 # configs
 config.json
+config-fall.json
 config-winter.json
+config-spring.json
 
 # Firebase cache
 /.firebase
