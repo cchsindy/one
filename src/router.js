@@ -24,14 +24,14 @@ export default new Router({
       component: () => import('./views/CarShow.vue')
     },
     {
-      path: '/doe',
-      name: 'doe',
-      component: () => import('./views/DOE.vue')
-    },
-    {
       path: '/event-sales',
       name: 'event-sales',
       component: () => import('./views/EventSales.vue')
+    },
+    {
+      path: '/exports',
+      name: 'exports',
+      component: () => import('./views/Exports.vue')
     },
     {
       path: '/pizza',
