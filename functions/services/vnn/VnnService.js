@@ -33,8 +33,8 @@ module.exports = class VnnService {
     for (const team of this.config.teams) {
       let players = await this.getTeamPlayers(team.url)
       for (const player of players) {
-        let id = await canvas.getUser(player)
-        console.log(player + ' => ' + id)
+        let user = await canvas.getUser(player)
+        console.log(player + ' => ' + user[0].id)
       }
     }
     console.log('Name Check complete.')
