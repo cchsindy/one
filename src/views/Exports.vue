@@ -79,7 +79,9 @@ export default {
               student.EMail,
               student.CourseTitle + ' - Period ' + student.GroupIdentifier,
               '',
-              student.GradeId < 7262 ? student.HostID : student.UserID,
+              student.GradeLevelDescription === 'Freshman'
+                ? student.UserID
+                : student.HostID,
               '',
               student.StudentLastName,
               student.StudentFirstName,
