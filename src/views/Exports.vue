@@ -52,17 +52,17 @@ export default {
           if (student.Ethnicity !== null) {
             const bd = moment(student.Dob)
             let grade = '9'
-            switch (student.GradeId) {
-              case 7259:
+            switch (student.GradeLevelDescription) {
+              case 'Senior':
                 grade = '12'
                 break
-              case 7260:
+              case 'Junior':
                 grade = '11'
                 break
-              case 7261:
+              case 'Sophomore':
                 grade = '10'
                 break
-              case 7262:
+              case 'Freshman':
                 grade = '9'
                 break
             }
