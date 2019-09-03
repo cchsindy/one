@@ -155,15 +155,25 @@ exports.yearbook = functions.https.onRequest((request, response) => {
 //   return true
 // })
 
-exports.weekly_job = functions.pubsub
-  .topic('weekly-tick')
-  .onPublish(message => {
+exports.eligibilityCheck = functions.pubsub
+  .schedule('50 11 * * 2')
+  .timeZone('America/Indianapolis')
+  .onRun(context => {
     const canvas = new CanvasService()
     const sparkpost = new SparkpostService()
     const vnn = new VnnService()
     vnn.runEligibilityCheck(canvas, sparkpost)
-    return true
   })
+
+// exports.weekly_job = functions.pubsub
+//   .topic('weekly-tick')
+//   .onPublish(message => {
+//     const canvas = new CanvasService()
+//     const sparkpost = new SparkpostService()
+//     const vnn = new VnnService()
+//     vnn.runEligibilityCheck(canvas, sparkpost)
+//     return true
+//   })
 
 // exports.sendEmail = functions.https.onRequest((request, response) => {
 //   const mail = new SparkpostService()

@@ -14,7 +14,7 @@ module.exports = class CanvasService {
   async getCoursesFailing(studentName) {
     const user = await this.getUser(studentName)
     let failing = []
-    if (user[0].id) {
+    if (user[0]) {
       const courses = await this.getGrades(user[0].id, 86)
       for (const course of courses) {
         if (course.grade < 69) failing.push(course)
