@@ -19,6 +19,15 @@ exports.canvas = functions.https.onCall(async (data, context) => {
   return result
 })
 
+exports.midterms = functions.https.onCall(async () => {
+  const fb = new FirebaseService()
+  const sp = new SparkpostService()
+  const reports = await fb.getReports()
+  // const r = reports[0]
+  // sp.send(r.subject, r.body, [{ address: 'bradspencer@covenantchristian.org' }])
+  return reports
+})
+
 exports.creditCard = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const authorize = new AuthorizeNetService()

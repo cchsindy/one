@@ -39,6 +39,11 @@ export default new Router({
       component: () => import('./views/Grades.vue')
     },
     {
+      path: '/midterms',
+      name: 'midterms',
+      component: () => import('./views/Midterms.vue')
+    },
+    {
       path: '/pizza',
       name: 'pizza',
       component: () => import('./views/Pizza.vue')

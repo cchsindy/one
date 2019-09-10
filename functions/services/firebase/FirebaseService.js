@@ -129,6 +129,43 @@ module.exports = class FirebaseService {
     })
   }
 
+  saveGrades(data) {
+    return new Promise((resolve, reject) => {
+      try {
+        let docRef = this.myStore.doc('midterms/parents')
+        let doc = { data }
+        docRef.set(doc)
+        resolve()
+      } catch (err) {
+        reject(err)
+      }
+    })
+  }
+
+  getReports() {
+    return new Promise((resolve, reject) => {
+      try {
+        const reports = []
+        this.myStore
+          .collection('midterms/sent/progress1')
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              reports.push(doc.data())
+            })
+            resolve(reports)
+            return
+          })
+          .catch(err => {
+            reject(err)
+          })
+      } catch (err) {
+        console.log(err)
+        reject(err)
+      }
+    })
+  }
+
   yearbookPurchase(data) {
     return new Promise((resolve, reject) => {
       try {
