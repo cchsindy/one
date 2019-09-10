@@ -23,9 +23,15 @@ exports.midterms = functions.https.onCall(async () => {
   const fb = new FirebaseService()
   const sp = new SparkpostService()
   const reports = await fb.getReports()
-  // const r = reports[0]
-  // sp.send(r.subject, r.body, [{ address: 'bradspencer@covenantchristian.org' }])
-  return reports
+  for (const r of reports) {
+    sp.send(
+      r.subject,
+      r.body,
+      r.emails,
+      'Donnie Fishburn <donniefishburn@covenantchristian.org>'
+    )
+  }
+  return 'Midterms sent.'
 })
 
 exports.creditCard = functions.https.onRequest((request, response) => {
@@ -47,40 +53,40 @@ exports.creditCard = functions.https.onRequest((request, response) => {
   })
 })
 
-exports.carShow = functions.https.onRequest((request, response) => {
-  return cors(request, response, async () => {
-    const fbs = new FirebaseService()
-    let data = {
-      firstname: request.body.data.firstName,
-      lastname: request.body.data.lastName,
-      address: request.body.data.address,
-      city: request.body.data.city,
-      state: request.body.data.state,
-      zip: request.body.data.zip,
-      email: request.body.data.email,
-      phone: request.body.data.phone,
-      year: request.body.data.year,
-      make: request.body.data.make,
-      model: request.body.data.model,
-      features: request.body.data.features,
-      release: request.body.data.release,
-      date: Date.now()
-    }
-    if (request.body.data.payment === 'online') {
-      data.amount = request.body.data.amount
-      data.transaction = request.body.data.transactionId
-    } else {
-      data.transaction = 'Pay At Check-in'
-    }
-    await fbs.carShowRegistration(data)
-    const mail = new SparkpostService()
-    let subject = request.body.data.description
-    let html = request.body.data.html
-    let recipients = [{ address: request.body.data.email }]
-    await mail.send(subject, html, recipients)
-    response.send('Registration complete.')
-  })
-})
+// exports.carShow = functions.https.onRequest((request, response) => {
+//   return cors(request, response, async () => {
+//     const fbs = new FirebaseService()
+//     let data = {
+//       firstname: request.body.data.firstName,
+//       lastname: request.body.data.lastName,
+//       address: request.body.data.address,
+//       city: request.body.data.city,
+//       state: request.body.data.state,
+//       zip: request.body.data.zip,
+//       email: request.body.data.email,
+//       phone: request.body.data.phone,
+//       year: request.body.data.year,
+//       make: request.body.data.make,
+//       model: request.body.data.model,
+//       features: request.body.data.features,
+//       release: request.body.data.release,
+//       date: Date.now()
+//     }
+//     if (request.body.data.payment === 'online') {
+//       data.amount = request.body.data.amount
+//       data.transaction = request.body.data.transactionId
+//     } else {
+//       data.transaction = 'Pay At Check-in'
+//     }
+//     await fbs.carShowRegistration(data)
+//     const mail = new SparkpostService()
+//     let subject = request.body.data.description
+//     let html = request.body.data.html
+//     let recipients = [{ address: request.body.data.email }]
+//     await mail.send(subject, html, recipients)
+//     response.send('Registration complete.')
+//   })
+// })
 
 exports.onapi = functions.https.onCall(async (data, context) => {
   try {
@@ -102,57 +108,57 @@ exports.onapi = functions.https.onCall(async (data, context) => {
   }
 })
 
-exports.pizza = functions.https.onRequest((request, response) => {
-  return cors(request, response, async () => {
-    // THIS NEEDS TO BE UPDATED FOR THE NEW WAY !!
-    // const fbs = new FirebaseService()
-    // await fbs.pizzaDonation({
-    //   firstname: request.body.data.firstName,
-    //   lastname: request.body.data.lastName,
-    //   address: request.body.data.address,
-    //   city: request.body.data.city,
-    //   state: request.body.data.state,
-    //   zip: request.body.data.zip,
-    //   phone: request.body.data.phone,
-    //   email: request.body.data.email,
-    //   pizzas: request.body.data.pizzas,
-    //   donation: request.body.data.donation,
-    //   student: request.body.data.student,
-    //   transaction: ccTrans.transactionId,
-    //   amount: request.body.data.amount,
-    //   date: Date.now()
-    // })
-    response.send('na')
-  })
-})
+// exports.pizza = functions.https.onRequest((request, response) => {
+//   return cors(request, response, async () => {
+// THIS NEEDS TO BE UPDATED FOR THE NEW WAY !!
+// const fbs = new FirebaseService()
+// await fbs.pizzaDonation({
+//   firstname: request.body.data.firstName,
+//   lastname: request.body.data.lastName,
+//   address: request.body.data.address,
+//   city: request.body.data.city,
+//   state: request.body.data.state,
+//   zip: request.body.data.zip,
+//   phone: request.body.data.phone,
+//   email: request.body.data.email,
+//   pizzas: request.body.data.pizzas,
+//   donation: request.body.data.donation,
+//   student: request.body.data.student,
+//   transaction: ccTrans.transactionId,
+//   amount: request.body.data.amount,
+//   date: Date.now()
+// })
+//     response.send('na')
+//   })
+// })
 
-exports.yearbook = functions.https.onRequest((request, response) => {
-  return cors(request, response, async () => {
-    const fbs = new FirebaseService()
-    let data = {
-      firstname: request.body.data.firstName,
-      lastname: request.body.data.lastName,
-      address: request.body.data.address,
-      city: request.body.data.city,
-      state: request.body.data.state,
-      zip: request.body.data.zip,
-      email: request.body.data.email,
-      phone: request.body.data.phone,
-      books: request.body.data.books,
-      students: request.body.data.students,
-      amount: request.body.data.amount,
-      transaction: request.body.data.transactionId,
-      date: Date.now()
-    }
-    await fbs.yearbookPurchase(data)
-    const mail = new SparkpostService()
-    let subject = request.body.data.description
-    let html = request.body.data.html
-    let recipients = [{ address: request.body.data.email }]
-    await mail.send(subject, html, recipients)
-    response.send('Order complete.')
-  })
-})
+// exports.yearbook = functions.https.onRequest((request, response) => {
+//   return cors(request, response, async () => {
+//     const fbs = new FirebaseService()
+//     let data = {
+//       firstname: request.body.data.firstName,
+//       lastname: request.body.data.lastName,
+//       address: request.body.data.address,
+//       city: request.body.data.city,
+//       state: request.body.data.state,
+//       zip: request.body.data.zip,
+//       email: request.body.data.email,
+//       phone: request.body.data.phone,
+//       books: request.body.data.books,
+//       students: request.body.data.students,
+//       amount: request.body.data.amount,
+//       transaction: request.body.data.transactionId,
+//       date: Date.now()
+//     }
+//     await fbs.yearbookPurchase(data)
+//     const mail = new SparkpostService()
+//     let subject = request.body.data.description
+//     let html = request.body.data.html
+//     let recipients = [{ address: request.body.data.email }]
+//     await mail.send(subject, html, recipients)
+//     response.send('Order complete.')
+//   })
+// })
 
 // exports.daily_job = functions.pubsub.topic('daily-tick').onPublish(message => {
 //   const mail = new SparkpostService()
@@ -165,7 +171,7 @@ exports.yearbook = functions.https.onRequest((request, response) => {
 // })
 
 exports.eligibilityCheck = functions.pubsub
-  .schedule('50 11 * * 2')
+  .schedule('0 14 * * 1')
   .timeZone('America/Indianapolis')
   .onRun(context => {
     const canvas = new CanvasService()

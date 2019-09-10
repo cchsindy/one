@@ -5,7 +5,7 @@ module.exports = class SparkpostService {
     this.sparky = new this.SparkPost(this.config.apiKey)
   }
 
-  send(subject, html, recipients) {
+  send(subject, html, recipients, reply_to = 'noreply@covenant.education') {
     return new Promise((resolve, reject) => {
       try {
         this.sparky.transmissions
@@ -16,7 +16,8 @@ module.exports = class SparkpostService {
             content: {
               from: 'noreply@covenant.education',
               subject,
-              html
+              html,
+              reply_to
             },
             recipients
           })

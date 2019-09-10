@@ -33,9 +33,9 @@ export default {
         return a['User ID'] - b['User ID']
       })
       const htmlTop =
-        "<html><body><p>One way that we uphold our commitment to partner with you for the education of your student, is to report grades below C at the halfway (midterm) point of each quarter. We hope this communication helps to inform your understanding of your student's current academic progress.</p><p>Please take time to discuss this grade report with your student. We appreciate the partnership we share with you in your student's education.</p>"
+        "<html><body><p>Dear Parent/Guardian,</p><p>One way that we uphold our commitment to partner with you for the education of your student, is to report grades below C at the halfway (midterm) point of each quarter. We hope this communication helps to inform your understanding of your student's current academic progress.</p><p>Please take time to discuss this grade report with your student. We appreciate the partnership we share with you in your student's education.</p>"
       const htmlBottom =
-        '</table><p>Donnie Fishburn<br><i>Dean of Students</i><br>Covenant Christian High School</p><img src="http://covenantchristian.org/images/CCHS-email-signature-credo.jpg" alt="CCHS"></body></html>'
+        '<br><br><p>Sincerely,</p><p>Donnie Fishburn<br><i>Dean of Students</i><br>Covenant Christian High School</p></body></html>'
       let current = 0
       let prev = 0
       let body = ''
@@ -64,20 +64,10 @@ export default {
             g['Last name'] +
             '</h2>'
           report +=
-            '<table cellpadding="5" cellspacing="5"><tr style="background: #444; color: #fff;"><th>Class</th><th>Grade</th></tr>'
-          report +=
-            '<tr style="background: #ddd;"><td>' +
-            g['Course title'] +
-            '</td><td style="text-align: center;">' +
-            g['Numeric grade'] +
-            '</td></tr>'
+            '<p>' + g['Course title'] + ': ' + g['Numeric grade'] + '%</p>'
         } else {
           report +=
-            '<tr style="background: #ddd;"><td>' +
-            g['Course title'] +
-            '</td><td style="text-align: center;">' +
-            g['Numeric grade'] +
-            '</td></tr>'
+            '<p>' + g['Course title'] + ': ' + g['Numeric grade'] + '%</p>'
         }
         prev = current
       }
