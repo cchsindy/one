@@ -34,7 +34,11 @@ module.exports = class VnnService {
       let players = await this.getTeamPlayers(team.url)
       for (const player of players) {
         let user = await canvas.getUser(player)
-        console.log(player + ' => ' + user[0].id)
+        if (user[0]) {
+          console.log(player + ' => ' + user[0].id)
+        } else {
+          console.log('Player not found ===========> ' + player)
+        }
       }
     }
     console.log('Name Check complete.')
