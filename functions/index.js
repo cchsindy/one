@@ -178,6 +178,7 @@ exports.eligibilityCheck = functions.pubsub
     const sparkpost = new SparkpostService()
     const vnn = new VnnService()
     vnn.runEligibilityCheck(canvas, sparkpost)
+    return null
   })
 
 // exports.weekly_job = functions.pubsub
