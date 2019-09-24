@@ -154,6 +154,25 @@ module.exports = class FirebaseService {
     })
   }
 
+  wabcMembership(data) {
+    return new Promise((resolve, reject) => {
+      try {
+        this.myStore
+          .collection('wabc_memberships')
+          .add(data)
+          .then(docRef => {
+            resolve()
+            return
+          })
+          .catch(error => {
+            reject(error)
+          })
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
   yearbookPurchase(data) {
     return new Promise((resolve, reject) => {
       try {
