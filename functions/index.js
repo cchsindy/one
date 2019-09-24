@@ -78,6 +78,21 @@ exports.wabc = functions.https.onRequest((request, response) => {
     let html = request.body.data.html
     let recipients = [{ address: request.body.data.email }]
     await mail.send(subject, html, recipients)
+    html = '<h1>New Booster Club Member!</h1>'
+    html += `First name: ${data.firstname}<br>`
+    html += `Last name: ${data.lastname}<br>`
+    html += `Address: ${data.address}<br>`
+    html += `City: ${data.city}<br>`
+    html += `State: ${data.state}<br>`
+    html += `Zip: ${data.zip}<br>`
+    html += `Email: ${data.email}<br>`
+    html += `Phone: ${data.phone}<br>`
+    html += `Membership: ${data.level}<br>`
+    html += `Students: ${data.students}<br>`
+    html += `Volunteer Interest: ${data.volunteer}<br>`
+    html += `Transaction ID: ${data.transaction}`
+    recipients = [{ address: 'boosters@covenantchristian.org' }]
+    await mail.send(subject, html, recipients)
     response.send('Membership complete.')
   })
 })
