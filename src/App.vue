@@ -11,6 +11,7 @@
         <router-link v-if="isAdmin || isExports" to="/exports">Exports</router-link>
         <router-link v-if="isAdmin || isGrades" to="/grades">Grades</router-link>
         <router-link v-if="isAdmin || isPizza" to="/pizza">Pizza</router-link>
+        <router-link v-if="isAdmin || isStudents" to="/students">Students</router-link>
         <router-link v-if="isAdmin" to="/transactions">Transactions</router-link>
         <router-link v-if="isAdmin || isYearbook" to="/yearbook">Yearbook</router-link>
       </div>
