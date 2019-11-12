@@ -68,6 +68,12 @@ export default {
       }
       return false
     },
+    isStudents() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Students')
+      }
+      return false
+    },
     isYearbook() {
       if (this.$store.getters.roles) {
         return this.$store.getters.roles.includes('Yearbook')
