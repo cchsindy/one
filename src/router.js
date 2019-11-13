@@ -49,6 +49,11 @@ export default new Router({
       component: () => import('./views/Pizza.vue')
     },
     {
+      path: '/rosters',
+      name: 'rosters',
+      component: () => import('./views/Rosters.vue')
+    },
+    {
       path: '/students',
       name: 'students',
       component: () => import('./views/Students.vue')

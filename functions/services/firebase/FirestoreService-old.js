@@ -1,11 +1,20 @@
 module.exports = class FirestoreService {
   constructor() {
     const admin = require('firebase-admin')
-    const functions = require('firebase-functions')
+    const serviceAccount = require('./serviceAccountKey.json')
+    // if (!admin.apps.length) {
+    //   admin.initializeApp({
+    //     credential: admin.credential.cert(serviceAccount),
+    //     databaseURL: 'https://my-covenant-dev.firebaseio.com'
+    //   })
+    // }
     try {
-      admin.initializeApp(functions.config().firebase)
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: 'https://my-covenant-dev.firebaseio.com'
+      })
     } catch (err) {
-      console.log(err)
+      // do nothing
     }
     this.myStore = admin.firestore()
   }
@@ -20,9 +29,9 @@ module.exports = class FirestoreService {
     }
   }
 
-  async loadSkyToken(product) {
+  async loadSkyToken() {
     try {
-      const doc = await this.myStore.doc(`skyTokens/${product}`).get()
+      const doc = await this.myStore.doc('skyTokens/re').get()
       return doc.data()
     } catch (err) {
       console.log(err)
@@ -40,9 +49,9 @@ module.exports = class FirestoreService {
     }
   }
 
-  async saveSkyToken(product, token) {
+  async saveSkyToken(token) {
     try {
-      await this.myStore.doc(`skyTokens/${product}`).set(token)
+      await this.myStore.doc('skyTokens/re').set(token)
       return 'saved'
     } catch (err) {
       console.log(err)

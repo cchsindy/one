@@ -5,6 +5,7 @@ const CanvasService = require('./services/canvas/CanvasService')
 const FirebaseService = require('./services/firebase/FirebaseService')
 const FirestoreService = require('./services/firebase/FirestoreService')
 const OnService = require('./services/blackbaud/OnService')
+const SkyService = require('./services/blackbaud/SkyService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
 const VnnService = require('./services/vnn/VnnService')
 
@@ -146,6 +147,26 @@ exports.onapi = functions.https.onCall(async (data, context) => {
       }
     }
     if (!res) res = 'Unable to fetch data.'
+    return res
+  } catch (err) {
+    return err
+  }
+})
+
+exports.skyapi = functions.https.onCall(async data => {
+  try {
+    const fs = new FirestoreService()
+    const token = await fs.loadSkyToken(data.product)
+    const ss = new SkyService(token)
+    let res = await ss.getData(data.product + '/v1/' + data.url, data.params)
+    if (!res) {
+      const newToken = await ss.refreshToken()
+      if (newToken) {
+        await fs.saveSkyToken(data.product, newToken)
+        res = await ss.getData(data.product + '/v1/' + data.url, data.params)
+      }
+    }
+    if (!res) res = 'Unable to get data.'
     return res
   } catch (err) {
     return err
