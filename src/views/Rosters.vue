@@ -15,9 +15,12 @@
         </option>
       </select>
     </div>
-    <p v-for="s in students" :key="s.id">
-      {{ s.name }}
-    </p>
+    <div class="loading" v-if="sectionCount > 0">Sections loading: {{sectionCount}}</div>
+    <div class="emails" v-if="showEmails">
+      Total students: {{students.length}}<br>
+      <textarea v-model="students" cols="50" rows="20"></textarea><br>
+      <button @click="copyClipboard">Copy to Clipboard</button>
+    </div>
   </div>
 </template>
 
@@ -30,10 +33,24 @@ export default {
       sections: [],
       selectedCourse: null,
       selectedDepartment: null,
-      students: []
+      students: [],
+      sectionCount: 0
+    }
+  },
+  computed: {
+    showEmails() {
+      return this.sectionCount === 0 && this.students.length > 0 ? true : false
     }
   },
   methods: {
+    copyClipboard() {
+      const range = document.createRange()
+      const text = document.querySelector('textarea')
+      range.selectNode(text)
+      window.getSelection().addRange(range)
+      document.execCommand('copy')
+      window.getSelection().removeAllRanges()
+    },
     loadData() {
       const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
       getSections(d).then(data => {
@@ -51,11 +68,14 @@ export default {
       for (const t of temp) {
         s.push(t.id)
       }
-      const sections = [...new Set(s)]
+      const sections = [...new Set(s)] // removes dups
       const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
+      this.students = []
       for (const section of sections) {
+        this.sectionCount++
         getStudents(d, section).then(data => {
           this.students = this.students.concat(data)
+          this.sectionCount--
         })
       }
     },
@@ -99,14 +119,31 @@ async function getSections(f) {
 }
 
 async function getStudents(f, id) {
-  const students = await f({
+  const result = await f({
     product: 'school',
     url: `academics/sections/${id}/students`,
     params: {}
   })
-  return students.data.value
+  const students = []
+  for (const r of result.data.value) {
+    const s = await f({
+      product: 'school',
+      url: `users/${r.id}`,
+      params: {}
+    })
+    const student = s.data
+    students.push(student.email)
+  }
+  return students
 }
 </script>
 
 <style scoped>
+.emails {
+  margin: 2vw;
+}
+.loading {
+  background: lightgreen;
+  margin: 2vw;
+}
 </style>
