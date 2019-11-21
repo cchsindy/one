@@ -6,6 +6,7 @@
       <div id="nav">
         <router-link to="/">Dashboard</router-link>
         <router-link v-if="isAdmin" to="/announcements">Announcements</router-link>
+        <router-link v-if="isAdmin" to="/attendance">Attendance</router-link>
         <router-link v-if="isAdmin || isCar" to="/carshow">Car Show</router-link>
         <router-link v-if="isAdmin" to="/event-sales">Event Sales</router-link>
         <router-link v-if="isAdmin || isExports" to="/exports">Exports</router-link>
