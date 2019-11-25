@@ -18,13 +18,13 @@
         </tr>
         <tr v-for="teacher in teachers" :key="teacher.id">
           <td>{{teacher.name}}</td>
-          <td>{{teacher.q1}}%</td>
+          <td :class="level(teacher.q1)">{{teacher.q1}}%</td>
           <td>{{teacher.q1p}}</td>
-          <td>{{teacher.q2}}%</td>
+          <td :class="level(teacher.q2)">{{teacher.q2}}%</td>
           <td>{{teacher.q2p}}</td>
-          <td>{{teacher.q3}}%</td>
+          <td :class="level(teacher.q3)">{{teacher.q3}}%</td>
           <td>{{teacher.q3p}}</td>
-          <td>{{teacher.q4}}%</td>
+          <td :class="level(teacher.q4)">{{teacher.q4}}%</td>
           <td>{{teacher.q4p}}</td>
         </tr>
       </table>
@@ -44,6 +44,12 @@ export default {
     }
   },
   methods: {
+    level(q) {
+      if (q > 75) return 'one'
+      if (q >= 50 && q < 75) return 'two'
+      if (q >= 25 && q < 50) return 'three'
+      if (q < 25) return 'four'
+    },
     loadData() {
       const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
       getMasterSchedule(d, '2019-08-01', '2019-12-20').then(data => {
@@ -401,7 +407,7 @@ table {
 td,
 th {
   border: solid 1px #aaa;
-  padding: 1vw;
+  padding: 0.5vw;
 }
 .chart {
   margin: 1vw;
@@ -409,5 +415,17 @@ th {
 .loading {
   background: lightgreen;
   margin: 2vw;
+}
+.one {
+  background: lightgreen;
+}
+.two {
+  background: yellow;
+}
+.three {
+  background: orange;
+}
+.four {
+  background: red;
 }
 </style>
