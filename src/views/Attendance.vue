@@ -1,18 +1,31 @@
 <template>
   <div>
     <h1>Teacher Attendance</h1>
-    <BaseButton @click="getSchedule">Teacher Schedule</BaseButton>
+    <BaseButton v-if="showRun" @click="runStats">Run Stats</BaseButton>
+    <div class="loading" v-if="count > 0">Teacher data loading: {{count}}</div>
     <div class="chart">
       <table>
         <tr>
           <th>Teacher</th>
           <th>Q1 %</th>
-          <th>Q1 P</th>
+          <th>Q1 Periods</th>
+          <th>Q2 %</th>
+          <th>Q2 Periods</th>
+          <th>Q3 %</th>
+          <th>Q3 Periods</th>
+          <th>Q4 %</th>
+          <th>Q4 Periods</th>
         </tr>
         <tr v-for="teacher in teachers" :key="teacher.id">
           <td>{{teacher.name}}</td>
-          <td>0%</td>
-          <td>1</td>
+          <td>{{teacher.q1}}%</td>
+          <td>{{teacher.q1p}}</td>
+          <td>{{teacher.q2}}%</td>
+          <td>{{teacher.q2p}}</td>
+          <td>{{teacher.q3}}%</td>
+          <td>{{teacher.q3p}}</td>
+          <td>{{teacher.q4}}%</td>
+          <td>{{teacher.q4p}}</td>
         </tr>
       </table>
     </div>
@@ -24,23 +37,13 @@ export default {
   data: () => {
     return {
       master: [],
-      schedule: [],
       taken: [],
-      teachers: []
-    }
-  },
-  computed: {
-    showEmails() {
-      return this.sectionCount === 0 && this.students.length > 0 ? true : false
+      teachers: [],
+      count: 0,
+      showRun: false
     }
   },
   methods: {
-    getSchedule() {
-      const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
-      getTeacherSchedule(d, 5529893).then(data => {
-        this.schedule = data
-      })
-    },
     loadData() {
       const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
       getMasterSchedule(d, '2019-08-01', '2019-12-20').then(data => {
@@ -49,9 +52,214 @@ export default {
           this.teachers = data
           getAttendanceTaken(d, this.teachers).then(data => {
             this.taken = data
+            this.showRun = true
           })
         })
       })
+    },
+    runStats() {
+      const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
+      const today = new Date()
+      for (const teacher of this.teachers) {
+        this.count++
+        getTeacherSchedule(d, teacher.id).then(data => {
+          const tt = this.taken.filter(t => t.user === teacher.id)
+          // count for each date range
+          let taken = 0
+          let total = 0
+          let missing = [0, 0, 0, 0, 0, 0, 0, 0]
+          for (let i = 0; i < 22; i++) {
+            if (this.master[i].date < today) {
+              const p = this.master[i].periods.filter(v => data.includes(v))
+              const dt = tt.filter(
+                t => t.date.getTime() === this.master[i].date.getTime()
+              )
+              const dups = dt
+                .filter(({ period }) => p.includes(period))
+                .map(({ period }) => period)
+              const c = [...new Set(dups)]
+              taken += c.length
+              total += p.length
+              const m = p.filter(v => !c.includes(v))
+              for (const a of m) {
+                switch (a) {
+                  case 27169:
+                    missing[0]++
+                    break
+                  case 27170:
+                    missing[1]++
+                    break
+                  case 27187:
+                    missing[2]++
+                    break
+                  case 27188:
+                    missing[3]++
+                    break
+                  case 27189:
+                    missing[4]++
+                    break
+                  case 27190:
+                    missing[5]++
+                    break
+                  case 27191:
+                    missing[6]++
+                    break
+                  case 27192:
+                    missing[7]++
+                    break
+                }
+              }
+            }
+          }
+          if (total > 0) teacher.q1 = Math.round((taken / total) * 100)
+          if (total > 0) teacher.q1p = missing.toString()
+          taken = 0
+          total = 0
+          missing = [0, 0, 0, 0, 0, 0, 0, 0]
+          for (let i = 22; i < 51; i++) {
+            if (this.master[i].date < today) {
+              const p = this.master[i].periods.filter(v => data.includes(v))
+              const dt = tt.filter(
+                t => t.date.getTime() === this.master[i].date.getTime()
+              )
+              const dups = dt
+                .filter(({ period }) => p.includes(period))
+                .map(({ period }) => period)
+              const c = [...new Set(dups)]
+              taken += c.length
+              total += p.length
+              const m = p.filter(v => !c.includes(v))
+              for (const a of m) {
+                switch (a) {
+                  case 27169:
+                    missing[0]++
+                    break
+                  case 27170:
+                    missing[1]++
+                    break
+                  case 27187:
+                    missing[2]++
+                    break
+                  case 27188:
+                    missing[3]++
+                    break
+                  case 27189:
+                    missing[4]++
+                    break
+                  case 27190:
+                    missing[5]++
+                    break
+                  case 27191:
+                    missing[6]++
+                    break
+                  case 27192:
+                    missing[7]++
+                    break
+                }
+              }
+            }
+          }
+          if (total > 0) teacher.q2 = Math.round((taken / total) * 100)
+          if (total > 0) teacher.q2p = missing.toString()
+          taken = 0
+          total = 0
+          missing = [0, 0, 0, 0, 0, 0, 0, 0]
+          for (let i = 51; i < 66; i++) {
+            if (this.master[i].date < today) {
+              const p = this.master[i].periods.filter(v => data.includes(v))
+              const dt = tt.filter(
+                t => t.date.getTime() === this.master[i].date.getTime()
+              )
+              const dups = dt
+                .filter(({ period }) => p.includes(period))
+                .map(({ period }) => period)
+              const c = [...new Set(dups)]
+              taken += c.length
+              total += p.length
+              const m = p.filter(v => !c.includes(v))
+              for (const a of m) {
+                switch (a) {
+                  case 27169:
+                    missing[0]++
+                    break
+                  case 27170:
+                    missing[1]++
+                    break
+                  case 27187:
+                    missing[2]++
+                    break
+                  case 27188:
+                    missing[3]++
+                    break
+                  case 27189:
+                    missing[4]++
+                    break
+                  case 27190:
+                    missing[5]++
+                    break
+                  case 27191:
+                    missing[6]++
+                    break
+                  case 27192:
+                    missing[7]++
+                    break
+                }
+              }
+            }
+          }
+          if (total > 0) teacher.q3 = Math.round((taken / total) * 100)
+          if (total > 0) teacher.q3p = missing.toString()
+          taken = 0
+          total = 0
+          missing = [0, 0, 0, 0, 0, 0, 0, 0]
+          for (let i = 66; i < 89; i++) {
+            if (this.master[i].date < today) {
+              const p = this.master[i].periods.filter(v => data.includes(v))
+              const dt = tt.filter(
+                t => t.date.getTime() === this.master[i].date.getTime()
+              )
+              const dups = dt
+                .filter(({ period }) => p.includes(period))
+                .map(({ period }) => period)
+              const c = [...new Set(dups)]
+              taken += c.length
+              total += p.length
+              const m = p.filter(v => !c.includes(v))
+              for (const a of m) {
+                switch (a) {
+                  case 27169:
+                    missing[0]++
+                    break
+                  case 27170:
+                    missing[1]++
+                    break
+                  case 27187:
+                    missing[2]++
+                    break
+                  case 27188:
+                    missing[3]++
+                    break
+                  case 27189:
+                    missing[4]++
+                    break
+                  case 27190:
+                    missing[5]++
+                    break
+                  case 27191:
+                    missing[6]++
+                    break
+                  case 27192:
+                    missing[7]++
+                    break
+                }
+              }
+            }
+          }
+          if (total > 0) teacher.q4 = Math.round((taken / total) * 100)
+          if (total > 0) teacher.q4p = missing.toString()
+          this.count--
+        })
+      }
     }
   },
   mounted: function() {
@@ -96,7 +304,7 @@ async function getAttendanceTaken(f, teachers) {
         break
     }
     taken.push({
-      date: Date.parse(row.columns[0].value),
+      date: new Date(row.columns[0].value),
       user: t ? t.id : null,
       period
     })
@@ -111,11 +319,15 @@ async function getMasterSchedule(f, start, end) {
     params: { level_num: 2175, start_date: start, end_date: end }
   })
   const master = []
+  const fallBegin = new Date('2019-10-14T00:00:00')
+  const fallEnd = new Date('2019-10-25T00:00:00')
   for (const r of result.data.value) {
-    const date = Date.parse(r.calendar_day)
-    const fallBegin = Date.parse('2019-10-14')
-    const fallEnd = Date.parse('2019-10-25')
-    if (r.schedule_sets.length && (date < fallBegin || date > fallEnd)) {
+    const date = new Date(r.calendar_day.substring(0, 10) + 'T00:00:00')
+    if (
+      r.schedule_sets.length &&
+      r.schedule_sets[0].blocks.length &&
+      (date < fallBegin || date > fallEnd)
+    ) {
       const periods = []
       for (const b of r.schedule_sets[0].blocks) {
         if (b.block_id != 27199 && b.block_id != 27198 && b.block_id != 27197) {
@@ -123,7 +335,7 @@ async function getMasterSchedule(f, start, end) {
         }
       }
       master.push({
-        date, //: r.calendar_day.substring(0, 10),
+        date,
         periods
       })
     }
@@ -167,7 +379,15 @@ async function getTeachers(f) {
   for (const r of result.data.value) {
     teachers.push({
       id: r.id,
-      name: `${r.first_name} ${r.last_name}`
+      name: `${r.first_name} ${r.last_name}`,
+      q1: 0,
+      q1p: 0,
+      q2: 0,
+      q2p: 0,
+      q3: 0,
+      q3p: 0,
+      q4: 0,
+      q4p: 0
     })
   }
   return teachers
@@ -185,5 +405,9 @@ th {
 }
 .chart {
   margin: 1vw;
+}
+.loading {
+  background: lightgreen;
+  margin: 2vw;
 }
 </style>
