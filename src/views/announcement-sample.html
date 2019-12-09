@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Arvo|Oswald"
+      rel="stylesheet"
+    />
+    <title>tv</title>
+
+    <script src="libraries/p5.js"></script>
+    <script src="libraries/p5.dom.js"></script>
+    <script src="sketch.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Arvo', serif;
+      }
+      canvas {
+        margin: auto;
+      }
+      h1 {
+        font-family: 'Oswald', sans-serif;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: 5fr 1fr;
+        height: 100vh;
+        width: 100vw;
+      }
+      .announements {
+        background: #fff;
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 2;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 1vw;
+        /* align-items: stretch; */
+        align-content: stretch;
+        /* justify-content: center; */
+        overflow-y: scroll;
+      }
+      .announcement-item {
+        color: #fff;
+        display: flex;
+        font-size: 3em;
+        flex: 1 0 25vw;
+        /* flex-basis: 25vw; */
+        /* flex-grow: 1; */
+        margin: 1vw;
+        /* max-width: 40%; */
+        opacity: 0;
+        transition: opacity 2s ease;
+        padding: 2vw;
+        text-align: center;
+        /* align-content: center; */
+        /* flex-direction: column; */
+      }
+      .wide {
+        /* flex-grow: 25; */
+        /* flex-basis: 50vw; */
+        flex: 1 1 auto;
+      }
+      .one {
+        background: #790000;
+      }
+      .two {
+        background: #f1e2a0;
+      }
+      .three {
+        background: #90badd;
+      }
+      .four {
+        background: #df9056;
+      }
+      .five {
+        background: #c89804;
+      }
+      .item-text {
+        /* background: #555; */
+        flex-grow: 1;
+        align-self: center;
+      }
+      .notifications {
+        display: none;
+        background: #959595;
+        grid-column: 2 / 2;
+        grid-row: 1 / 1;
+        /* height: 50vh; */
+        overflow: auto;
+      }
+      .ticker {
+        display: none;
+        background: #534741;
+        grid-column: 1 / span 2;
+        grid-row: 2 / 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="cont" class="announements"></div>
+      <div class="notifications"></div>
+      <div class="ticker"></div>
+    </div>
+    <script>
+let items = []
+
+function setup() {
+  noCanvas()
+  for (let i = 0; i < round(random(20)); i++) {
+    getRandomWords(i)
+  }
+  fade()
+}
+
+function fade() {
+  let ans = document.querySelectorAll('.announcement-item')
+  let state
+  for (let a of ans) {
+    a.style.opacity = a.style.opacity == 1 ? 0 : 1
+    state = a.style.opacity == 1 ? true : false
+  }
+  if (state) {
+    setTimeout(fade, 4000)
+  } else {
+    setTimeout(displayItems, 2000)
+  }
+}
+
+function displayItems() {
+  cont.innerHTML = ''
+  let m = 0
+  let br = document.body.getBoundingClientRect()
+  for (let i = 0; i < items.length; i++) {
+    cont.innerHTML += items[i]
+    // check bounds
+    let r = cont.lastElementChild.getBoundingClientRect()
+    if (i === 0) m = r.top
+    if (r.bottom > br.bottom - m) {
+      cont.lastElementChild.remove()
+      let last = items.splice(i)
+      let first = items.splice(0, i)
+      items = last.concat(first)
+      break
+    }
+  }
+  // check font size
+  let ans = document.querySelectorAll('.announcement-item')
+  let fs = 2.9
+  m = 0
+  for (let a of ans) {
+    m =
+      a.lastElementChild.getBoundingClientRect().left -
+      a.getBoundingClientRect().left
+    while (a.lastElementChild.clientHeight > a.clientHeight - m) {
+      a.style.fontSize = fs + 'em'
+      fs -= 0.1
+    }
+  }
+  fade()
+}
+
+function getRandomWords(i) {
+  // loadJSON('http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=false&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&limit=' + round(random(2, 20)) + '&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5', gotData);
+  gotData([
+    {
+      word: 'this'
+    },
+    {
+      word: 'is'
+    },
+    {
+      word: 'a'
+    },
+    {
+      word: 'test' + i
+    }
+  ])
+}
+
+function gotData(data) {
+  let words = []
+  for (let d of data) {
+    words.push(d.word)
+  }
+  let w = words.length > 12 ? ' wide' : ''
+  let c = round(random(5))
+  switch (c) {
+    case 1:
+      cls = 'one'
+      break
+    case 2:
+      cls = 'two'
+      break
+    case 3:
+      cls = 'three'
+      break
+    case 4:
+      cls = 'four'
+      break
+    case 5:
+      cls = 'five'
+      break
+  }
+  items.push(
+    '<div class="announcement-item ' +
+      cls +
+      w +
+      '"><div class="item-text">' +
+      words.join(' ') +
+      '</div></div>'
+  )
+}
+    </script>
+  </body>
+</html>
