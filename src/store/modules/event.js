@@ -15,7 +15,7 @@ const actions = {
     commit('CANCEL_EVENT', payload)
   },
   fetchEvents({ commit, rootState }) {
-    // TODO: clear events first!
+    commit('CLEAR_EVENTS')
     const ref = rootState.fbStore.collection('events')
     ref.orderBy('end_date', 'desc').onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
@@ -62,6 +62,10 @@ const actions = {
 }
 
 const mutations = {
+  CLEAR_EVENTS(state) {
+    state.events = []
+    state.cachedEvents = []
+  },
   ADD_EVENT(state, event) {
     state.events.push(event)
     state.cachedEvents.push(JSON.parse(JSON.stringify(event)))

@@ -1,36 +1,23 @@
 <template>
   <div class="announcement-list">
-    <div v-for="item of items" :key="item.id" class="announcement-item">
+    <div v-for="item of announcements" :key="item.id" class="announcement-item">
       <div class="item-id">ID: {{ item.id }}<br><BaseButton>Remove</BaseButton></div>
-      <div class="item-content" contenteditable="true">{{ item.content }}</div>
-      <BaseInput label="From:" type="datetime-local" v-model="item.fromDate"/>
-      <br><BaseInput label="To:" type="datetime-local" v-model="item.toDate"/>
+      <div class="item-content" contenteditable="true">{{ item.text }}</div>
+      <BaseInput label="From:" type="datetime-local" v-model="item.start_date"/>
+      <br><BaseInput label="To:" type="datetime-local" v-model="item.end_date"/>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  data: function() {
-    return {
-      items: [
-        {
-          id: 1,
-          content:
-            'My First Announcement is a long announcement with lots of words to fill up the screen.',
-          fromDate: '2018-11-21',
-          toDate: '2018-11-22',
-          user: 'bradspencer'
-        },
-        {
-          id: 2,
-          content: 'My Second Announcement',
-          fromDate: '2018-11-23',
-          toDate: '2018-11-25',
-          user: 'bradspencer'
-        }
-      ]
-    }
+  computed: mapState({
+    announcements: state => state.announcements.announcements
+  }),
+  created() {
+    this.$store.dispatch('fetchAnnouncements')
   }
 }
 </script>

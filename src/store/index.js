@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from '@/store/modules/firebase'
+import announcements from '@/store/modules/announcements'
 import carshow from '@/store/modules/carshow'
 import event from '@/store/modules/event'
 import pizza from '@/store/modules/pizza'
@@ -13,6 +14,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     user,
+    announcements,
     carshow,
     event,
     pizza,
