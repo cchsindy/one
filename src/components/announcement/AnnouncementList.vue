@@ -1,9 +1,10 @@
 <template>
   <div class="announcement-list">
     <div v-for="item of items" :key="item.id" class="announcement-item">
-      <div class="item-id">ID: {{ item.id }}<br><button>Remove</button></div>
+      <div class="item-id">ID: {{ item.id }}<br><BaseButton>Remove</BaseButton></div>
       <div class="item-content" contenteditable="true">{{ item.content }}</div>
-      <div class="item-date">From: <input type="date" :value="item.fromDate"><br>To: <input type="date" :value="item.toDate"></div>
+      <BaseInput label="From:" type="datetime-local" v-model="item.fromDate"/>
+      <br><BaseInput label="To:" type="datetime-local" v-model="item.toDate"/>
     </div>
   </div>
 </template>

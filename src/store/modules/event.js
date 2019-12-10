@@ -15,6 +15,7 @@ const actions = {
     commit('CANCEL_EVENT', payload)
   },
   fetchEvents({ commit, rootState }) {
+    // TODO: clear events first!
     const ref = rootState.fbStore.collection('events')
     ref.orderBy('end_date', 'desc').onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
