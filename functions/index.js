@@ -173,29 +173,35 @@ exports.skyapi = functions.https.onCall(async data => {
   }
 })
 
-// exports.pizza = functions.https.onRequest((request, response) => {
-//   return cors(request, response, async () => {
-// THIS NEEDS TO BE UPDATED FOR THE NEW WAY !!
-// const fbs = new FirebaseService()
-// await fbs.pizzaDonation({
-//   firstname: request.body.data.firstName,
-//   lastname: request.body.data.lastName,
-//   address: request.body.data.address,
-//   city: request.body.data.city,
-//   state: request.body.data.state,
-//   zip: request.body.data.zip,
-//   phone: request.body.data.phone,
-//   email: request.body.data.email,
-//   pizzas: request.body.data.pizzas,
-//   donation: request.body.data.donation,
-//   student: request.body.data.student,
-//   transaction: ccTrans.transactionId,
-//   amount: request.body.data.amount,
-//   date: Date.now()
-// })
-//     response.send('na')
-//   })
-// })
+exports.pizza = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fbs = new FirebaseService()
+    await fbs.pizzaDonation({
+      firstname: request.body.data.firstName,
+      lastname: request.body.data.lastName,
+      address: request.body.data.address,
+      city: request.body.data.city,
+      state: request.body.data.state,
+      zip: request.body.data.zip,
+      phone: request.body.data.phone,
+      email: request.body.data.email,
+      pizzas: request.body.data.pizzas,
+      donation: request.body.data.donation,
+      student: request.body.data.student,
+      transaction: request.body.data.transactionId,
+      amount: request.body.data.amount,
+      date: Date.now()
+    })
+    const mail = new SparkpostService()
+    let subject = request.body.data.description
+    let html = request.body.data.html
+    let recipients = [{ address: request.body.data.email }]
+    await mail.send(subject, html, recipients)
+    response.send({
+      description: 'Thank you for supporting Covenant Fine Arts!'
+    })
+  })
+})
 
 // exports.yearbook = functions.https.onRequest((request, response) => {
 //   return cors(request, response, async () => {
