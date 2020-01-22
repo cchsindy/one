@@ -19,11 +19,6 @@ export default new Router({
       component: () => import('./views/Announcements.vue')
     },
     {
-      path: '/announcements-tv',
-      name: 'announcements-tv',
-      component: () => import('./views/Announcements-TV.vue')
-    },
-    {
       path: '/attendance',
       name: 'attendance',
       component: () => import('./views/Attendance.vue')
