@@ -130,11 +130,11 @@ const actions = {
               docRef.set(doc)
             } else {
               commit('SET_ERROR', {
-                message: 'Email not found in our system.'
+                message: 'See Brad.'
               })
-              rootState.fbAuth.currentUser.delete().catch(error => {
-                commit('SET_ERROR', { message: 'error deleting user:' + error })
-              })
+              // rootState.fbAuth.currentUser.delete().catch(error => {
+              //   commit('SET_ERROR', { message: 'error deleting user:' + error })
+              // })
             }
           })
       }
