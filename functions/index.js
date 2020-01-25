@@ -203,6 +203,43 @@ exports.pizza = functions.https.onRequest((request, response) => {
   })
 })
 
+exports.teacount = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fs = new FirestoreService()
+    const counts = await fs.getTeaCounts()
+    response.send(counts)
+  })
+})
+
+exports.teaTickets = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fs = new FirestoreService()
+    await fs.teaTickets({
+      firstname: request.body.data.firstName,
+      lastname: request.body.data.lastName,
+      address: request.body.data.address,
+      city: request.body.data.city,
+      state: request.body.data.state,
+      zip: request.body.data.zip,
+      phone: request.body.data.phone,
+      email: request.body.data.email,
+      tickets: request.body.data.tickets,
+      children: request.body.data.children,
+      transaction: request.body.data.transactionId,
+      amount: request.body.data.amount,
+      date: Date.now()
+    })
+    const mail = new SparkpostService()
+    let subject = request.body.data.description
+    let html = request.body.data.html
+    let recipients = [{ address: request.body.data.email }]
+    await mail.send(subject, html, recipients)
+    response.send({
+      description: 'Thank you for supporting Covenant Fine Arts!'
+    })
+  })
+})
+
 // exports.yearbook = functions.https.onRequest((request, response) => {
 //   return cors(request, response, async () => {
 //     const fbs = new FirebaseService()

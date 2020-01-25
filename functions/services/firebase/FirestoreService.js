@@ -49,4 +49,25 @@ module.exports = class FirestoreService {
       return {}
     }
   }
+
+  async getTeaCounts() {
+    try {
+      let docRef = this.myStore.doc('tea_counts/tickets')
+      let doc = await docRef.get()
+      return doc.data()
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
+
+  async teaTickets(data) {
+    try {
+      await this.myStore.collection('tea_tickets').add(data)
+      return {}
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
 }
