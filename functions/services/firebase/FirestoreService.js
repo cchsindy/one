@@ -68,9 +68,9 @@ module.exports = class FirestoreService {
       let friday = 0 - tickets.friday
       let saturday = 0 - tickets.saturday
       await docRef.update({
-        thursday: firebase.firestore.FieldValue.increment(thursday),
-        friday: firebase.firestore.FieldValue.increment(friday),
-        saturday: firebase.firestore.FieldValue.increment(saturday)
+        thursday: this.myStore.FieldValue.increment(thursday),
+        friday: this.myStore.FieldValue.increment(friday),
+        saturday: this.myStore.FieldValue.increment(saturday)
       })
       return {}
     } catch (err) {
