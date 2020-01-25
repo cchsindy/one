@@ -14,6 +14,7 @@
         <router-link v-if="isAdmin || isPizza" to="/pizza">Pizza</router-link>
         <router-link v-if="isAdmin || isRosters" to="/rosters">Rosters</router-link>
         <router-link v-if="isAdmin || isStudents" to="/students">Students</router-link>
+        <router-link v-if="isAdmin || isTea" to="/tea">Tea</router-link>
         <router-link v-if="isAdmin" to="/transactions">Transactions</router-link>
         <router-link v-if="isAdmin || isYearbook" to="/yearbook">Yearbook</router-link>
       </div>
@@ -79,6 +80,12 @@ export default {
     isStudents() {
       if (this.$store.getters.roles) {
         return this.$store.getters.roles.includes('Students')
+      }
+      return false
+    },
+    isTea() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Tea')
       }
       return false
     },

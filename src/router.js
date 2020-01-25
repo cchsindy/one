@@ -64,6 +64,11 @@ export default new Router({
       component: () => import('./views/Students.vue')
     },
     {
+      path: '/tea',
+      name: 'tea',
+      component: () => import('./views/Tea.vue')
+    },
+    {
       path: '/transactions',
       name: 'transactions',
       component: () => import('./views/Transactions.vue')
