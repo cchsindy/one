@@ -1,13 +1,13 @@
 module.exports = class FirestoreService {
   constructor() {
-    const admin = require('firebase-admin')
+    this.admin = require('firebase-admin')
     const functions = require('firebase-functions')
     try {
-      admin.initializeApp(functions.config().firebase)
+      this.admin.initializeApp(functions.config().firebase)
     } catch (err) {
       console.log(err)
     }
-    this.myStore = admin.firestore()
+    this.myStore = this.admin.firestore()
   }
 
   async loadOnToken() {
@@ -64,13 +64,13 @@ module.exports = class FirestoreService {
   async teaDecrement(tickets) {
     try {
       let docRef = this.myStore.doc('tea_counts/tickets')
-      let thursday = 0 - tickets.thursday
-      let friday = 0 - tickets.friday
-      let saturday = 0 - tickets.saturday
+      let thursday = parseInt(tickets.thursday)
+      let friday = parseInt(tickets.friday)
+      let saturday = parseInt(tickets.saturday)
       await docRef.update({
-        thursday: this.myStore.FieldValue.increment(thursday),
-        friday: this.myStore.FieldValue.increment(friday),
-        saturday: this.myStore.FieldValue.increment(saturday)
+        thursday: this.admin.firestore.FieldValue.increment(-thursday),
+        friday: this.admin.firestore.FieldValue.increment(-friday),
+        saturday: this.admin.firestore.FieldValue.increment(-saturday)
       })
       return {}
     } catch (err) {
