@@ -229,6 +229,9 @@ exports.teaTickets = functions.https.onRequest((request, response) => {
       amount: request.body.data.amount,
       date: Date.now()
     })
+    await fs.teaDecrement({
+      tickets: request.body.data.tickets
+    })
     const mail = new SparkpostService()
     let subject = request.body.data.description
     let html = request.body.data.html

@@ -61,6 +61,24 @@ module.exports = class FirestoreService {
     }
   }
 
+  async teaDecrement(tickets) {
+    try {
+      let docRef = this.myStore.doc('tea_counts/tickets')
+      let thursday = 0 - tickets.thursday
+      let friday = 0 - tickets.friday
+      let saturday = 0 - tickets.saturday
+      await docRef.update({
+        thursday: firebase.firestore.FieldValue.increment(thursday),
+        friday: firebase.firestore.FieldValue.increment(friday),
+        saturday: firebase.firestore.FieldValue.increment(saturday)
+      })
+      return {}
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
+
   async teaTickets(data) {
     try {
       await this.myStore.collection('tea_tickets').add(data)
