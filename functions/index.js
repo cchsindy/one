@@ -224,6 +224,8 @@ exports.teaTickets = functions.https.onRequest((request, response) => {
       phone: request.body.data.phone,
       email: request.body.data.email,
       tickets: request.body.data.tickets,
+      adult1: request.body.data.adult1,
+      adult2: request.body.data.adult2,
       children: request.body.data.children,
       transaction: request.body.data.transactionId,
       amount: request.body.data.amount,
