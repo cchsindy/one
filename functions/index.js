@@ -12,7 +12,7 @@ const VnnService = require('./services/vnn/VnnService')
 exports.canvas = functions.https.onCall(async (data, context) => {
   const cs = new CanvasService()
   const user = await cs.getUser(data.name)
-  const grades = await cs.getGrades(user[0].id, 86)
+  const grades = await cs.getGrades(user[0].id, 88)
   const result = {
     user: user[0],
     grades
