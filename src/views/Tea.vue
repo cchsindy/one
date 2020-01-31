@@ -78,7 +78,6 @@ export default {
           trans.zip,
           trans.phone,
           trans.email,
-          trans.student,
           trans.amount,
           trans.tickets.thursday,
           trans.tickets.friday,

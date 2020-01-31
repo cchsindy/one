@@ -4,7 +4,7 @@
     {{item.firstname}}
     ${{item.amount}}
     [ {{item.phone}} {{item.email}} ]
-    ({{total}})
+    ({{total}} tickets)
     {{date}}
   </div>
 </template>
@@ -17,9 +17,9 @@ export default {
     },
     total() {
       let t = 0
-      t += this.item.tickets.thursday
-      t += this.item.tickets.friday
-      t += this.item.tickets.saturday
+      t += parseInt(this.item.tickets.thursday)
+      t += parseInt(this.item.tickets.friday)
+      t += parseInt(this.item.tickets.saturday)
       return t
     }
   },
