@@ -99,6 +99,7 @@ export default {
       if (this.$store.getters.roles) {
         return this.$store.getters.roles.includes('Yearbook')
       }
+      return false
     }
   },
   methods: {
