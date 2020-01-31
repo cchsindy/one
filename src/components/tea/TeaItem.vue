@@ -4,8 +4,7 @@
     {{item.firstname}}
     ${{item.amount}}
     [ {{item.phone}} {{item.email}} ]
-    {{order}}
-    ({{item.student}})
+    ({{total}})
     {{date}}
   </div>
 </template>
@@ -16,15 +15,12 @@ export default {
     date() {
       return new Date(this.item.date).toDateString()
     },
-    order() {
-      let o = ''
-      for (const key in this.item.pizzas) {
-        if (this.item.tickets.hasOwnProperty(key)) {
-          if (this.item.tickets[key] > 0)
-            o += this.item.tickets[key] + ' ' + key + ' '
-        }
-      }
-      return o
+    total() {
+      let t = 0
+      t += this.item.tickets.thursday
+      t += this.item.tickets.friday
+      t += this.item.tickets.saturday
+      return t
     }
   },
   props: {
