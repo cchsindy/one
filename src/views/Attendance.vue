@@ -7,14 +7,14 @@
       <table>
         <tr>
           <th>Teacher</th>
-          <th>Q1 %</th>
-          <th>Q1 Periods</th>
-          <th>Q2 %</th>
-          <th>Q2 Periods</th>
-          <th>Q3 %</th>
-          <th>Q3 Periods</th>
-          <th>Q4 %</th>
-          <th>Q4 Periods</th>
+          <th>Q5 %</th>
+          <th>Q5 Periods</th>
+          <th>Q6 %</th>
+          <th>Q6 Periods</th>
+          <th>Q7 %</th>
+          <th>Q7 Periods</th>
+          <th>Q8 %</th>
+          <th>Q8 Periods</th>
         </tr>
         <tr v-for="teacher in teachers" :key="teacher.id">
           <td>{{teacher.name}}</td>
@@ -52,7 +52,8 @@ export default {
     },
     loadData() {
       const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
-      getMasterSchedule(d, '2019-08-01', '2019-12-20').then(data => {
+      // getMasterSchedule(d, '2019-08-01', '2019-12-20').then(data => {
+      getMasterSchedule(d, '2020-01-21', '2020-05-29').then(data => {
         this.master = data
         getTeachers(d).then(data => {
           this.teachers = data
@@ -74,7 +75,7 @@ export default {
           let taken = 0
           let total = 0
           let missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 0; i < 22; i++) {
+          for (let i = 0; i < 20; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter(v => data.includes(v))
               const dt = tt.filter(
@@ -122,7 +123,7 @@ export default {
           taken = 0
           total = 0
           missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 22; i < 51; i++) {
+          for (let i = 20; i < 42; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter(v => data.includes(v))
               const dt = tt.filter(
@@ -170,7 +171,7 @@ export default {
           taken = 0
           total = 0
           missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 51; i < 66; i++) {
+          for (let i = 42; i < 62; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter(v => data.includes(v))
               const dt = tt.filter(
@@ -218,7 +219,7 @@ export default {
           taken = 0
           total = 0
           missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 66; i < 89; i++) {
+          for (let i = 62; i < 81; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter(v => data.includes(v))
               const dt = tt.filter(
@@ -357,7 +358,7 @@ async function getTeacherSchedule(f, id) {
   })
   const periods = [false, false, false, false, false, false, false, false]
   for (const r of result.data.value) {
-    if (r.duration.id === 119873) {
+    if (r.duration.id === 119875) {
       // sem1 = 119873 sem2 = 119875
       const p = parseInt(r.section_identifier.substring(0, 1))
       periods[p - 1] = true
