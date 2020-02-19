@@ -9,8 +9,5 @@ const myAuth = myApp.auth()
 const myFunctions = firebase.functions()
 const myGoogle = new firebase.auth.GoogleAuthProvider()
 const myStore = myApp.firestore()
-myStore.settings({
-  timestampsInSnapshots: true
-})
 
 export { myAuth, myFunctions, myGoogle, myStore }
