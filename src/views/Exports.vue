@@ -19,7 +19,8 @@ export default {
   methods: {
     getNWEA() {
       const d = this.$store.state.fbFunctions.httpsCallable('onapi')
-      d({ url: `list/91578`, params: {} }).then(result => {
+      // list 91578 Sem 1 - 98868 Sem 2
+      d({ url: `list/98868`, params: {} }).then(result => {
         // check for missing/invalid data
         let rows = [
           [
