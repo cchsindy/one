@@ -7,6 +7,7 @@ const FirestoreService = require('./services/firebase/FirestoreService')
 const OnService = require('./services/blackbaud/OnService')
 const SkyService = require('./services/blackbaud/SkyService')
 const SparkpostService = require('./services/sparkpost/SparkpostService')
+const StripeService = require('./services/stripe/StripeService')
 const VnnService = require('./services/vnn/VnnService')
 
 exports.canvas = functions.https.onCall(async (data, context) => {
@@ -51,6 +52,14 @@ exports.creditCard = functions.https.onRequest((request, response) => {
       })
     }
     response.send(ccTrans)
+  })
+})
+
+exports.payStripe = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const stripe = new StripeService()
+    const trans = await stripe.pay(request.body.data)
+    response.send(trans)
   })
 })
 
