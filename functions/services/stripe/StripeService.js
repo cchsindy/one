@@ -6,7 +6,7 @@ module.exports = class StripeService {
 
   async pay(data) {
     const { paymentMethodId, paymentIntentId, tickets } = data
-    const orderAmount = tickets * 5 * 100
+    const orderAmount = tickets * 10 * 100
     try {
       let intent
       if (paymentMethodId) {
