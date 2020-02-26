@@ -220,6 +220,29 @@ exports.teacount = functions.https.onRequest((request, response) => {
   })
 })
 
+exports.specTickets = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fs = new FirestoreService()
+    await fs.specTickets({
+      firstname: request.body.data.firstname,
+      lastname: request.body.data.lastname,
+      email: request.body.data.email,
+      tickets: request.body.data.tickets,
+      transaction: request.body.data.transaction,
+      amount: request.body.data.amount,
+      date: Date.now()
+    })
+    const mail = new SparkpostService()
+    let subject = request.body.data.description
+    let html = request.body.data.html
+    let recipients = [{ address: request.body.data.email }]
+    await mail.send(subject, html, recipients)
+    response.send({
+      description: 'Thank you for supporting Covenant Fine Arts!'
+    })
+  })
+})
+
 exports.teaTickets = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()

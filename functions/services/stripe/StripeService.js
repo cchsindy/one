@@ -1,7 +1,7 @@
 module.exports = class StripeService {
   constructor() {
     this.config = require('./config')
-    this.stripe = require('stripe')(this.config.secret)
+    this.stripe = require('stripe')(this.config.live)
   }
 
   async pay(data) {

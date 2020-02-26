@@ -88,4 +88,14 @@ module.exports = class FirestoreService {
       return {}
     }
   }
+
+  async specTickets(data) {
+    try {
+      await this.myStore.collection('spec_tickets').add(data)
+      return {}
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
 }
