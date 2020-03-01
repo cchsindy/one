@@ -5,7 +5,7 @@ module.exports = class StripeService {
   }
 
   async pay(data) {
-    const { paymentMethodId, paymentIntentId, tickets } = data
+    const { paymentMethodId, paymentIntentId, tickets, description } = data
     const orderAmount = tickets * 10 * 100
     try {
       let intent
@@ -14,6 +14,7 @@ module.exports = class StripeService {
         intent = await this.stripe.paymentIntents.create({
           amount: orderAmount,
           currency: 'usd',
+          description,
           payment_method: paymentMethodId,
           confirmation_method: 'manual',
           confirm: true
