@@ -7,15 +7,16 @@
         <router-link to="/">Dashboard</router-link>
         <router-link v-if="isAdmin" to="/announcements">Announcements</router-link>
         <router-link v-if="isAdmin || isAttendance" to="/attendance">Attendance</router-link>
-        <router-link v-if="isAdmin || isCar" to="/carshow">Car Show</router-link>
+        <!-- <router-link v-if="isAdmin || isCar" to="/carshow">Car Show</router-link> -->
         <router-link v-if="isAdmin" to="/event-sales">Event Sales</router-link>
         <router-link v-if="isAdmin || isExports" to="/exports">Exports</router-link>
         <router-link v-if="isAdmin || isGrades" to="/grades">Grades</router-link>
-        <router-link v-if="isAdmin || isPizza" to="/pizza">Pizza</router-link>
+        <!-- <router-link v-if="isAdmin || isPizza" to="/pizza">Pizza</router-link> -->
         <router-link v-if="isAdmin || isRosters" to="/rosters">Rosters</router-link>
         <router-link v-if="isAdmin || isStudents" to="/students">Students</router-link>
-        <router-link v-if="isAdmin || isTea" to="/tea">Tea</router-link>
-        <router-link v-if="isAdmin" to="/transactions">Transactions</router-link>
+        <router-link v-if="isAdmin || isSpec" to="/spec">Spring Spec</router-link>
+        <!-- <router-link v-if="isAdmin || isTea" to="/tea">Tea</router-link> -->
+        <!-- <router-link v-if="isAdmin" to="/transactions">Transactions</router-link> -->
         <router-link v-if="isAdmin || isYearbook" to="/yearbook">Yearbook</router-link>
       </div>
       <router-view/>
@@ -74,6 +75,12 @@ export default {
     isPizza() {
       if (this.$store.getters.roles) {
         return this.$store.getters.roles.includes('Pizza')
+      }
+      return false
+    },
+    isSpec() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Spec')
       }
       return false
     },
