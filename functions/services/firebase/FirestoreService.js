@@ -98,4 +98,14 @@ module.exports = class FirestoreService {
       return {}
     }
   }
+
+  async stationEvent(data) {
+    try {
+      await this.myStore.collection('station_events').add(data)
+      return {}
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
 }

@@ -243,6 +243,17 @@ exports.specTickets = functions.https.onRequest((request, response) => {
   })
 })
 
+exports.stationEvent = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fs = new FirestoreService()
+    await fs.stationEvent({
+      event: request.body.event,
+      card: request.body.card,
+      date: Date.now()
+    })
+  })
+})
+
 exports.teaTickets = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
