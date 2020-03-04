@@ -5,6 +5,7 @@ import announcements from '@/store/modules/announcements'
 import carshow from '@/store/modules/carshow'
 import event from '@/store/modules/event'
 import pizza from '@/store/modules/pizza'
+import spec from '@/store/modules/spec'
 import tea from '@/store/modules/tea'
 import transactions from '@/store/modules/transactions'
 import user from '@/store/modules/user'
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     carshow,
     event,
     pizza,
+    spec,
     tea,
     transactions,
     yearbook

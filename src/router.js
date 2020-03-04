@@ -59,6 +59,11 @@ export default new Router({
       component: () => import('./views/Rosters.vue')
     },
     {
+      path: '/spec',
+      name: 'spec',
+      component: () => import('./views/Spec.vue')
+    },
+    {
       path: '/students',
       name: 'students',
       component: () => import('./views/Students.vue')
