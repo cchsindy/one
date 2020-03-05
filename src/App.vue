@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Account :user="user" :error="error"/>
+    <Account :user="user" :error="error" />
     <div class="error" v-if="error">Error: {{ error.message }}</div>
     <div v-if="user">
       <div id="nav">
@@ -8,6 +8,7 @@
         <router-link v-if="isAdmin" to="/announcements">Announcements</router-link>
         <router-link v-if="isAdmin || isAttendance" to="/attendance">Attendance</router-link>
         <!-- <router-link v-if="isAdmin || isCar" to="/carshow">Car Show</router-link> -->
+        <router-link v-if="isAdmin || isStation" to="/station">Charging Station</router-link>
         <router-link v-if="isAdmin" to="/event-sales">Event Sales</router-link>
         <router-link v-if="isAdmin || isExports" to="/exports">Exports</router-link>
         <router-link v-if="isAdmin || isGrades" to="/grades">Grades</router-link>
@@ -19,17 +20,17 @@
         <!-- <router-link v-if="isAdmin" to="/transactions">Transactions</router-link> -->
         <router-link v-if="isAdmin || isYearbook" to="/yearbook">Yearbook</router-link>
       </div>
-      <router-view/>
+      <router-view />
     </div>
     <div v-else>
-      <br>
+      <br />
       <i>* You must be logged in to use this site.</i>
     </div>
   </div>
 </template>
 
 <script>
-import Account from '@/components/user/Account'
+import Account from "@/components/user/Account";
 
 export default {
   components: {
@@ -37,108 +38,114 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters.user
+      return this.$store.getters.user;
     },
     error() {
-      return this.$store.getters.error
+      return this.$store.getters.error;
     },
     isAdmin() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Admin')
+        return this.$store.getters.roles.includes("Admin");
       }
-      return false
+      return false;
     },
     isAttendance() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Attendance')
+        return this.$store.getters.roles.includes("Attendance");
       }
-      return false
+      return false;
     },
     isCar() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('CarShow')
+        return this.$store.getters.roles.includes("CarShow");
       }
-      return false
+      return false;
     },
     isExports() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Exports')
+        return this.$store.getters.roles.includes("Exports");
       }
-      return false
+      return false;
     },
     isGrades() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Grades')
+        return this.$store.getters.roles.includes("Grades");
       }
-      return false
+      return false;
     },
     isPizza() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Pizza')
+        return this.$store.getters.roles.includes("Pizza");
       }
-      return false
+      return false;
     },
     isSpec() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Spec')
+        return this.$store.getters.roles.includes("Spec");
       }
-      return false
+      return false;
+    },
+    isStation() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes("Station");
+      }
+      return false;
     },
     isStudents() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Students')
+        return this.$store.getters.roles.includes("Students");
       }
-      return false
+      return false;
     },
     isTea() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Tea')
+        return this.$store.getters.roles.includes("Tea");
       }
-      return false
+      return false;
     },
     isRosters() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Rosters')
+        return this.$store.getters.roles.includes("Rosters");
       }
-      return false
+      return false;
     },
     isYearbook() {
       if (this.$store.getters.roles) {
-        return this.$store.getters.roles.includes('Yearbook')
+        return this.$store.getters.roles.includes("Yearbook");
       }
-      return false
+      return false;
     }
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch('loginUser', {
+      this.$store.dispatch("loginUser", {
         email: this.email,
         password: this.password
-      })
+      });
     },
     logout() {
-      this.$store.dispatch('logoutUser')
+      this.$store.dispatch("logoutUser");
     },
     googleSignin() {
-      this.$store.dispatch('googleSignin')
+      this.$store.dispatch("googleSignin");
     }
   },
   mounted() {
-    this.$store.dispatch('initAuth')
+    this.$store.dispatch("initAuth");
   }
-}
+};
 </script>
 
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Work+Sans');
+@import url("https://fonts.googleapis.com/css?family=Work+Sans");
 
 body {
   background: #eee;
 }
 
 #app {
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
