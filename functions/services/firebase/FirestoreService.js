@@ -108,4 +108,14 @@ module.exports = class FirestoreService {
       return {}
     }
   }
+
+  async theatreCamp(data) {
+    try {
+      await this.myStore.collection('theatre_camp').add(data)
+      return {}
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
 }

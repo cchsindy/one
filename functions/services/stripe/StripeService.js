@@ -5,8 +5,18 @@ module.exports = class StripeService {
   }
 
   async pay(data) {
-    const { paymentMethodId, paymentIntentId, tickets, description } = data
-    const orderAmount = tickets * 10 * 100
+    const { paymentMethodId, paymentIntentId, description } = data
+    let orderAmount = 0
+    if (description === 'Spring Spec 2020') {
+      orderAmount = data.tickets * 10 * 100
+    }
+    if (description === 'Theatre Camp 2020') {
+      const today = Date.now()
+      const earlybird = Date.parse('2020-05-01')
+      let cost = 185
+      if (today < earlybird) cost = 175
+      orderAmount = data.campers * cost * 100
+    }
     try {
       let intent
       if (paymentMethodId) {

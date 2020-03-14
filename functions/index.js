@@ -243,6 +243,29 @@ exports.specTickets = functions.https.onRequest((request, response) => {
   })
 })
 
+exports.theatreCamp = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fs = new FirestoreService()
+    await fs.theatreCamp({
+      firstname: request.body.data.firstname,
+      lastname: request.body.data.lastname,
+      email: request.body.data.email,
+      campers: request.body.data.campers,
+      transaction: request.body.data.transaction,
+      amount: request.body.data.amount,
+      date: Date.now()
+    })
+    const mail = new SparkpostService()
+    let subject = request.body.data.description
+    let html = request.body.data.html
+    let recipients = [{ address: request.body.data.email, address: 'theatre@covenantchristian.org' }]
+    await mail.send(subject, html, recipients)
+    response.send({
+      description: 'Thank you for supporting Covenant Fine Arts!'
+    })
+  })
+})
+
 exports.stationEvent = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
