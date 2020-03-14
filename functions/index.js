@@ -258,7 +258,7 @@ exports.theatreCamp = functions.https.onRequest((request, response) => {
     const mail = new SparkpostService()
     let subject = request.body.data.description
     let html = request.body.data.html
-    let recipients = [{ address: request.body.data.email, address: 'theatre@covenantchristian.org' }]
+    let recipients = [{ address: request.body.data.email }, { address: 'theatre@covenantchristian.org' }]
     await mail.send(subject, html, recipients)
     response.send({
       description: 'Thank you for supporting Covenant Fine Arts!'
