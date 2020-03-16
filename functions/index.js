@@ -258,7 +258,10 @@ exports.theatreCamp = functions.https.onRequest((request, response) => {
     const mail = new SparkpostService()
     let subject = request.body.data.description
     let html = request.body.data.html
-    let recipients = [{ address: request.body.data.email }, { address: 'theatre@covenantchristian.org' }]
+    let recipients = [
+      { address: request.body.data.email },
+      { address: 'theatre@covenantchristian.org' }
+    ]
     await mail.send(subject, html, recipients)
     response.send({
       description: 'Thank you for supporting Covenant Fine Arts!'
@@ -347,16 +350,16 @@ exports.teaTickets = functions.https.onRequest((request, response) => {
 //   return true
 // })
 
-exports.eligibilityCheck = functions.pubsub
-  .schedule('0 14 * * 1')
-  .timeZone('America/Indianapolis')
-  .onRun(context => {
-    const canvas = new CanvasService()
-    const sparkpost = new SparkpostService()
-    const vnn = new VnnService()
-    vnn.runEligibilityCheck(canvas, sparkpost)
-    return null
-  })
+// exports.eligibilityCheck = functions.pubsub
+//   .schedule('0 14 * * 1')
+//   .timeZone('America/Indianapolis')
+//   .onRun(context => {
+//     const canvas = new CanvasService()
+//     const sparkpost = new SparkpostService()
+//     const vnn = new VnnService()
+//     vnn.runEligibilityCheck(canvas, sparkpost)
+//     return null
+//   })
 
 // exports.weekly_job = functions.pubsub
 //   .topic('weekly-tick')
