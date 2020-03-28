@@ -60,13 +60,54 @@ module.exports = class FirestoreService {
     }
   }
 
-  async getCollectionDocumentIds(collection) {
+  async getCollectionDocumentRefs(collection) {
     try {
-      const result = await this.myStore.collection(collection).listDocuments()
-      return result.documents
+      const refs = await this.myStore.collection(collection).listDocuments()
+      return refs
     } catch (err) {
       console.log(err)
       return []
+    }
+  }
+
+  async deleteCollectionDocuments(collection) {
+    try {
+      this.myStore
+        .collection(collection)
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            doc.ref.delete()
+          })
+          return {}
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
+
+  async deleteCollectionDocumentsWhere(collection, match) {
+    try {
+      this.myStore
+        .collection(collection)
+        .where(match.field, match.condition, match.value)
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            doc.ref.delete()
+          })
+          return {}
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    } catch (err) {
+      console.log(err)
+      return {}
     }
   }
 
@@ -89,24 +130,6 @@ module.exports = class FirestoreService {
         inc[key] = this.admin.firestore.FieldValue.increment(fields[key])
       }
       await docRef.update(inc)
-      return {}
-    } catch (err) {
-      console.log(err)
-      return {}
-    }
-  }
-
-  async teaDecrement(tickets) {
-    try {
-      let docRef = this.myStore.doc('tea_counts/tickets')
-      let thursday = parseInt(tickets.thursday)
-      let friday = parseInt(tickets.friday)
-      let saturday = parseInt(tickets.saturday)
-      await docRef.update({
-        thursday: this.admin.firestore.FieldValue.increment(-thursday),
-        friday: this.admin.firestore.FieldValue.increment(-friday),
-        saturday: this.admin.firestore.FieldValue.increment(-saturday)
-      })
       return {}
     } catch (err) {
       console.log(err)

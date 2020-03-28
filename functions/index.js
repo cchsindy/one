@@ -11,14 +11,20 @@ const StripeService = require('./services/stripe/StripeService')
 const VnnService = require('./services/vnn/VnnService')
 
 exports.announcementDaysDecrement = functions.pubsub
-  .schedule('20 13 * * 1')
+  .schedule('0 0 * * *')
   .timeZone('America/Indianapolis')
-  .onRun(context => {
+  .onRun(async context => {
     const fs = new FirestoreService()
-    const announcements = fs.getCollectionDocumentIds()
-    announcements.forEach(id => {
-      fs.documentFieldsIncrementer(`announcements/${id}`, { days: -1 })
+    const announcements = await fs.getCollectionDocumentRefs('announcements')
+    announcements.forEach(async ref => {
+      await fs.documentFieldsIncrementer(ref.path, { days: -1 })
     })
+    await fs.deleteCollectionDocumentsWhere('announcements', {
+      field: 'days',
+      condition: '==',
+      value: 0
+    })
+    await fs.deleteCollectionDocuments('notifications')
     return null
   })
 
@@ -312,7 +318,14 @@ exports.teaTickets = functions.https.onRequest((request, response) => {
       amount: request.body.data.amount,
       date: Date.now()
     })
-    await fs.teaDecrement(request.body.data.tickets)
+    const th = parseInt(request.body.data.tickets.thursday)
+    const fr = parseInt(request.body.data.tickets.friday)
+    const sa = parseInt(request.body.data.tickets.saturday)
+    await fs.documentFieldsIncrementer('tea_counts/tickets', {
+      thursday: -th,
+      friday: -fr,
+      saturday: -sa
+    })
     const mail = new SparkpostService()
     let subject = request.body.data.description
     let html = request.body.data.html
