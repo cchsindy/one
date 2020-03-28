@@ -50,11 +50,46 @@ module.exports = class FirestoreService {
     }
   }
 
-  async getTeaCounts() {
+  async addCollectionDocument(collection, data) {
     try {
-      let docRef = this.myStore.doc('tea_counts/tickets')
+      await this.myStore.collection(collection).add(data)
+      return {}
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
+
+  async getCollectionDocumentIds(collection) {
+    try {
+      const result = await this.myStore.collection(collection).listDocuments()
+      return result.documents
+    } catch (err) {
+      console.log(err)
+      return []
+    }
+  }
+
+  async getDocumentData(path) {
+    try {
+      let docRef = this.myStore.doc(path)
       let doc = await docRef.get()
       return doc.data()
+    } catch (err) {
+      console.log(err)
+      return {}
+    }
+  }
+
+  async documentFieldsIncrementer(path, fields) {
+    try {
+      let docRef = this.myStore.doc(path)
+      let inc = {}
+      for (const key in fields) {
+        inc[key] = this.admin.firestore.FieldValue.increment(fields[key])
+      }
+      await docRef.update(inc)
+      return {}
     } catch (err) {
       console.log(err)
       return {}
@@ -72,46 +107,6 @@ module.exports = class FirestoreService {
         friday: this.admin.firestore.FieldValue.increment(-friday),
         saturday: this.admin.firestore.FieldValue.increment(-saturday)
       })
-      return {}
-    } catch (err) {
-      console.log(err)
-      return {}
-    }
-  }
-
-  async teaTickets(data) {
-    try {
-      await this.myStore.collection('tea_tickets').add(data)
-      return {}
-    } catch (err) {
-      console.log(err)
-      return {}
-    }
-  }
-
-  async specTickets(data) {
-    try {
-      await this.myStore.collection('spec_tickets').add(data)
-      return {}
-    } catch (err) {
-      console.log(err)
-      return {}
-    }
-  }
-
-  async stationEvent(data) {
-    try {
-      await this.myStore.collection('station_events').add(data)
-      return {}
-    } catch (err) {
-      console.log(err)
-      return {}
-    }
-  }
-
-  async theatreCamp(data) {
-    try {
-      await this.myStore.collection('theatre_camp').add(data)
       return {}
     } catch (err) {
       console.log(err)

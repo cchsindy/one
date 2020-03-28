@@ -10,6 +10,18 @@ const SparkpostService = require('./services/sparkpost/SparkpostService')
 const StripeService = require('./services/stripe/StripeService')
 const VnnService = require('./services/vnn/VnnService')
 
+exports.announcementDaysDecrement = functions.pubsub
+  .schedule('20 13 * * 1')
+  .timeZone('America/Indianapolis')
+  .onRun(context => {
+    const fs = new FirestoreService()
+    const announcements = fs.getCollectionDocumentIds()
+    announcements.forEach(id => {
+      fs.documentFieldsIncrementer(`announcements/${id}`, { days: -1 })
+    })
+    return null
+  })
+
 exports.canvas = functions.https.onCall(async (data, context) => {
   const cs = new CanvasService()
   const user = await cs.getUser(data.name)
@@ -215,7 +227,7 @@ exports.pizza = functions.https.onRequest((request, response) => {
 exports.teacount = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
-    const counts = await fs.getTeaCounts()
+    const counts = await fs.getDocumentData('tea_counts/tickets')
     response.send(counts)
   })
 })
@@ -223,7 +235,7 @@ exports.teacount = functions.https.onRequest((request, response) => {
 exports.specTickets = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
-    await fs.specTickets({
+    await fs.addCollectionDocument('spec_tickets', {
       firstname: request.body.data.firstname,
       lastname: request.body.data.lastname,
       email: request.body.data.email,
@@ -246,7 +258,7 @@ exports.specTickets = functions.https.onRequest((request, response) => {
 exports.theatreCamp = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
-    await fs.theatreCamp({
+    await fs.addCollectionDocument('theatre_camp', {
       firstname: request.body.data.firstname,
       lastname: request.body.data.lastname,
       email: request.body.data.email,
@@ -272,7 +284,7 @@ exports.theatreCamp = functions.https.onRequest((request, response) => {
 exports.stationEvent = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
-    await fs.stationEvent({
+    await fs.addCollectionDocument('station_events', {
       event: request.body.event,
       card: request.body.card,
       date: Date.now()
@@ -283,7 +295,7 @@ exports.stationEvent = functions.https.onRequest((request, response) => {
 exports.teaTickets = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
-    await fs.teaTickets({
+    await fs.addCollectionDocument('tea_tickets', {
       firstname: request.body.data.firstName,
       lastname: request.body.data.lastName,
       address: request.body.data.address,
