@@ -75,13 +75,13 @@ module.exports = class FirestoreService {
       this.myStore
         .collection(collection)
         .get()
-        .then(snapshot => {
-          snapshot.forEach(doc => {
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
             doc.ref.delete()
           })
           return {}
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
         })
     } catch (err) {
@@ -96,13 +96,13 @@ module.exports = class FirestoreService {
         .collection(collection)
         .where(match.field, match.condition, match.value)
         .get()
-        .then(snapshot => {
-          snapshot.forEach(doc => {
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
             doc.ref.delete()
           })
           return {}
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
         })
     } catch (err) {
