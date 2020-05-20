@@ -13,16 +13,16 @@ const VnnService = require('./services/vnn/VnnService')
 exports.announcementDaysDecrement = functions.pubsub
   .schedule('0 0 * * *')
   .timeZone('America/Indianapolis')
-  .onRun(async context => {
+  .onRun(async (context) => {
     const fs = new FirestoreService()
     const announcements = await fs.getCollectionDocumentRefs('announcements')
-    announcements.forEach(async ref => {
+    announcements.forEach(async (ref) => {
       await fs.documentFieldsIncrementer(ref.path, { days: -1 })
     })
     await fs.deleteCollectionDocumentsWhere('announcements', {
       field: 'days',
       condition: '==',
-      value: 0
+      value: 0,
     })
     await fs.deleteCollectionDocuments('notifications')
     return null
@@ -34,7 +34,7 @@ exports.canvas = functions.https.onCall(async (data, context) => {
   const grades = await cs.getGrades(user[0].id, 88)
   const result = {
     user: user[0],
-    grades
+    grades,
   }
   return result
 })
@@ -66,7 +66,7 @@ exports.creditCard = functions.https.onRequest((request, response) => {
         description: request.body.data.description,
         date: Date.now(),
         firstname: request.body.data.firstName,
-        lastname: request.body.data.lastName
+        lastname: request.body.data.lastName,
       })
     }
     response.send(ccTrans)
@@ -98,7 +98,7 @@ exports.wabc = functions.https.onRequest((request, response) => {
       volunteer: request.body.data.volunteer,
       amount: request.body.data.amount,
       transaction: request.body.data.transactionId,
-      date: Date.now()
+      date: Date.now(),
     }
     await fbs.wabcMembership(data)
     const mail = new SparkpostService()
@@ -180,7 +180,7 @@ exports.onapi = functions.https.onCall(async (data, context) => {
   }
 })
 
-exports.skyapi = functions.https.onCall(async data => {
+exports.skyapi = functions.https.onCall(async (data) => {
   try {
     const fs = new FirestoreService()
     const token = await fs.loadSkyToken(data.product)
@@ -217,7 +217,7 @@ exports.pizza = functions.https.onRequest((request, response) => {
       student: request.body.data.student,
       transaction: request.body.data.transactionId,
       amount: request.body.data.amount,
-      date: Date.now()
+      date: Date.now(),
     })
     const mail = new SparkpostService()
     let subject = request.body.data.description
@@ -225,7 +225,7 @@ exports.pizza = functions.https.onRequest((request, response) => {
     let recipients = [{ address: request.body.data.email }]
     await mail.send(subject, html, recipients)
     response.send({
-      description: 'Thank you for supporting Covenant Fine Arts!'
+      description: 'Thank you for supporting Covenant Fine Arts!',
     })
   })
 })
@@ -248,7 +248,7 @@ exports.specTickets = functions.https.onRequest((request, response) => {
       tickets: request.body.data.tickets,
       transaction: request.body.data.transaction,
       amount: request.body.data.amount,
-      date: Date.now()
+      date: Date.now(),
     })
     const mail = new SparkpostService()
     let subject = request.body.data.description
@@ -256,7 +256,7 @@ exports.specTickets = functions.https.onRequest((request, response) => {
     let recipients = [{ address: request.body.data.email }]
     await mail.send(subject, html, recipients)
     response.send({
-      description: 'Thank you for supporting Covenant Fine Arts!'
+      description: 'Thank you for supporting Covenant Fine Arts!',
     })
   })
 })
@@ -271,18 +271,29 @@ exports.theatreCamp = functions.https.onRequest((request, response) => {
       campers: request.body.data.campers,
       transaction: request.body.data.transaction,
       amount: request.body.data.amount,
-      date: Date.now()
+      date: Date.now(),
     })
     const mail = new SparkpostService()
     let subject = request.body.data.description
     let html = request.body.data.html
     let recipients = [
       { address: request.body.data.email },
-      { address: 'theatre@covenantchristian.org' }
+      { address: 'theatre@covenantchristian.org' },
     ]
     await mail.send(subject, html, recipients)
     response.send({
-      description: 'Thank you for supporting Covenant Fine Arts!'
+      description: 'Thank you for supporting Covenant Fine Arts!',
+    })
+  })
+})
+
+exports.closetTemp = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const fs = new FirestoreService()
+    await fs.addCollectionDocument('closet_temps', {
+      temperature: request.body.temperature,
+      humidity: request.body.humidity,
+      date: Date.now(),
     })
   })
 })
@@ -293,7 +304,7 @@ exports.stationEvent = functions.https.onRequest((request, response) => {
     await fs.addCollectionDocument('station_events', {
       event: request.body.event,
       card: request.body.card,
-      date: Date.now()
+      date: Date.now(),
     })
   })
 })
@@ -316,7 +327,7 @@ exports.teaTickets = functions.https.onRequest((request, response) => {
       children: request.body.data.children,
       transaction: request.body.data.transactionId,
       amount: request.body.data.amount,
-      date: Date.now()
+      date: Date.now(),
     })
     const th = parseInt(request.body.data.tickets.thursday)
     const fr = parseInt(request.body.data.tickets.friday)
@@ -324,7 +335,7 @@ exports.teaTickets = functions.https.onRequest((request, response) => {
     await fs.documentFieldsIncrementer('tea_counts/tickets', {
       thursday: -th,
       friday: -fr,
-      saturday: -sa
+      saturday: -sa,
     })
     const mail = new SparkpostService()
     let subject = request.body.data.description
@@ -332,7 +343,7 @@ exports.teaTickets = functions.https.onRequest((request, response) => {
     let recipients = [{ address: request.body.data.email }]
     await mail.send(subject, html, recipients)
     response.send({
-      description: 'Thank you for supporting Covenant Fine Arts!'
+      description: 'Thank you for supporting Covenant Fine Arts!',
     })
   })
 })
