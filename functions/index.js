@@ -295,6 +295,7 @@ exports.closetTemp = functions.https.onRequest((request, response) => {
       humidity: request.body.humidity,
       date: Date.now(),
     })
+    response.send('data saved')
   })
 })
 
@@ -306,6 +307,7 @@ exports.stationEvent = functions.https.onRequest((request, response) => {
       card: request.body.card,
       date: Date.now(),
     })
+    response.send('data saved')
   })
 })
 
