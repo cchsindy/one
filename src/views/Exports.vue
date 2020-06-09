@@ -28,21 +28,49 @@ export default {
       for (const s of students) {
         const begin =
           s.started < first
-            ? moment(first).format("YYYY-MM-DD")
-            : moment(s.started).format("YYYY-MM-DD");
-        const end = moment(s.departed).format("YYYY-MM-DD");
+            ? moment(first).format("MM/DD/YYYY")
+            : moment(s.started).format("MM/DD/YYYY");
+        const end = moment(s.departed).format("MM/DD/YYYY");
         const attended = schedule.filter(d => s.started <= d && s.departed >= d)
           .length;
-        const excused =
+        let excused =
           attendance.filter(a => s.id === a.id && a.type === "E").length / 8;
-        const unexcused =
+        let int = Math.trunc(excused);
+        let dec = excused
+          .toFixed(1)
+          .toString()
+          .slice(-1);
+        let newDec = "0";
+        if (dec > 3) newDec = "5";
+        if (dec > 8) {
+          newDec = "0";
+          int++;
+        }
+        excused = parseFloat(int.toString() + "." + newDec);
+        let unexcused =
           attendance.filter(a => s.id === a.id && a.type === "U").length / 8;
+        int = Math.trunc(unexcused);
+        dec = unexcused
+          .toFixed(1)
+          .toString()
+          .slice(-1);
+        newDec = "0";
+        if (dec > 3) newDec = "5";
+        if (dec > 8) {
+          newDec = "0";
+          int++;
+        }
+        unexcused = parseFloat(int.toString() + "." + newDec);
         doeAT.push(
-          `C527,${s.stn},${begin},${end},${attended},${excused},${unexcused},${s.grade},0,${s.name}`
+          `C527,${s.stn},${begin},${end},${attended},${excused},${unexcused},${s.grade}`
         );
       }
-      // eslint-disable-next-line no-console
-      console.log(doeAT);
+      let csvContent = "data:text/csv;charset=utf-8,";
+      doeAT.forEach(row => {
+        csvContent += row + "\r\n";
+      });
+      const encodedUri = encodeURI(csvContent);
+      window.open(encodedUri);
     },
     getNWEA() {
       const d = this.$store.state.fbFunctions.httpsCallable("onapi");
