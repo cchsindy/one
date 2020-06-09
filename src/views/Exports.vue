@@ -31,7 +31,7 @@ export default {
             ? moment(first).format("MM/DD/YYYY")
             : moment(s.started).format("MM/DD/YYYY");
         const end = moment(s.departed).format("MM/DD/YYYY");
-        const attended = schedule.filter(d => s.started <= d && s.departed >= d)
+        let attended = schedule.filter(d => s.started <= d && s.departed >= d)
           .length;
         let excused =
           attendance.filter(a => s.id === a.id && a.type === "E").length / 8;
@@ -47,6 +47,7 @@ export default {
           int++;
         }
         excused = parseFloat(int.toString() + "." + newDec);
+        attended -= excused;
         let unexcused =
           attendance.filter(a => s.id === a.id && a.type === "U").length / 8;
         int = Math.trunc(unexcused);
@@ -61,6 +62,7 @@ export default {
           int++;
         }
         unexcused = parseFloat(int.toString() + "." + newDec);
+        attended -= unexcused;
         doeAT.push(
           `C527,${s.stn},${begin},${end},${attended},${excused},${unexcused},${s.grade}`
         );
