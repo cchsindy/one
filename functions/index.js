@@ -203,14 +203,20 @@ exports.skyapi = functions.https.onCall(async (data) => {
 exports.skyapix = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fs = new FirestoreService()
-    const token = await fs.loadSkyToken(data.product)
+    const token = await fs.loadSkyToken(request.body.product)
     const ss = new SkyService(token)
-    let res = await ss.getData(data.product + '/v1/' + data.url, data.params)
+    let res = await ss.getData(
+      request.body.product + '/v1/' + request.body.url,
+      request.body.params
+    )
     if (!res) {
       const newToken = await ss.refreshToken()
       if (newToken) {
-        await fs.saveSkyToken(data.product, newToken)
-        res = await ss.getData(data.product + '/v1/' + data.url, data.params)
+        await fs.saveSkyToken(request.body.product, newToken)
+        res = await ss.getData(
+          request.body.product + '/v1/' + request.body.url,
+          request.body.params
+        )
       }
     }
     if (!res) res = {}
