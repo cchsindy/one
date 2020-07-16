@@ -1,7 +1,7 @@
 module.exports = class StripeService {
   constructor() {
     this.config = require('./config')
-    this.stripe = require('stripe')(this.config.live)
+    this.stripe = require('stripe')(this.config.test)
   }
 
   async pay(data) {
@@ -27,7 +27,7 @@ module.exports = class StripeService {
           description,
           payment_method: paymentMethodId,
           confirmation_method: 'manual',
-          confirm: true
+          confirm: true,
           // If a mobile client passes `useStripeSdk`, set `use_stripe_sdk=true`
           // to take advantage of new authentication features in mobile SDKs
           // use_stripe_sdk: useStripeSdk
@@ -47,6 +47,37 @@ module.exports = class StripeService {
     }
   }
 
+  async payTerminal(data) {
+    const { paymentIntentId, description } = data
+    let orderAmount = 0
+    if (description === 'Test') {
+      orderAmount = 100
+    }
+    try {
+      let intent
+      if (paymentIntentId) {
+        // Confirm the PaymentIntent to finalize payment after handling a required action
+        // on the client.
+        intent = await stripe.paymentIntents.confirm(paymentIntentId)
+        // After confirm, if the PaymentIntent's status is succeeded, fulfill the order.
+      } else {
+        intent = await this.stripe.paymentIntents.create({
+          amount: orderAmount,
+          currency: 'usd',
+          description,
+          payment_method_types: ['card_present'],
+          capture_method: 'manual',
+        })
+      }
+      console.log(intent)
+      return this.generateResponse(intent)
+    } catch (e) {
+      // Handle "hard declines" e.g. insufficient funds, expired card, etc
+      // See https://stripe.com/docs/declines/codes for more
+      return { error: e.message }
+    }
+  }
+
   generateResponse(intent) {
     // Generate a response based on the intent's status
     switch (intent.status) {
@@ -55,13 +86,13 @@ module.exports = class StripeService {
         // Card requires authentication
         return {
           requiresAction: true,
-          clientSecret: intent.client_secret
+          clientSecret: intent.client_secret,
         }
       case 'requires_payment_method':
       case 'requires_source':
         // Card was not properly authenticated, suggest a new payment method
         return {
-          error: 'Your card was denied, please provide a new payment method'
+          error: 'Your card was denied, please provide a new payment method',
         }
       case 'succeeded':
         // Payment is complete, authentication not required
@@ -69,5 +100,10 @@ module.exports = class StripeService {
         console.log('💰 Payment received!')
         return { clientSecret: intent.client_secret }
     }
+  }
+
+  async getToken() {
+    let token = await this.stripe.terminal.connectionTokens.create()
+    if (!token.error) return token
   }
 }

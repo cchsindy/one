@@ -81,6 +81,22 @@ exports.payStripe = functions.https.onRequest((request, response) => {
   })
 })
 
+exports.payTerminal = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const stripe = new StripeService()
+    const trans = await stripe.payTerminal(request.body.data)
+    response.send(trans)
+  })
+})
+
+exports.stripeToken = functions.https.onRequest((request, response) => {
+  return cors(request, response, async () => {
+    const stripe = new StripeService()
+    const token = await stripe.getToken()
+    response.send(token)
+  })
+})
+
 exports.wabc = functions.https.onRequest((request, response) => {
   return cors(request, response, async () => {
     const fbs = new FirebaseService()
