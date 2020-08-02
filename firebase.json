@@ -11,10 +11,6 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "/creditCard",
-        "function": "creditCard"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }

@@ -14,26 +14,26 @@
 export default {
   computed: {
     date() {
-      return new Date(this.item.date).toDateString()
+      return new Date(this.item.date).toDateString();
     },
     order() {
-      let o = ''
-      for (const key in this.item.pizzas) {
-        if (this.item.pizzas.hasOwnProperty(key)) {
-          if (this.item.pizzas[key] > 0)
-            o += this.item.pizzas[key] + ' ' + key + ' '
-        }
-      }
-      return o
-    }
+      let o = "";
+      // for (const key in this.item.pizzas) {
+      // if (this.item.pizzas.hasOwnProperty(key)) {
+      //   if (this.item.pizzas[key] > 0)
+      //     o += this.item.pizzas[key] + ' ' + key + ' '
+      // }
+      // }
+      return o;
+    },
   },
   props: {
     item: {
       type: Object,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>
