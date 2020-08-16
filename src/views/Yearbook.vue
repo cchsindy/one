@@ -48,8 +48,8 @@ export default {
       this.transactions.forEach((trans) => {
         let t = [
           new Date(trans.date).toDateString(),
-          trans.lastname,
-          trans.firstname,
+          trans.lastName,
+          trans.firstName,
           trans.address,
           trans.city,
           trans.state,
@@ -57,7 +57,7 @@ export default {
           trans.email,
           trans.phone,
           trans.books,
-          `"trans.students"`,
+          `"${trans.students}"`,
           trans.amount,
           trans.paymentId,
         ];

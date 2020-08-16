@@ -1,7 +1,7 @@
 <template>
   <div class="transaction-item">
-    {{item.lastname}},
-    {{item.firstname}}
+    {{item.lastName}},
+    {{item.firstName}}
     [{{item.books}} book(s) for
     {{item.students}}]
     {{item.amount}}
