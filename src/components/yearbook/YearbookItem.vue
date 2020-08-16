@@ -2,27 +2,22 @@
   <div class="transaction-item">
     {{item.lastname}},
     {{item.firstname}}
-    [{{item.books}} book(s) for 
+    [{{item.books}} book(s) for
     {{item.students}}]
     {{item.amount}}
-    {{date}}
+    {{item.date}}
   </div>
 </template>
 
 <script>
 export default {
-  computed: {
-    date() {
-      return new Date(this.item.date).toDateString()
-    }
-  },
   props: {
     item: {
       type: Object,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -7,45 +7,45 @@
       <div class="total">Total Amount: ${{totalYearbookAmount}}</div>
     </div>
     <div class="transaction-list">
-      <YearbookItem v-for="item in transactions" :key="item.id" :item="item"/>
+      <YearbookItem v-for="item in transactions" :key="item.id" :item="item" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import YearbookItem from '@/components/yearbook/YearbookItem'
+import { mapGetters, mapState } from "vuex";
+import YearbookItem from "@/components/yearbook/YearbookItem";
 
 export default {
   components: {
-    YearbookItem
+    YearbookItem,
   },
   computed: {
-    ...mapGetters(['totalYearbookOrders', 'totalYearbookAmount']),
+    ...mapGetters(["totalYearbookOrders", "totalYearbookAmount"]),
     ...mapState({
-      transactions: state => state.transactions.transactions
-    })
+      transactions: (state) => state.transactions.transactions,
+    }),
   },
   methods: {
     downloadCSV() {
       const rows = [
         [
-          'date',
-          'lastname',
-          'firstname',
-          'address',
-          'city',
-          'state',
-          'zip',
-          'email',
-          'phone',
-          'books',
-          'students',
-          'amount',
-          'transaction'
-        ]
-      ]
-      this.transactions.forEach(trans => {
+          "date",
+          "lastname",
+          "firstname",
+          "address",
+          "city",
+          "state",
+          "zip",
+          "email",
+          "phone",
+          "books",
+          "students",
+          "amount",
+          "paymentId",
+        ],
+      ];
+      this.transactions.forEach((trans) => {
         let t = [
           new Date(trans.date).toDateString(),
           trans.lastname,
@@ -59,23 +59,23 @@ export default {
           trans.books,
           `"trans.students"`,
           trans.amount,
-          trans.transaction
-        ]
-        rows.push(t)
-      })
-      let csvContent = 'data:text/csv;charset=utf-8,'
-      rows.forEach(function(rowArray) {
-        let row = rowArray.join(',')
-        csvContent += row + '\r\n'
-      })
-      var encodedUri = encodeURI(csvContent)
-      window.open(encodedUri)
-    }
+          trans.paymentId,
+        ];
+        rows.push(t);
+      });
+      let csvContent = "data:text/csv;charset=utf-8,";
+      rows.forEach(function (rowArray) {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+      });
+      var encodedUri = encodeURI(csvContent);
+      window.open(encodedUri);
+    },
   },
   created() {
-    this.$store.dispatch('fetchYearbookOrders')
-  }
-}
+    this.$store.dispatch("fetchYearbookOrders");
+  },
+};
 </script>
 
 <style scoped>
