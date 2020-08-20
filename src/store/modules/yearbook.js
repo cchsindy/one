@@ -27,6 +27,9 @@ const actions = {
       })
     })
   },
+  resendReceipt({ rootState }, payload) {
+    rootState.fbFunctions.httpsCallable('yearbookReceipt', payload)
+  },
 }
 
 const mutations = {
