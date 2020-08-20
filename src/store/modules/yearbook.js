@@ -28,7 +28,11 @@ const actions = {
     })
   },
   resendReceipt({ rootState }, payload) {
-    rootState.fbFunctions.httpsCallable('yearbookReceipt', payload)
+    rootState.fbFunctions
+      .httpsCallable('yearbookReceipt')(payload)
+      .then((result) => {
+        console.log(result)
+      })
   },
 }
 

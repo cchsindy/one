@@ -9,23 +9,30 @@
     <button
       @click="receipt"
     >Resend Receipt</button>
+    {{message}}
   </div>
 </template>
 
 <script>
 export default {
+  data: () => {
+    return {
+      message: "",
+    };
+  },
   methods: {
     receipt() {
       let subject = "2019-2020 Yearbook Order";
       let html = "<html><body>";
       html += "<h1>2019-2020 Yearbook Order</h1>";
       html += "<h2>Details</h2>";
-      html += `<p>Yearbook(s): ${item.books}</p><p>Student(s): ${item.students}</p>`;
+      html += `<p>Yearbook(s): ${this.item.books}</p><p>Student(s): ${this.item.students}</p>`;
       html +=
         "<h2>Thank you so much!</h2><p>Yearbooks should arrive by the end of October.</p>";
       html += "</body></html>";
-      let recipients = [{ address: this.email }];
+      let recipients = [{ address: this.item.email }];
       this.$store.dispatch("resendReceipt", { subject, html, recipients });
+      this.message = "Sent.";
     },
   },
   props: {
