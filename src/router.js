@@ -44,6 +44,11 @@ export default new Router({
       component: () => import('./views/Grades.vue')
     },
     {
+      path: '/ihsaa',
+      name: 'ihsaa',
+      component: () => import('./views/IHSAA.vue')
+    },
+    {
       path: '/midterms',
       name: 'midterms',
       component: () => import('./views/Midterms.vue')
