@@ -84,7 +84,7 @@ export default {
           let taken = 0
           let total = 0
           let missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 0; i < 20; i++) {
+          for (let i = 0; i < 22; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter((v) => data.includes(v))
               const dt = tt.filter(
@@ -132,7 +132,7 @@ export default {
           taken = 0
           total = 0
           missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 20; i < 42; i++) {
+          for (let i = 22; i < 46; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter((v) => data.includes(v))
               const dt = tt.filter(
@@ -180,7 +180,7 @@ export default {
           taken = 0
           total = 0
           missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 42; i < 62; i++) {
+          for (let i = 46; i < 64; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter((v) => data.includes(v))
               const dt = tt.filter(
@@ -228,7 +228,7 @@ export default {
           taken = 0
           total = 0
           missing = [0, 0, 0, 0, 0, 0, 0, 0]
-          for (let i = 62; i < 81; i++) {
+          for (let i = 64; i < 87; i++) {
             if (this.master[i].date < today) {
               const p = this.master[i].periods.filter((v) => data.includes(v))
               const dt = tt.filter(
