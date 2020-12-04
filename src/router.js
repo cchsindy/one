@@ -92,6 +92,11 @@ export default new Router({
       path: '/yearbook',
       name: 'yearbook',
       component: () => import('./views/Yearbook.vue')
+    },
+    {
+      path: '/update',
+      name: 'update',
+      component: () => import('./views/AttendUpdate.vue')
     }
   ]
 })
