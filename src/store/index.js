@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from '@/store/modules/firebase'
 import announcements from '@/store/modules/announcements'
+import apexam from '@/store/modules/apexam'
 import carshow from '@/store/modules/carshow'
 import event from '@/store/modules/event'
 import pizza from '@/store/modules/pizza'
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   modules: {
     user,
     announcements,
+    apexam,
     carshow,
     event,
     pizza,

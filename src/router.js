@@ -19,6 +19,11 @@ export default new Router({
       component: () => import('./views/Announcements.vue')
     },
     {
+      path: '/ap-exam',
+      name: 'ap-exam',
+      component: () => import('./views/APexam.vue')
+    },
+    {
       path: '/attendance',
       name: 'attendance',
       component: () => import('./views/Attendance.vue')
@@ -92,11 +97,6 @@ export default new Router({
       path: '/yearbook',
       name: 'yearbook',
       component: () => import('./views/Yearbook.vue')
-    },
-    {
-      path: '/update',
-      name: 'update',
-      component: () => import('./views/AttendUpdate.vue')
     }
   ]
 })
