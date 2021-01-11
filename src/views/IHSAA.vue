@@ -68,6 +68,7 @@ export default {
             grade,
             birthdate: moment(dob).format('MM/DD/YYYY'),
             currentCredits: parseInt(row.columns[5].value),
+            s1_2021: 0,
             s2_1920: 0,
             s1_1920: 0,
             s2_1819: 0,
@@ -89,8 +90,21 @@ export default {
           (s) => s.id === parseInt(row.columns[0].value)
         )
         if (student) {
-          student.s2_1920 = 1
+          student.s1_2021 = 1
           student.lastPassed += parseInt(row.columns[1].value)
+        }
+      }
+      const sem2 = await sky({
+        product: 'school',
+        url: 'legacy/lists/111075',
+        params: {},
+      })
+      for (const row of sem2.data.rows) {
+        const student = this.students.find(
+          (s) => s.id === parseInt(row.columns[0].value)
+        )
+        if (student) {
+          student.s2_1920 = 1
         }
       }
       const sem1 = await sky({
@@ -140,7 +154,13 @@ export default {
       }
       for (const s of this.students) {
         s.semesters =
-          s.s2_1920 + s.s1_1920 + s.s2_1819 + s.s1_1819 + s.s2_1718 + s.s1_1718
+          s.s1_2021 +
+          s.s2_1920 +
+          s.s1_1920 +
+          s.s2_1819 +
+          s.s1_1819 +
+          s.s2_1718 +
+          s.s1_1718
       }
       this.showDownload = true
     },
