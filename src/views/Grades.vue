@@ -7,7 +7,7 @@
     <div v-if="schedule">
       <h2>{{ schedule.user.name }}</h2>
       <div v-for="s in schedule.grades" :key="s.name">
-        <p>{{s.name}} : {{s.section}} : {{s.grade}}</p>
+        <p>{{ s.name }} : {{ s.section }} : {{ s.grade }}</p>
       </div>
     </div>
   </div>
@@ -17,23 +17,22 @@
 export default {
   data: () => {
     return {
-      name: "",
+      name: '',
       schedule: null,
-    };
+    }
   },
   methods: {
     loadSchedule() {
-      this.schedule = null;
-      const d = this.$store.state.fbFunctions.httpsCallable("canvas");
-      d({ action: "getGradesByUser", name: this.name, term: 89 }).then(
+      this.schedule = null
+      const d = this.$store.state.fbFunctions.httpsCallable('canvas')
+      d({ action: 'getGradesByUser', name: this.name, term: 91 }).then(
         (result) => {
-          this.schedule = result.data;
+          this.schedule = result.data
         }
-      );
+      )
     },
   },
-};
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
