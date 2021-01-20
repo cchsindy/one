@@ -43,7 +43,7 @@ export default {
       let prevId = 0
       for (const row of current.data.rows) {
         if (parseInt(row.columns[7].value) === prevId) {
-          this.students[this.students.length - 1].currentCredits += parseInt(
+          this.students[this.students.length - 1].currentCredits += parseFloat(
             row.columns[5].value
           )
         } else {
@@ -67,7 +67,7 @@ export default {
             first: row.columns[6].value,
             grade,
             birthdate: moment(dob).format('MM/DD/YYYY'),
-            currentCredits: parseInt(row.columns[5].value),
+            currentCredits: parseFloat(row.columns[5].value),
             s1_2021: 0,
             s2_1920: 0,
             s1_1920: 0,
@@ -91,7 +91,7 @@ export default {
         )
         if (student) {
           student.s1_2021 = 1
-          student.lastPassed += parseInt(row.columns[1].value)
+          student.lastPassed += parseFloat(row.columns[1].value)
         }
       }
       const sem2 = await sky({
