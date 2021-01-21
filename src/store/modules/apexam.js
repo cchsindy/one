@@ -11,7 +11,7 @@ const getters = {
       return state.transactions.reduce((a, c) => {
         let b = c.amount ? parseFloat(c.amount) : 0
         return a + b
-      }, 0)
+      }, 0).toFixed(2)
   },
 }
 
