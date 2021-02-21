@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import CampItem from '@/components/ap/CampItem'
+import CampItem from '@/components/camps/CampItem'
 
 export default {
   components: {
