@@ -10,6 +10,7 @@
         <router-link v-if="isAdmin || isAttendance" to="/attendance"
           >Attendance</router-link
         >
+        <router-link v-if="isAdmin || isCamps" to="/camps">Camps</router-link>
         <!-- <router-link v-if="isAdmin || isCar" to="/carshow">Car Show</router-link> -->
         <router-link v-if="isAdmin || isStation" to="/station"
           >Charging Station</router-link
@@ -76,6 +77,11 @@ export default {
         return this.$store.getters.roles.includes('Attendance')
       }
       return false
+    },
+    isCamps() {
+      if (this.$store.getters.roles) {
+        return this.$store.getters.roles.includes('Camps')
+      }
     },
     isCar() {
       if (this.$store.getters.roles) {

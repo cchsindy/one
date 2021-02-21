@@ -29,6 +29,11 @@ export default new Router({
       component: () => import('./views/Attendance.vue')
     },
     {
+      path: '/camps',
+      name: 'camps',
+      component: () => import('./views/Camps.vue')
+    },
+    {
       path: '/carshow',
       name: 'carshow',
       component: () => import('./views/CarShow.vue')
