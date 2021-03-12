@@ -82,6 +82,7 @@ export default {
       if (this.$store.getters.roles) {
         return this.$store.getters.roles.includes('Camps')
       }
+      return false
     },
     isCar() {
       if (this.$store.getters.roles) {
