@@ -77,7 +77,7 @@ export default {
     getNWEA() {
       const d = this.$store.state.fbFunctions.httpsCallable('skyapi')
       // list 91578 Sem 1 - 98868 Sem 2
-      d({ product: 'school', url: `legacy/lists/98868`, params: {} }).then(
+      d({ product: 'school', url: `legacy/lists/91578`, params: {} }).then(
         (result) => {
           // check for missing/invalid data
           let rows = [
