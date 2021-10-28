@@ -25,7 +25,7 @@ export default {
     loadSchedule() {
       this.schedule = null
       const d = this.$store.state.fbFunctions.httpsCallable('canvas')
-      d({ action: 'getGradesByUser', name: this.name, term: 91 }).then(
+      d({ action: 'getGradesByUser', name: this.name, term: 193 }).then(
         (result) => {
           this.schedule = result.data
         }
